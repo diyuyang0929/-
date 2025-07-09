@@ -433,8 +433,9 @@
             level: 1,
             xp: 0,
             maxXp: 100,
-            plots: 4,
+            plots: 4, // 当前区域农田数量
             maxPlots: 12,
+            regionPlots: {}, // 各区域独立农田数量
             inventory: {},
             upgrades: {
                 watering: 0,
@@ -450,7 +451,8 @@
             achievements: [],
             currentRegion: 'north_china', // 新增字段，默认中国东北
             tasks: [],
-            farmData: [] // 新增字段，存储农田数据
+            farmData: [], // 当前区域农田数据（视图）
+            regionFarmData: {} // 各区域独立农田数据
         };
 
         // 地区数据（更细分且不重复）
@@ -568,7 +570,7 @@
                 if(currentUserAccount && currentUserAccount !== 'dyyssb'){
                     localStorage.setItem('happyFarmGameState_' + currentUserAccount, JSON.stringify(gameState));
                 } else {
-                    localStorage.setItem('happyFarmGameState', JSON.stringify(gameState));
+                localStorage.setItem('happyFarmGameState', JSON.stringify(gameState));
                 }
                 // 如果是普通用户，更新happyFarmUsers中的数据
                 const userInfo = JSON.parse(localStorage.getItem('happyFarmUserInfo')||'{}');
@@ -644,37 +646,41 @@
             renderRegionSelect();
             // 从本地存储加载游戏数据
             loadGameData();
-
-            // 初始化农田数据结构（如果不存在）
-            if (!gameState.farmData) {
-                gameState.farmData = {};
-                // 为每个地块初始化数据
-                for (let i = 0; i < gameState.plots; i++) {
-                    gameState.farmData[i] = {
-                        state: 'empty',  // 'empty', 'planted', 'wasteland'
+            // 初始化regionFarmData结构
+            if (!gameState.regionFarmData) gameState.regionFarmData = {};
+            if (!gameState.regionPlots) gameState.regionPlots = {};
+            // 初始化当前区域农田
+            if (!gameState.regionFarmData[gameState.currentRegion]) {
+                if (typeof gameState.regionPlots[gameState.currentRegion] !== 'number') {
+                    gameState.regionPlots[gameState.currentRegion] = 4;
+                }
+                gameState.regionFarmData[gameState.currentRegion] = [];
+                for (let i = 0; i < gameState.regionPlots[gameState.currentRegion]; i++) {
+                    gameState.regionFarmData[gameState.currentRegion].push({
+                        state: 'empty',
                         seedId: null,
-                        growth: null,    // null, 'growing', 'completed'
+                        growth: null,
                         progress: 0,
                         growthTime: 0
-                    };
+                    });
                 }
-                saveGameData();
             }
+            gameState.farmData = gameState.regionFarmData[gameState.currentRegion];
 
             // 检查上次游玩时间
             checkDailyLogin();
 
             // 获取当前日期
             const today = new Date().toDateString();
-
+            
             // 只有在新的一天或者没有任务时才生成新任务
             if (!gameState.lastTasksGenerated || gameState.lastTasksGenerated !== today || gameState.tasks.length === 0) {
                 // 生成今日天气
                 generateWeather();
-
+                
                 // 生成每日任务
                 generateDailyTasks();
-
+                
                 // 记录任务生成日期
                 gameState.lastTasksGenerated = today;
                 saveGameData();
@@ -704,6 +710,47 @@
             }
         }
 
+        // 切换地区背景
+        function updateRegionBackground() {
+            const body = document.getElementById('main-body');
+            body.className = '';
+            body.classList.add('min-h-screen');
+            body.classList.add('bg-' + gameState.currentRegion);
+        }
+        // 切换地区时保存/切换农田数据
+        function switchRegionFarmData(newRegion) {
+            // 保存当前区域农田数据和田数量
+            if (gameState.currentRegion) {
+                if (!gameState.regionFarmData) gameState.regionFarmData = {};
+                gameState.regionFarmData[gameState.currentRegion] = JSON.parse(JSON.stringify(gameState.farmData));
+                if (!gameState.regionPlots) gameState.regionPlots = {};
+                gameState.regionPlots[gameState.currentRegion] = gameState.plots;
+            }
+            // 切换到新区域
+            gameState.currentRegion = newRegion;
+            // 读取新区域农田数量
+            if (!gameState.regionPlots) gameState.regionPlots = {};
+            if (typeof gameState.regionPlots[newRegion] !== 'number') {
+                gameState.regionPlots[newRegion] = 4;
+            }
+            gameState.plots = gameState.regionPlots[newRegion];
+            // 读取新区域农田数据
+            if (!gameState.regionFarmData) gameState.regionFarmData = {};
+            if (!gameState.regionFarmData[newRegion]) {
+                // 初始化新区域农田
+                gameState.regionFarmData[newRegion] = [];
+                for (let i = 0; i < gameState.plots; i++) {
+                    gameState.regionFarmData[newRegion].push({
+                        state: 'empty',
+                        seedId: null,
+                        growth: null,
+                        progress: 0,
+                        growthTime: 0
+                    });
+                }
+            }
+            gameState.farmData = gameState.regionFarmData[newRegion];
+        }
         // 渲染地区下拉菜单
         function renderRegionSelect() {
             const select = document.getElementById('region-select');
@@ -711,7 +758,7 @@
                 `<option value="${region.id}" ${region.id === gameState.currentRegion ? 'selected' : ''}>${region.name}</option>`
             ).join('');
             select.onchange = function() {
-                gameState.currentRegion = this.value;
+                switchRegionFarmData(this.value);
                 saveGameData();
                 renderShop();
                 renderFarm();
@@ -720,13 +767,6 @@
             };
             // 初始化时也切换背景
             updateRegionBackground();
-        }
-        // 切换地区背景
-        function updateRegionBackground() {
-            const body = document.getElementById('main-body');
-            body.className = '';
-            body.classList.add('min-h-screen');
-            body.classList.add('bg-' + gameState.currentRegion);
         }
 
         // 渲染商店（只显示当前地区的种子）
@@ -825,7 +865,7 @@
         // 渲染农田（只允许种植本地区的种子）
         function renderFarm() {
             elements.farmGrid.innerHTML = '';
-
+            
             // 确保farmData数组长度与plots一致
             while (gameState.farmData.length < gameState.plots) {
                 gameState.farmData.push({
@@ -841,7 +881,7 @@
                 const plotData = gameState.farmData[i];
                 const plot = document.createElement('div');
                 plot.className = 'crop-plot bg-yellow-50 border-2 border-yellow-200 rounded-2xl aspect-square flex flex-col items-center justify-center p-4 cursor-pointer shadow-md hover:shadow-xl transition';
-
+                
                 // 根据地块状态设置不同的显示
                 if (plotData.state === 'empty') {
                     // 空闲农田
@@ -870,7 +910,7 @@
                     if (seed) {
                         plot.setAttribute('data-planted', seed.id);
                         plot.setAttribute('data-growth', plotData.growth);
-
+                        
                         if (plotData.growth === 'completed') {
                             // 成熟的作物
                             plot.innerHTML = `
@@ -892,7 +932,7 @@
                                 </div>
                                 <p class="text-base text-gray-500 mt-1">成长中...</p>
                             `;
-
+                            
                             // 继续生长计时器
                             continuePlantGrowth(i, plot);
                         }
@@ -910,21 +950,21 @@
                         `;
                     }
                 }
-
+                
                 plot.setAttribute('data-plot-index', i);
                 plot.addEventListener('click', () => handlePlotClick(i));
                 elements.farmGrid.appendChild(plot);
             }
-
+            
             // 保存游戏数据
             saveGameData();
         }
-
+        
         // 继续植物生长
         function continuePlantGrowth(plotIndex, plot) {
             const plotData = gameState.farmData[plotIndex];
             if (plotData.state !== 'planted' || plotData.growth === 'completed') return;
-
+            
             const progressBar = plot.querySelector('.progress-bar');
             const growthInterval = setInterval(() => {
                 plotData.progress += 0.5;
@@ -940,7 +980,7 @@
 
                     // 添加脉冲动画表示可以收获
                     plot.classList.add('animate-pulse');
-
+                    
                     // 保存游戏数据
                     saveGameData();
                 }
@@ -987,7 +1027,7 @@
                 plotData.growth = null;
                 plotData.progress = 0;
                 plotData.growthTime = 0;
-
+                
                 // 更新DOM
                 plot.setAttribute('data-state', 'wasteland');
                 plot.innerHTML = `
@@ -1001,7 +1041,7 @@
                     repairPlot(plotIndex);
                 });
                 showNotification('种植失败! 农田变成了荒地!', 'error');
-
+                
                 // 保存游戏数据
                 saveGameData();
                 return;
@@ -1028,7 +1068,7 @@
             plotData.growth = 'growing';
             plotData.progress = 0;
             plotData.growthTime = growthTime;
-
+            
             // 更新DOM
             plot.setAttribute('data-planted', seed.id);
             plot.setAttribute('data-state', 'planted');
@@ -1055,11 +1095,11 @@
                     item.classList.remove('ring-2', 'ring-green-500');
                 });
             }
-
+            
             // 更新UI显示种子数量
             updateUI();
             renderShop();
-
+            
             showNotification(`已种植 ${seed.name}!`, 'success');
 
             // 更新任务进度
@@ -1149,7 +1189,7 @@
 
             if (gameState.money >= 50) {
                 gameState.money -= 50;
-
+                
                 // 更新游戏状态中的农田数据
                 const plotData = gameState.farmData[plotIndex];
                 plotData.state = 'empty';
@@ -1157,7 +1197,7 @@
                 plotData.growth = null;
                 plotData.progress = 0;
                 plotData.growthTime = 0;
-
+                
                 // 更新DOM
                 plot.removeAttribute('data-state');
                 plot.innerHTML = `
@@ -1178,16 +1218,14 @@
             }
         }
 
-        // 渲染库存（只显示本地区的作物）
+        // 渲染库存（显示所有作物，不分区域）
         function renderInventory() {
-            const regionSeeds = seeds.filter(seed => seed.regions.includes(gameState.currentRegion));
-            const regionSeedIds = regionSeeds.map(s => s.id);
-            const filteredInventory = Object.entries(gameState.inventory).filter(([seedId]) => regionSeedIds.includes(seedId));
-            if (filteredInventory.length === 0) {
+            const allInventory = Object.entries(gameState.inventory);
+            if (allInventory.length === 0) {
                 elements.inventoryItems.innerHTML = '<p class="text-gray-500 italic">这里会显示你收获的作物</p>';
                 return;
             }
-            elements.inventoryItems.innerHTML = filteredInventory.map(([seedId, count]) => {
+            elements.inventoryItems.innerHTML = allInventory.map(([seedId, count]) => {
                 const seed = getSeedById(seedId);
                 const sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
                 const weather = weatherTypes.find(w => w.id === gameState.weather);
@@ -1306,7 +1344,27 @@
         elements.expandFarmBtn.addEventListener('click', function() {
             if (gameState.money >= 200 && gameState.plots < gameState.maxPlots) {
                 gameState.money -= 200;
-                gameState.plots++;
+                // 只扩展当前区域
+                if (!gameState.regionPlots) gameState.regionPlots = {};
+                if (!gameState.regionFarmData) gameState.regionFarmData = {};
+                if (typeof gameState.regionPlots[gameState.currentRegion] !== 'number') {
+                    gameState.regionPlots[gameState.currentRegion] = 4;
+                }
+                gameState.regionPlots[gameState.currentRegion]++;
+                gameState.plots = gameState.regionPlots[gameState.currentRegion];
+                if (!gameState.regionFarmData[gameState.currentRegion]) {
+                    gameState.regionFarmData[gameState.currentRegion] = [];
+                }
+                while (gameState.regionFarmData[gameState.currentRegion].length < gameState.plots) {
+                    gameState.regionFarmData[gameState.currentRegion].push({
+                        state: 'empty',
+                        seedId: null,
+                        growth: null,
+                        progress: 0,
+                        growthTime: 0
+                    });
+                }
+                gameState.farmData = gameState.regionFarmData[gameState.currentRegion];
                 updateUI();
                 renderFarm();
                 checkExpandFarmButton();
@@ -1373,7 +1431,7 @@
                 } else {
                     item.classList.remove('opacity-50');
                 }
-
+                
                 // 更新种子数量显示
                 const inventorySpan = item.querySelector('span.text-sm');
                 if (inventorySpan) {
@@ -1403,7 +1461,7 @@
                     break;
                 }
             }
-
+            
             // 注意：不在这里保存游戏数据，避免重复保存
             // 保存操作已移至initGame函数中
         }
@@ -1426,7 +1484,7 @@
                 progress: 0,
                 completed: false
             }));
-
+            
             // 注意：不在这里保存游戏数据，避免重复保存
             // 保存操作已移至initGame函数中
         }
@@ -1742,9 +1800,10 @@
             document.getElementById('admin-weather').value = gameState.weather;
             // 显示所有用户信息
             const users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
+            const typeMap = { account: '账号密码', qq: 'QQ', wx: '微信', douyin: '抖音' };
             let html = '<table class="min-w-full border text-center"><thead><tr><th class="border px-2">账号</th><th class="border px-2">注册方式</th><th class="border px-2">最近游玩</th><th class="border px-2">金币</th><th class="border px-2">经验</th><th class="border px-2">等级</th></tr></thead><tbody>';
             users.forEach(u => {
-                html += `<tr><td class="border px-2">${u.account}</td><td class="border px-2">${u.type}</td><td class="border px-2">${u.lastPlayed||''}</td><td class="border px-2">${u.money||''}</td><td class="border px-2">${u.xp||''}</td><td class="border px-2">${u.level||''}</td></tr>`;
+                html += `<tr><td class="border px-2">${u.account}</td><td class="border px-2">${typeMap[u.type]||u.type}</td><td class="border px-2">${u.lastPlayed||''}</td><td class="border px-2">${u.money||''}</td><td class="border px-2">${u.xp||''}</td><td class="border px-2">${u.level||''}</td></tr>`;
             });
             html += '</tbody></table>';
             document.getElementById('admin-users-list').innerHTML = html;
@@ -1759,6 +1818,45 @@
                 saveGameData();
                 showNotification('数据已保存', 'success');
             };
+            // 重置按钮
+            if (!document.getElementById('admin-reset')) {
+                const resetBtn = document.createElement('button');
+                resetBtn.id = 'admin-reset';
+                resetBtn.className = 'bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded font-bold mt-2 ml-2';
+                resetBtn.textContent = '重置管理员数据';
+                document.getElementById('admin-save').after(resetBtn);
+                resetBtn.onclick = function() {
+                    // 彻底重置管理员自己的数据
+                    const def = getDefaultGameState();
+                    for (const k in def) gameState[k] = def[k];
+                    // 初始化所有区域农田
+                    for (const region of regions) {
+                        gameState.regionFarmData[region.id] = [];
+                        for (let i = 0; i < gameState.plots; i++) {
+                            gameState.regionFarmData[region.id].push({
+                                state: 'empty',
+                                seedId: null,
+                                growth: null,
+                                progress: 0,
+                                growthTime: 0
+                            });
+                        }
+                    }
+                    gameState.farmData = gameState.regionFarmData[gameState.currentRegion];
+                    saveGameData();
+                    updateUI();
+                    renderFarm();
+                    renderWeather();
+                    renderShop();
+                    renderInventory();
+                    renderUpgrades();
+                    renderTasks();
+                    checkExpandFarmButton();
+                    showNotification('管理员数据已重置', 'success');
+                    // 刷新面板数据
+                    showAdminPanel();
+                };
+            }
             // 关闭按钮
             document.getElementById('admin-close').onclick = function() {
                 adminPanel.style.display = 'none';
@@ -1844,6 +1942,32 @@
             document.getElementById('admin-grow-btn').style.display = 'none';
             initGame();
         };
+
+        // 获取初始游戏状态
+        function getDefaultGameState() {
+            return {
+                money: 100,
+                level: 1,
+                xp: 0,
+                maxXp: 100,
+                plots: 4,
+                maxPlots: 12,
+                regionPlots: {},
+                inventory: {},
+                upgrades: { watering: 0, quality: 0, greenhouse: 0 },
+                currentSelectedSeed: null,
+                purchasedSeeds: {},
+                weather: 'sunny',
+                dailyStreak: 0,
+                lastPlayed: null,
+                completedTasks: 0,
+                achievements: [],
+                currentRegion: 'north_china',
+                tasks: [],
+                regionFarmData: {},
+                farmData: [],
+            };
+        }
     </script>
 <p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=diyuyang/boss" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
 </html>
