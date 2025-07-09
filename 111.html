@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开心农场</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .crop-plot {
+            transition: all 0.3s ease;
+        }
+        .crop-plot:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        .progress-bar {
+            transition: width 0.5s linear;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .notification {
+            animation: slideIn 0.5s forwards, stay 2s 0.5s forwards, slideOut 0.5s 2.5s forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes stay {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        /* 添加保存指示器样式 */
+        .save-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+        }
+        .save-indicator.show {
+            opacity: 1;
+        }
+        /* 地区背景样式 */
+        body.bg-north_china {
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        body.bg-south_china {
+            background: linear-gradient(135deg, #f9f6e7 0%, #f7e8aa 100%);
+            background-image: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        body.bg-east_china {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            background-image: url('https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        body.bg-west_china {
+            background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
+            background-image: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        body.bg-japan {
+            background: linear-gradient(135deg, #f8ffae 0%, #43c6ac 100%);
+            background-image: url('https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        body.bg-us_midwest {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-image: url('https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        body.bg-europe {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        /* 卡片和按钮美化 */
+        .card-strong {
+            background: rgba(255,255,255,0.92);
+            border-radius: 1.25rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            border: 1.5px solid rgba(255,255,255,0.18);
+            transition: box-shadow 0.3s, transform 0.2s;
+        }
+        .card-strong:hover {
+            box-shadow: 0 16px 48px 0 rgba(31, 38, 135, 0.25);
+            transform: translateY(-2px) scale(1.01);
+        }
+        .btn-strong {
+            background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+            color: #fff;
+            font-weight: bold;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px 0 rgba(67,233,123,0.15);
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+        }
+        .btn-strong:hover {
+            background: linear-gradient(90deg, #38f9d7 0%, #43e97b 100%);
+            box-shadow: 0 4px 16px 0 rgba(67,233,123,0.25);
+            transform: scale(1.05);
+        }
+        .title-strong {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #1a4d2e;
+            text-shadow: 0 2px 8px rgba(67,233,123,0.15);
+        }
+        .subtitle-strong {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #388e3c;
+        }
+    </style>
+</head>
+<body class="bg-green-50 min-h-screen" id="main-body">
+    <div class="container mx-auto px-4 py-8">
+        <!-- 地区切换区域（更大更显眼） -->
+        <div class="mb-8 flex items-center justify-center">
+            <div class="bg-green-200 rounded-xl px-6 py-4 flex items-center shadow-lg border-2 border-green-400">
+                <label for="region-select" class="mr-4 text-2xl font-extrabold text-green-900 title-strong">🌏 选择地区：</label>
+                <select id="region-select" class="border-2 border-green-500 rounded-lg px-6 py-3 text-xl font-bold text-green-900 bg-white shadow focus:outline-none focus:ring-2 focus:ring-green-400 transition">
+                    <!-- 选项通过JS动态生成 -->
+                </select>
+            </div>
+        </div>
+        <!-- 游戏标题和状态栏 -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 card-strong p-6">
+            <h1 class="title-strong mb-4 md:mb-0">🎮 开心农场 🚜</h1>
+            <div class="flex space-x-4">
+                <div class="bg-white rounded-lg p-3 shadow flex items-center">
+                    <div id="weather-icon" class="text-xl mr-1">☀️</div>
+                    <div>
+                        <p class="font-semibold text-green-700 text-sm">天气: <span id="weather-name">晴天</span></p>
+                        <p class="text-xs text-gray-600" id="weather-effects">生长+0% 售价+0%</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-3 shadow">
+                    <p class="font-semibold text-green-700"><i class="fas fa-coins text-yellow-500 mr-1"></i> 金币: <span id="money">100</span></p>
+                </div>
+                <div class="bg-white rounded-lg p-3 shadow">
+                    <p class="font-semibold text-green-700"><i class="fas fa-star text-yellow-400 mr-1"></i> 等级: <span id="level">1</span></p>
+                </div>
+                <div class="bg-white rounded-lg p-3 shadow">
+                    <p class="font-semibold text-green-700"><i class="fas fa-chart-line text-blue-500 mr-1"></i> 经验: <span id="xp">0</span>/<span id="maxXp">100</span></p>
+                </div>
+            </div>
+        </header>
+
+        <!-- 游戏内容区域 -->
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- 农场区域 -->
+            <div class="lg:col-span-2 card-strong p-8">
+                <h2 class="text-3xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                    <i class="fas fa-tractor mr-3"></i> 我的农场
+                </h2>
+                <div class="flex justify-between items-center mb-4">
+                    <p class="text-gray-600">你有 <span id="plots-count">4</span> 块农田 (最大: 12)</p>
+                    <button id="expand-farm" class="btn-strong px-6 py-2 text-lg transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <i class="fas fa-plus mr-2"></i> 扩展农田 (200金币)
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4" id="farm-grid">
+                    <!-- 农田地块将通过JavaScript动态生成 -->
+                </div>
+            </div>
+
+            <!-- 侧边栏 -->
+            <div class="space-y-6">
+                <!-- 商店区域 -->
+                <div class="card-strong p-6">
+                    <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                        <i class="fas fa-store mr-3"></i> 种子商店
+                    </h2>
+                    <div class="space-y-3" id="shop-items">
+                        <!-- 种子将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 库存区域 -->
+                <div class="card-strong p-6">
+                    <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                        <i class="fas fa-box-open mr-3"></i> 我的库存
+                    </h2>
+                    <div id="inventory-items">
+                        <p class="text-gray-500 italic">这里会显示你收获的作物</p>
+                    </div>
+                </div>
+
+                <!-- 任务区域 -->
+                <div class="card-strong p-6">
+                    <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                        <i class="fas fa-tasks mr-3"></i> 每日任务
+                    </h2>
+                    <div id="tasks-list">
+                        <p class="text-gray-500 italic">今日任务将在这里显示</p>
+                    </div>
+                </div>
+
+                <!-- 升级区域 -->
+                <div class="card-strong p-6">
+                    <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                        <i class="fas fa-wrench mr-3"></i> 农场升级
+                    </h2>
+                    <div class="space-y-4" id="upgrades">
+                        <!-- 升级项将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 通知区域 -->
+        <div id="notifications" class="fixed bottom-4 right-4 space-y-2 w-64"></div>
+
+        <!-- 保存指示器 -->
+        <div id="save-indicator" class="save-indicator">
+            <i class="fas fa-save mr-2"></i> 游戏数据已保存
+        </div>
+    </div>
+
+    <script>
+        // 游戏状态
+        const gameState = {
+            money: 100,
+            level: 1,
+            xp: 0,
+            maxXp: 100,
+            plots: 4,
+            maxPlots: 12,
+            inventory: {},
+            upgrades: {
+                watering: 0,
+                quality: 0,
+                greenhouse: 0
+            },
+            currentSelectedSeed: null,
+            purchasedSeeds: {},
+            weather: 'sunny',
+            dailyStreak: 0,
+            lastPlayed: null,
+            completedTasks: 0,
+            achievements: [],
+            currentRegion: 'north_china', // 新增字段，默认中国东北
+            tasks: []
+        };
+
+        // 地区数据（更细分且不重复）
+        const regions = [
+            { id: 'north_china', name: '中国东北' },
+            { id: 'south_china', name: '中国华南' },
+            { id: 'east_china', name: '中国华东' },
+            { id: 'west_china', name: '中国西部' },
+            { id: 'japan', name: '日本' },
+            { id: 'us_midwest', name: '美国中部' },
+            { id: 'europe', name: '欧洲' }
+        ];
+        // 植物种类不重复，每个区域独有，5-6种
+        const seeds = [
+            // 中国东北
+            { id: 'soybean', name: '大豆', price: 10, growTime: 10, sellPrice: 20, xp: 5, icon: '🌱', color: 'bg-lime-100', regions: ['north_china'] },
+            { id: 'millet', name: '小米', price: 12, growTime: 12, sellPrice: 22, xp: 6, icon: '🌾', color: 'bg-yellow-200', regions: ['north_china'] },
+            { id: 'sorghum', name: '高粱', price: 15, growTime: 15, sellPrice: 30, xp: 8, icon: '🌾', color: 'bg-red-200', regions: ['north_china'] },
+            { id: 'potato', name: '土豆', price: 20, growTime: 20, sellPrice: 45, xp: 12, icon: '🥔', color: 'bg-amber-100', regions: ['north_china'] },
+            { id: 'corn', name: '玉米', price: 18, growTime: 18, sellPrice: 38, xp: 10, icon: '🌽', color: 'bg-yellow-100', regions: ['north_china'] },
+            // 中国华南
+            { id: 'lychee', name: '荔枝', price: 22, growTime: 22, sellPrice: 50, xp: 13, icon: '🥭', color: 'bg-pink-100', regions: ['south_china'] },
+            { id: 'banana', name: '香蕉', price: 25, growTime: 25, sellPrice: 60, xp: 15, icon: '🍌', color: 'bg-yellow-200', regions: ['south_china'] },
+            { id: 'sugarcane', name: '甘蔗', price: 20, growTime: 20, sellPrice: 48, xp: 12, icon: '🎋', color: 'bg-green-200', regions: ['south_china'] },
+            { id: 'pineapple', name: '菠萝', price: 28, growTime: 28, sellPrice: 70, xp: 18, icon: '🍍', color: 'bg-amber-200', regions: ['south_china'] },
+            { id: 'dragonfruit', name: '火龙果', price: 35, growTime: 35, sellPrice: 90, xp: 22, icon: '🐉', color: 'bg-pink-200', regions: ['south_china'] },
+            // 中国华东
+            { id: 'rice', name: '水稻', price: 15, growTime: 15, sellPrice: 32, xp: 9, icon: '🌾', color: 'bg-green-200', regions: ['east_china'] },
+            { id: 'peanut', name: '花生', price: 18, growTime: 18, sellPrice: 38, xp: 10, icon: '🥜', color: 'bg-yellow-300', regions: ['east_china'] },
+            { id: 'rapeseed', name: '油菜', price: 16, growTime: 16, sellPrice: 34, xp: 9, icon: '🌻', color: 'bg-yellow-100', regions: ['east_china'] },
+            { id: 'lotus', name: '莲藕', price: 22, growTime: 22, sellPrice: 50, xp: 13, icon: '🌸', color: 'bg-pink-100', regions: ['east_china'] },
+            { id: 'tea', name: '茶叶', price: 30, growTime: 30, sellPrice: 80, xp: 20, icon: '🍃', color: 'bg-green-100', regions: ['east_china'] },
+            // 中国西部
+            { id: 'walnut', name: '核桃', price: 25, growTime: 25, sellPrice: 60, xp: 15, icon: '🌰', color: 'bg-amber-200', regions: ['west_china'] },
+            { id: 'apple', name: '苹果', price: 20, growTime: 20, sellPrice: 48, xp: 12, icon: '🍎', color: 'bg-red-100', regions: ['west_china'] },
+            { id: 'grape', name: '葡萄', price: 28, growTime: 28, sellPrice: 70, xp: 18, icon: '🍇', color: 'bg-purple-100', regions: ['west_china'] },
+            { id: 'apricot', name: '杏', price: 18, growTime: 18, sellPrice: 38, xp: 10, icon: '🍑', color: 'bg-orange-100', regions: ['west_china'] },
+            { id: 'melon', name: '哈密瓜', price: 35, growTime: 35, sellPrice: 90, xp: 22, icon: '🍈', color: 'bg-green-100', regions: ['west_china'] },
+            // 日本
+            { id: 'wasabi', name: '芥末', price: 30, growTime: 30, sellPrice: 80, xp: 20, icon: '🌱', color: 'bg-lime-100', regions: ['japan'] },
+            { id: 'sakura', name: '樱花', price: 40, growTime: 40, sellPrice: 100, xp: 25, icon: '🌸', color: 'bg-pink-200', regions: ['japan'] },
+            { id: 'sweet_potato', name: '红薯', price: 18, growTime: 18, sellPrice: 38, xp: 10, icon: '🍠', color: 'bg-orange-200', regions: ['japan'] },
+            { id: 'daikon', name: '大根', price: 22, growTime: 22, sellPrice: 50, xp: 13, icon: '🥕', color: 'bg-orange-100', regions: ['japan'] },
+            { id: 'mikan', name: '蜜柑', price: 28, growTime: 28, sellPrice: 70, xp: 18, icon: '🍊', color: 'bg-yellow-100', regions: ['japan'] },
+            // 美国中部
+            { id: 'blueberry', name: '蓝莓', price: 25, growTime: 25, sellPrice: 60, xp: 15, icon: '🫐', color: 'bg-indigo-100', regions: ['us_midwest'] },
+            { id: 'pumpkin', name: '南瓜', price: 20, growTime: 20, sellPrice: 48, xp: 12, icon: '🎃', color: 'bg-orange-200', regions: ['us_midwest'] },
+            { id: 'wheat', name: '小麦', price: 15, growTime: 15, sellPrice: 32, xp: 9, icon: '🌾', color: 'bg-yellow-100', regions: ['us_midwest'] },
+            { id: 'cranberry', name: '蔓越莓', price: 28, growTime: 28, sellPrice: 70, xp: 18, icon: '🍒', color: 'bg-red-200', regions: ['us_midwest'] },
+            { id: 'sunflower', name: '向日葵', price: 18, growTime: 18, sellPrice: 38, xp: 10, icon: '🌻', color: 'bg-yellow-200', regions: ['us_midwest'] },
+            // 欧洲
+            { id: 'carrot', name: '胡萝卜', price: 15, growTime: 15, sellPrice: 32, xp: 9, icon: '🥕', color: 'bg-orange-100', regions: ['europe'] },
+            { id: 'strawberry', name: '草莓', price: 22, growTime: 22, sellPrice: 50, xp: 13, icon: '🍓', color: 'bg-red-100', regions: ['europe'] },
+            { id: 'lettuce', name: '生菜', price: 18, growTime: 18, sellPrice: 38, xp: 10, icon: '🥬', color: 'bg-green-100', regions: ['europe'] },
+            { id: 'asparagus', name: '芦笋', price: 28, growTime: 28, sellPrice: 70, xp: 18, icon: '🥦', color: 'bg-green-200', regions: ['europe'] },
+            { id: 'grapefruit', name: '葡萄柚', price: 35, growTime: 35, sellPrice: 90, xp: 22, icon: '🍇', color: 'bg-purple-100', regions: ['europe'] }
+        ];
+
+        // 升级数据
+        const upgrades = [
+            { id: 'watering', name: '浇水效率', description: '减少作物生长时间10%', cost: 150, maxLevel: 3 },
+            { id: 'quality', name: '作物品质', description: '提高作物售价15%', cost: 250, maxLevel: 3 },
+            { id: 'greenhouse', name: '温室大棚', description: '减少天气影响50%', cost: 400, maxLevel: 1 }
+        ];
+
+        // 任务数据
+        const tasks = [
+            { id: 'harvest_5', name: '收获5个作物', goal: 5, reward: 50, desc: '收获任意5个作物' },
+            { id: 'plant_3', name: '种植3次', goal: 3, reward: 30, desc: '种植3次任意种子' },
+            { id: 'sell_100', name: '销售100金币', goal: 100, reward: 20, desc: '累计销售作物价值达到100金币' },
+            { id: 'upgrade_1', name: '完成1次升级', goal: 1, reward: 40, desc: '购买任意1次农场升级' },
+            { id: 'expand_1', name: '扩展1块农田', goal: 1, reward: 60, desc: '扩展1块农田' }
+        ];
+
+        // 天气系统
+        const weatherTypes = [
+            { id: 'sunny', name: '晴天', icon: '☀️', effect: { growth: 1.0, price: 1.0 } },
+            { id: 'rainy', name: '雨天', icon: '🌧️', effect: { growth: 1.2, price: 0.9 } },
+            { id: 'cloudy', name: '阴天', icon: '☁️', effect: { growth: 0.9, price: 1.1 } },
+            { id: 'stormy', name: '暴风雨', icon: '⛈️', effect: { growth: 0.7, price: 0.7 } }
+        ];
+
+        // 成就系统
+        const achievements = [
+            { id: 'first_harvest', name: '初次收获', reward: 20, condition: (state) => state.completedTasks >= 1, unlocked: false },
+            { id: 'farmer_10', name: '10级农场主', reward: 100, condition: (state) => state.level >= 10, unlocked: false },
+            { id: 'millionaire', name: '百万富翁', reward: 200, condition: (state) => state.money >= 1000, unlocked: false },
+            { id: 'seed_collector', name: '种子收集者', reward: 80, condition: (state) => Object.keys(state.purchasedSeeds).length >= 3, unlocked: false },
+            { id: 'plot_master', name: '农田大师', reward: 150, condition: (state) => state.plots >= 8, unlocked: false }
+        ];
+
+        // DOM元素
+        const elements = {
+            money: document.getElementById('money'),
+            level: document.getElementById('level'),
+            xp: document.getElementById('xp'),
+            maxXp: document.getElementById('maxXp'),
+            plotsCount: document.getElementById('plots-count'),
+            farmGrid: document.getElementById('farm-grid'),
+            shopItems: document.getElementById('shop-items'),
+            inventoryItems: document.getElementById('inventory-items'),
+            tasksList: document.getElementById('tasks-list'),
+            upgrades: document.getElementById('upgrades'),
+            expandFarmBtn: document.getElementById('expand-farm'),
+            notifications: document.getElementById('notifications'),
+            saveIndicator: document.getElementById('save-indicator')
+        };
+
+        // 保存游戏数据到本地存储
+        function saveGameData() {
+            try {
+                // 保存游戏状态
+                localStorage.setItem('happyFarmGameState', JSON.stringify(gameState));
+
+                // 显示保存指示器
+                elements.saveIndicator.classList.add('show');
+
+                // 2秒后隐藏保存指示器
+                setTimeout(() => {
+                    elements.saveIndicator.classList.remove('show');
+                }, 2000);
+
+                return true;
+            } catch (error) {
+                console.error('保存游戏数据失败:', error);
+                return false;
+            }
+        }
+
+        // 从本地存储加载游戏数据
+        function loadGameData() {
+            try {
+                const savedState = localStorage.getItem('happyFarmGameState');
+
+                if (savedState) {
+                    const parsedState = JSON.parse(savedState);
+
+                    // 合并保存的状态到当前状态
+                    Object.assign(gameState, parsedState);
+
+                    // 检查是否有新的种子数据需要添加
+                    if (!gameState.purchasedSeeds) {
+                        gameState.purchasedSeeds = {};
+                    }
+
+                    // 显示加载成功通知
+                    showNotification('游戏数据已加载', 'info');
+                    return true;
+                }
+            } catch (error) {
+                console.error('加载游戏数据失败:', error);
+            }
+
+            return false;
+        }
+
+        // 设置自动保存定时器
+        function setupAutoSave() {
+            // 每5分钟自动保存一次
+            setInterval(() => {
+                saveGameData();
+            }, 5 * 60 * 1000);
+
+            // 页面卸载时保存
+            window.addEventListener('beforeunload', () => {
+                saveGameData();
+            });
+        }
+
+        // 初始化游戏
+        function initGame() {
+            renderRegionSelect();
+            // 从本地存储加载游戏数据
+            loadGameData();
+
+            // 检查上次游玩时间
+            checkDailyLogin();
+
+            // 生成今日天气
+            generateWeather();
+
+            // 生成每日任务
+            generateDailyTasks();
+
+            renderShop();
+            renderFarm();
+            renderUpgrades();
+            renderWeather();
+            renderTasks();
+            updateUI();
+
+            // 检查扩展农田按钮状态
+            checkExpandFarmButton();
+            checkAchievements();
+
+            // 设置自动保存
+            setupAutoSave();
+        }
+
+        // 渲染地区下拉菜单
+        function renderRegionSelect() {
+            const select = document.getElementById('region-select');
+            select.innerHTML = regions.map(region =>
+                `<option value="${region.id}" ${region.id === gameState.currentRegion ? 'selected' : ''}>${region.name}</option>`
+            ).join('');
+            select.onchange = function() {
+                gameState.currentRegion = this.value;
+                saveGameData();
+                renderShop();
+                renderFarm();
+                renderInventory();
+                updateRegionBackground();
+            };
+            // 初始化时也切换背景
+            updateRegionBackground();
+        }
+        // 切换地区背景
+        function updateRegionBackground() {
+            const body = document.getElementById('main-body');
+            body.className = '';
+            body.classList.add('min-h-screen');
+            body.classList.add('bg-' + gameState.currentRegion);
+        }
+
+        // 渲染商店（只显示当前地区的种子）
+        function renderShop() {
+            const regionSeeds = seeds.filter(seed => seed.regions.includes(gameState.currentRegion));
+            elements.shopItems.innerHTML = regionSeeds.map(seed => `
+                <div class="seed-item flex flex-col p-4 rounded-2xl ${seed.color} cursor-pointer shadow-lg hover:shadow-2xl transition card-strong" data-seed-id="${seed.id}">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <div class="font-medium">${seed.icon} ${seed.name}</div>
+                            <div class="text-sm text-gray-600">售价: ${seed.sellPrice}金币 | 经验: ${seed.xp}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-semibold">${seed.price}金币</div>
+                            <div class="text-xs text-gray-600">${seed.growTime}秒</div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm">库存: ${gameState.purchasedSeeds[seed.id] || 0}</span>
+                        <button class="buy-btn btn-strong px-4 py-2 text-base" data-seed-id="${seed.id}">
+                            <i class="fas fa-shopping-cart mr-2"></i> 购买
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            // 添加购买按钮事件
+            document.querySelectorAll('.buy-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const seedId = this.getAttribute('data-seed-id');
+                    buySeed(seedId);
+                });
+            });
+
+            // 添加种子选择事件
+            document.querySelectorAll('.seed-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const seedId = this.getAttribute('data-seed-id');
+                    selectSeed(seedId);
+                });
+            });
+        }
+
+        // 购买种子
+        function buySeed(seedId) {
+            const seed = getSeedById(seedId);
+
+            if (gameState.money >= seed.price) {
+                gameState.money -= seed.price;
+
+                if (!gameState.purchasedSeeds[seedId]) {
+                    gameState.purchasedSeeds[seedId] = 0;
+                }
+                gameState.purchasedSeeds[seedId]++;
+
+                updateUI();
+                renderShop();
+                showNotification(`成功购买 ${seed.name} 种子!`, 'success');
+
+                // 保存游戏数据
+                saveGameData();
+            } else {
+                showNotification('金币不足!', 'error');
+            }
+        }
+
+        // 选择种子时，判断是否属于本地区
+        function selectSeed(seedId) {
+            const seed = getSeedById(seedId);
+            if (!seed.regions.includes(gameState.currentRegion)) {
+                showNotification('该种子不属于当前地区!', 'error');
+                return;
+            }
+
+            // 检查是否已购买该种子
+            if (!gameState.purchasedSeeds[seedId] || gameState.purchasedSeeds[seedId] <= 0) {
+                showNotification('请先购买该种子!', 'error');
+                return;
+            }
+
+            gameState.currentSelectedSeed = seedId;
+
+            // 更新UI显示选中的种子
+            document.querySelectorAll('.seed-item').forEach(item => {
+                if (item.getAttribute('data-seed-id') === seedId) {
+                    item.classList.add('ring-2', 'ring-green-500');
+                } else {
+                    item.classList.remove('ring-2', 'ring-green-500');
+                }
+            });
+
+            showNotification(`已选择: ${seed.name}种子`, 'info');
+        }
+
+        // 渲染农田（只允许种植本地区的种子）
+        function renderFarm() {
+            elements.farmGrid.innerHTML = '';
+
+            for (let i = 0; i < gameState.plots; i++) {
+                const plot = document.createElement('div');
+                plot.className = 'crop-plot bg-yellow-50 border-2 border-yellow-200 rounded-2xl aspect-square flex flex-col items-center justify-center p-4 cursor-pointer shadow-md hover:shadow-xl transition';
+                plot.innerHTML = `
+                    <div class="text-5xl mb-2">🌱</div>
+                    <p class="text-base text-center text-gray-600 font-semibold">空闲农田</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2 hidden">
+                        <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                `;
+                plot.setAttribute('data-plot-index', i);
+                plot.addEventListener('click', () => handlePlotClick(i));
+                elements.farmGrid.appendChild(plot);
+            }
+        }
+
+        // 处理农田点击
+        function handlePlotClick(plotIndex) {
+            const plot = document.querySelector(`[data-plot-index="${plotIndex}"]`);
+
+            // 检查地块是否空闲
+            if (!plot.hasAttribute('data-planted')) {
+                // 如果有选中的种子，则种植
+                if (gameState.currentSelectedSeed) {
+                    const seed = getSeedById(gameState.currentSelectedSeed);
+
+                    // 检查金币是否足够（种植需要消耗种子对应的金币）
+                    if (gameState.money >= seed.price) {
+                        gameState.money -= seed.price;
+                        plantSeed(plotIndex, seed);
+                        updateUI();
+
+                        // 保存游戏数据
+                        saveGameData();
+                    } else {
+                        showNotification('金币不足!', 'error');
+                    }
+                } else {
+                    showNotification('请先选择一个种子!', 'error');
+                }
+            } else {
+                // 检查作物是否成熟
+                if (plot.getAttribute('data-growth') === 'completed') {
+                    harvestCrop(plotIndex);
+                }
+            }
+        }
+
+        // 种植种子
+        function plantSeed(plotIndex, seed) {
+            const plot = document.querySelector(`[data-plot-index="${plotIndex}"]`);
+
+            // 有10%的概率种植失败，变成荒地
+            if (Math.random() < 0.1) {
+                plot.setAttribute('data-state', 'wasteland');
+                plot.innerHTML = `
+                    <div class="text-5xl mb-2">🌵</div>
+                    <p class="text-xs text-center font-semibold text-red-800">荒地(需修复)</p>
+                    <button class="repair-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm mt-1" data-plot-index="${plotIndex}">
+                        修复 (50金币)
+                    </button>
+                `;
+                plot.querySelector('.repair-btn').addEventListener('click', function() {
+                    repairPlot(plotIndex);
+                });
+                showNotification('种植失败! 农田变成了荒地!', 'error');
+                return;
+            }
+
+            // 获取当前天气
+            const weather = weatherTypes.find(w => w.id === gameState.weather);
+
+            // 应用浇水效率升级和天气影响
+            const growthTime = seed.growTime *
+                              (1 - (gameState.upgrades.watering * 0.1)) *
+                              (1 / weather.effect.growth);
+
+            // 应用温室升级减少天气影响
+            if (gameState.upgrades.greenhouse > 0) {
+                const weatherImpactReduction = 0.5; // 温室减少50%天气影响
+                const adjustedGrowthEffect = weather.effect.growth + (1 - weather.effect.growth) * weatherImpactReduction;
+                growthTime = seed.growTime * (1 - (gameState.upgrades.watering * 0.1)) * (1 / adjustedGrowthEffect);
+            }
+
+            // 更新地块状态
+            plot.setAttribute('data-planted', seed.id);
+            plot.setAttribute('data-state', 'planted');
+            plot.setAttribute('data-growth', 'growing');
+            plot.innerHTML = `
+                <div class="text-5xl mb-2">${seed.icon}</div>
+                <p class="text-xs text-center font-semibold text-green-800">${seed.name}</p>
+                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                    <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">成长中...</p>
+            `;
+
+            // 开始生长计时器
+            let progress = 0;
+            const progressBar = plot.querySelector('.progress-bar');
+            const growthInterval = setInterval(() => {
+                progress += 0.5;
+                progressBar.style.width = `${Math.min(progress / growthTime * 100, 100)}%`;
+
+                if (progress >= growthTime) {
+                    clearInterval(growthInterval);
+                    plot.setAttribute('data-growth', 'completed');
+                    plot.querySelector('p').textContent = '可以收获了!';
+                    plot.querySelector('.progress-bar').classList.remove('bg-green-600');
+                    plot.querySelector('.progress-bar').classList.add('bg-yellow-500');
+
+                    // 添加脉冲动画表示可以收获
+                    plot.classList.add('animate-pulse');
+                }
+            }, 500);
+
+            gameState.purchasedSeeds[seed.id]--;
+            if (gameState.purchasedSeeds[seed.id] <= 0) {
+                delete gameState.purchasedSeeds[seed.id];
+                gameState.currentSelectedSeed = null;
+                // Clear selected seed UI
+                document.querySelectorAll('.seed-item').forEach(item => {
+                    item.classList.remove('ring-2', 'ring-green-500');
+                });
+            }
+            showNotification(`已种植 ${seed.name}!`, 'success');
+
+            // 更新任务进度
+            updateTaskProgress('plant');
+
+            // 保存游戏数据
+            saveGameData();
+        }
+
+        // 收获作物
+        function harvestCrop(plotIndex) {
+            const plot = document.querySelector(`[data-plot-index="${plotIndex}"]`);
+            const seedId = plot.getAttribute('data-planted');
+            const seed = getSeedById(seedId);
+
+            // 获取当前天气
+            const weather = weatherTypes.find(w => w.id === gameState.weather);
+
+            // 应用质量升级和天气影响
+            let sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
+
+            // 应用温室升级减少天气影响
+            if (gameState.upgrades.greenhouse > 0) {
+                const weatherImpactReduction = 0.5; // 温室减少50%天气影响
+                const adjustedPriceEffect = weather.effect.price + (1 - weather.effect.price) * weatherImpactReduction;
+                sellPrice = Math.floor(sellPrice * adjustedPriceEffect);
+            } else {
+                sellPrice = Math.floor(sellPrice * weather.effect.price);
+            }
+
+            // 更新游戏状态
+            gameState.money += sellPrice;
+            gameState.xp += seed.xp;
+
+            // 更新任务进度
+            updateTaskProgress('harvest');
+
+            // 更新库存
+            if (!gameState.inventory[seedId]) {
+                gameState.inventory[seedId] = 0;
+            }
+            gameState.inventory[seedId]++;
+
+            // 检查是否升级
+            checkLevelUp();
+
+            // 重置地块
+            plot.removeAttribute('data-planted');
+            plot.removeAttribute('data-growth');
+            plot.classList.remove('animate-pulse');
+            plot.innerHTML = `
+                <div class="text-5xl mb-2">🌱</div>
+                <p class="text-xs text-center text-gray-500">空闲农田</p>
+                <div class="w-full bg-gray-200 rounded-full h-2 hidden">
+                    <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
+                </div>
+            `;
+
+            // 重新添加事件监听
+            plot.addEventListener('click', () => handlePlotClick(plotIndex));
+
+            // 更新UI
+            updateUI();
+            renderInventory();
+
+            showNotification(`收获 ${seed.name}! +${sellPrice}金币 +${seed.xp}经验`, 'success');
+
+            // 保存游戏数据
+            saveGameData();
+        }
+
+        // 修复荒地
+        function repairPlot(plotIndex) {
+            const plot = document.querySelector(`[data-plot-index="${plotIndex}"]`);
+
+            if (gameState.money >= 50) {
+                gameState.money -= 50;
+                plot.removeAttribute('data-state');
+                plot.innerHTML = `
+                    <div class="text-5xl mb-2">🌱</div>
+                    <p class="text-xs text-center text-gray-500">空闲农田</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2 hidden">
+                        <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                `;
+                plot.addEventListener('click', () => handlePlotClick(plotIndex));
+                updateUI();
+                showNotification('农田修复成功!', 'success');
+
+                // 保存游戏数据
+                saveGameData();
+            } else {
+                showNotification('金币不足!', 'error');
+            }
+        }
+
+        // 渲染库存（只显示本地区的作物）
+        function renderInventory() {
+            const regionSeeds = seeds.filter(seed => seed.regions.includes(gameState.currentRegion));
+            const regionSeedIds = regionSeeds.map(s => s.id);
+            const filteredInventory = Object.entries(gameState.inventory).filter(([seedId]) => regionSeedIds.includes(seedId));
+            if (filteredInventory.length === 0) {
+                elements.inventoryItems.innerHTML = '<p class="text-gray-500 italic">这里会显示你收获的作物</p>';
+                return;
+            }
+            elements.inventoryItems.innerHTML = filteredInventory.map(([seedId, count]) => {
+                const seed = getSeedById(seedId);
+                const sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
+                const weather = weatherTypes.find(w => w.id === gameState.weather);
+                let adjustedPrice = sellPrice;
+                if (gameState.upgrades.greenhouse > 0) {
+                    const weatherImpactReduction = 0.5;
+                    const adjustedPriceEffect = weather.effect.price + (1 - weather.effect.price) * weatherImpactReduction;
+                    adjustedPrice = Math.floor(sellPrice * adjustedPriceEffect);
+                } else {
+                    adjustedPrice = Math.floor(sellPrice * weather.effect.price);
+                }
+                return `
+                    <div class="flex justify-between items-center p-3 border-b card-strong mb-2">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">${seed.icon}</span>
+                            <span class="font-semibold text-lg">${seed.name} × ${count}</span>
+                        </div>
+                        <button class="sell-btn btn-strong px-4 py-2 text-base" data-seed-id="${seedId}">
+                            出售 (${adjustedPrice}金币)
+                        </button>
+                    </div>
+                `;
+            }).join('');
+            document.querySelectorAll('.sell-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    sellCrops(this.getAttribute('data-seed-id'));
+                });
+            });
+        }
+
+        // 出售作物
+        function sellCrops(seedId) {
+            if (gameState.inventory[seedId] && gameState.inventory[seedId] > 0) {
+                const seed = getSeedById(seedId);
+                const sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
+                const weather = weatherTypes.find(w => w.id === gameState.weather);
+                let adjustedPrice = sellPrice;
+                if (gameState.upgrades.greenhouse > 0) {
+                    const weatherImpactReduction = 0.5;
+                    const adjustedPriceEffect = weather.effect.price + (1 - weather.effect.price) * weatherImpactReduction;
+                    adjustedPrice = Math.floor(sellPrice * adjustedPriceEffect);
+                } else {
+                    adjustedPrice = Math.floor(sellPrice * weather.effect.price);
+                }
+
+                gameState.money += adjustedPrice;
+                gameState.inventory[seedId]--;
+
+                if (gameState.inventory[seedId] === 0) {
+                    delete gameState.inventory[seedId];
+                }
+
+                updateUI();
+                renderInventory();
+
+                showNotification(`售出 ${seed.name}! +${adjustedPrice}金币`, 'success');
+
+                // 更新任务进度
+                updateTaskProgress('sell', adjustedPrice);
+
+                // 保存游戏数据
+                saveGameData();
+            }
+        }
+
+        // 渲染升级
+        function renderUpgrades() {
+            elements.upgrades.innerHTML = upgrades.map(upgrade => `
+                <div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                    <div>
+                        <h3 class="font-semibold">${upgrade.name} (${gameState.upgrades[upgrade.id]}/${upgrade.maxLevel})</h3>
+                        <p class="text-sm text-gray-600">${upgrade.description}</p>
+                    </div>
+                    <button class="upgrade-btn ${gameState.upgrades[upgrade.id] >= upgrade.maxLevel ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} text-white px-3 py-1 rounded-lg"
+                            data-upgrade="${upgrade.id}"
+                            data-cost="${upgrades.find(u => u.id === upgrade.id).cost * (gameState.upgrades[upgrade.id] + 1)}"
+                            ${gameState.upgrades[upgrade.id] >= upgrade.maxLevel ? 'disabled' : ''}>
+                        <i class="fas fa-arrow-up mr-1"></i> ${upgrades.find(u => u.id === upgrade.id).cost * (gameState.upgrades[upgrade.id] + 1)}金币
+                    </button>
+                </div>
+            `).join('');
+
+            // 添加升级按钮事件
+            document.querySelectorAll('.upgrade-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const upgradeId = this.getAttribute('data-upgrade');
+                    const cost = parseInt(this.getAttribute('data-cost'));
+
+                    purchaseUpgrade(upgradeId, cost);
+                });
+            });
+        }
+                // 购买升级
+        function purchaseUpgrade(upgradeId, cost) {
+            if (gameState.upgrades[upgradeId] >= upgrades.find(u => u.id === upgradeId).maxLevel) return;
+            if (gameState.money >= cost && cost > 0) {
+                gameState.money -= cost;
+                gameState.upgrades[upgradeId]++;
+                updateUI();
+                renderUpgrades();
+
+                showNotification(`升级 ${upgrades.find(u => u.id === upgradeId).name} 成功!`, 'success');
+
+                // 更新任务进度
+                updateTaskProgress('upgrade');
+
+                // 保存游戏数据
+                saveGameData();
+            } else {
+                showNotification('金币不足!', 'error');
+            }
+        }
+
+        // 扩展农场
+        elements.expandFarmBtn.addEventListener('click', function() {
+            if (gameState.money >= 200 && gameState.plots < gameState.maxPlots) {
+                gameState.money -= 200;
+                gameState.plots++;
+                updateUI();
+                renderFarm();
+                checkExpandFarmButton();
+
+                showNotification('农场扩展成功!', 'success');
+
+                // 更新任务进度
+                updateTaskProgress('expand');
+
+                // 保存游戏数据
+                saveGameData();
+            }
+        });
+
+        // 检查是否可以扩展农场
+        function checkExpandFarmButton() {
+            if (gameState.plots >= gameState.maxPlots) {
+                elements.expandFarmBtn.disabled = true;
+                elements.expandFarmBtn.textContent = '已达到最大农田数量';
+            } else {
+                elements.expandFarmBtn.disabled = gameState.money < 200;
+            }
+        }
+
+        // 检查是否升级
+        function checkLevelUp() {
+            if (gameState.xp >= gameState.maxXp) {
+                gameState.level++;
+                gameState.xp = gameState.xp - gameState.maxXp;
+                gameState.maxXp = Math.floor(gameState.maxXp * 1.5);
+
+                showNotification(`升级到 ${gameState.level} 级!`, 'info');
+
+                // 每2级解锁一个新种子
+                if (gameState.level % 2 === 0 && gameState.level / 2 <= seeds.length) {
+                    const newSeedIndex = Math.floor(gameState.level / 2) - 1;
+                    if (newSeedIndex < seeds.length && !gameState.purchasedSeeds[seeds[newSeedIndex].id]) {
+                        showNotification(`解锁新种子: ${seeds[newSeedIndex].name}!`, 'info');
+                    }
+                }
+
+                updateUI();
+
+                // 保存游戏数据
+                saveGameData();
+            }
+        }
+
+        // 更新UI
+        function updateUI() {
+            elements.money.textContent = gameState.money;
+            elements.level.textContent = gameState.level;
+            elements.xp.textContent = gameState.xp;
+            elements.maxXp.textContent = gameState.maxXp;
+            elements.plotsCount.textContent = gameState.plots;
+
+            // 更新商店种子可用性
+            document.querySelectorAll('.seed-item').forEach(item => {
+                const seedId = item.getAttribute('data-seed-id');
+                const seed = getSeedById(seedId);
+
+                if (gameState.money < seed.price) {
+                    item.classList.add('opacity-50');
+                } else {
+                    item.classList.remove('opacity-50');
+                }
+            });
+
+            // 检查扩展农田按钮
+            checkExpandFarmButton();
+        }
+
+        // 通过ID获取种子
+        function getSeedById(id) {
+            return seeds.find(seed => seed.id === id);
+        }
+
+        // 生成每日天气
+        function generateWeather() {
+            const weatherWeights = [0.5, 0.25, 0.15, 0.1]; // 晴天、雨天、阴天、暴风雨的概率权重
+            const random = Math.random();
+            let cumulativeWeight = 0;
+
+            for (let i = 0; i < weatherTypes.length; i++) {
+                cumulativeWeight += weatherWeights[i];
+                if (random <= cumulativeWeight) {
+                    gameState.weather = weatherTypes[i].id;
+                    break;
+                }
+            }
+
+            // 保存游戏数据
+            saveGameData();
+        }
+
+        // 渲染天气信息
+        function renderWeather() {
+            const weather = weatherTypes.find(w => w.id === gameState.weather);
+            document.getElementById('weather-icon').textContent = weather.icon;
+            document.getElementById('weather-name').textContent = weather.name;
+            document.getElementById('weather-effects').textContent =
+                `生长: ${weather.effect.growth > 1 ? '+' : ''}${Math.round((weather.effect.growth - 1) * 100)}% ` +
+                `售价: ${weather.effect.price > 1 ? '+' : ''}${Math.round((weather.effect.price - 1) * 100)}%`;
+        }
+
+        // 生成每日任务
+        function generateDailyTasks() {
+            const shuffled = [...tasks].sort(() => 0.5 - Math.random());
+            gameState.tasks = shuffled.slice(0, 3).map(task => ({
+                ...task,
+                progress: 0,
+                completed: false
+            }));
+
+            // 保存游戏数据
+            saveGameData();
+        }
+
+        // 渲染任务列表
+        function renderTasks() {
+            const tasksList = document.getElementById('tasks-list');
+
+            if (gameState.tasks.length === 0) {
+                tasksList.innerHTML = '<p class="text-gray-500 italic">今日没有任务</p>';
+                return;
+            }
+
+            tasksList.innerHTML = gameState.tasks.map(task => `
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-medium">${task.name}</h3>
+                        <span class="text-sm ${task.completed ? 'text-green-600' : 'text-gray-600'}">
+                            ${task.progress}/${task.goal}
+                        </span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">${task.desc}</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="progress-bar bg-blue-500 h-2 rounded-full"
+                             style="width: ${Math.min(task.progress / task.goal * 100, 100)}%">
+                        </div>
+                    </div>
+                    <div class="mt-2 text-sm text-right">
+                        <span class="text-yellow-600">奖励: ${task.reward}金币</span>
+                        ${task.completed ?
+                          '<span class="ml-2 text-green-600">✓ 已完成</span>' :
+                          '<button class="ml-2 claim-btn bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-xs" ' +
+                          'data-task-id="${task.id}" ${task.completed ? "hidden" : ""}>完成任务</button>'}
+                    </div>
+                </div>
+            `).join('');
+
+            // 添加领取奖励按钮事件
+            document.querySelectorAll('.claim-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const taskId = this.getAttribute('data-task-id');
+                    claimTaskReward(taskId);
+                });
+            });
+        }
+
+        // 完成特定类型的任务进度
+        function updateTaskProgress(type, amount = 1) {
+            let updated = false;
+
+            gameState.tasks.forEach(task => {
+                if (!task.completed && (
+                    (type === 'harvest' && task.id.startsWith('harvest')) ||
+                    (type === 'plant' && task.id.startsWith('plant')) ||
+                    (type === 'sell' && task.id.startsWith('sell')) ||
+                    (type === 'upgrade' && task.id.startsWith('upgrade')) ||
+                    (type === 'expand' && task.id.startsWith('expand'))
+                )) {
+                    task.progress += amount;
+                    if (task.progress >= task.goal) {
+                        task.completed = true;
+                        showNotification(`任务完成: ${task.name}`, 'info');
+                    }
+                    updated = true;
+                }
+            });
+
+            if (updated) {
+                renderTasks();
+
+                // 保存游戏数据
+                saveGameData();
+            }
+        }
+
+        // 领取任务奖励
+        function claimTaskReward(taskId) {
+            const task = gameState.tasks.find(t => t.id === taskId);
+            if (task && task.completed) {
+                gameState.money += task.reward;
+                gameState.completedTasks++;
+
+                // 移除已领取的任务
+                gameState.tasks = gameState.tasks.filter(t => t.id !== taskId);
+
+                updateUI();
+                renderTasks();
+                checkAchievements();
+
+                showNotification(`已领取任务奖励 +${task.reward}金币`, 'success');
+
+                // 保存游戏数据
+                saveGameData();
+            }
+        }
+
+        // 检查成就
+        function checkAchievements() {
+            let newAchievements = false;
+
+            achievements.forEach(achievement => {
+                if (!gameState.achievements.includes(achievement.id) &&
+                    achievement.condition(gameState)) {
+
+                    gameState.achievements.push(achievement.id);
+                    gameState.money += achievement.reward;
+                    newAchievements = true;
+
+                    showNotification(`解锁成就: ${achievement.name}! +${achievement.reward}金币`, 'info');
+                }
+            });
+
+            if (newAchievements) {
+                updateUI();
+
+                // 保存游戏数据
+                saveGameData();
+            }
+        }
+
+        // 检查连续登录
+        function checkDailyLogin() {
+            const today = new Date().toDateString();
+            const lastPlayed = gameState.lastPlayed;
+
+            if (!lastPlayed) {
+                // 首次游玩
+                gameState.dailyStreak = 1;
+            } else if (lastPlayed !== today) {
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+
+                if (lastPlayed === yesterday.toDateString()) {
+                    gameState.dailyStreak++;
+                } else {
+                    gameState.dailyStreak = 1;
+                }
+            }
+
+            gameState.lastPlayed = today;
+
+            // 每日登录奖励
+            if (lastPlayed !== today) {
+                const reward = 10 * gameState.dailyStreak;
+                gameState.money += reward;
+
+                showNotification(`连续登录 ${gameState.dailyStreak} 天! +${reward}金币`, 'info');
+                updateUI();
+
+                // 保存游戏数据
+                saveGameData();
+            }
+        }
+
+        // 显示通知
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification p-3 rounded-lg shadow-lg text-white fade-in ${type === 'error' ? 'bg-red-500' : type === 'success' ? 'bg-green-500' : 'bg-blue-500'}`;
+            notification.innerHTML = `<p>${message}</p>`;
+
+            elements.notifications.appendChild(notification);
+
+            // 3秒后移除通知
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // 初始化游戏
+        window.onload = initGame;
+    </script>
+<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=diyuyang/boss" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
+</html>
