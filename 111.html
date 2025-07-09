@@ -147,9 +147,165 @@
             font-weight: 700;
             color: #388e3c;
         }
+        /* 登录弹窗美化 */
+        #login-modal input[type="text"], #login-modal input[type="password"] {
+            font-size: 1.1rem;
+            border-radius: 1rem;
+            border: 1.5px solid #b2dfdb;
+            box-shadow: 0 2px 8px 0 rgba(67,233,123,0.08);
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            transition: border 0.2s, box-shadow 0.2s;
+        }
+        #login-modal input[type="text"]:focus, #login-modal input[type="password"]:focus {
+            border: 2px solid #43e97b;
+            box-shadow: 0 4px 16px 0 rgba(67,233,123,0.15);
+        }
+        #login-modal .register-btn {
+            border-radius: 50%;
+            font-size: 0.95rem;
+            font-weight: bold;
+            box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.10);
+            transition: box-shadow 0.2s, transform 0.15s, background 0.2s;
+            padding: 0;
+            margin-bottom: 0;
+            min-width: 0;
+            flex: 1 1 0;
+            margin-right: 0;
+            width: 48px;
+            height: 48px;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+        #login-modal .register-btn:not(:last-child) {
+            margin-right: 0.5rem;
+        }
+        #login-modal .register-btn i {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        #login-modal .register-btn:hover {
+            box-shadow: 0 8px 24px 0 rgba(67,233,123,0.18);
+            transform: translateY(-2px) scale(1.08);
+            filter: brightness(1.05);
+        }
+        #login-modal .w-full.flex.flex-row.items-center.justify-between.gap-2.mt-2 {
+            gap: 0.7rem;
+        }
+        #login-modal .w-full.flex.items-center.my-4 {
+            margin: 1.2rem 0 1.1rem 0;
+        }
+        #login-modal hr {
+            margin: 1.2rem 0 1.1rem 0;
+        }
+        #login-modal input::placeholder {
+            color: #bdbdbd;
+            font-size: 1rem;
+        }
+        #login-btn {
+            border-radius: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 2px 8px 0 rgba(67,233,123,0.10);
+            transition: box-shadow 0.2s, background 0.2s, transform 0.1s;
+        }
+        #login-btn:hover {
+            background: #43e97b;
+            box-shadow: 0 8px 24px 0 rgba(67,233,123,0.18);
+            transform: scale(1.04);
+        }
+        /* 退出登录按钮样式加强 */
+        #logout-btn {
+            border-radius: 1.5rem;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.10);
+            transition: box-shadow 0.2s, background 0.2s, transform 0.1s;
+        }
+        #logout-btn:hover {
+            background: #e0f2f1;
+            box-shadow: 0 8px 24px 0 rgba(67,233,123,0.18);
+            transform: scale(1.04);
+        }
     </style>
 </head>
 <body class="bg-green-50 min-h-screen" id="main-body">
+    <!-- 退出登录按钮 -->
+    <button id="logout-btn" class="fixed top-4 left-4 z-50 bg-white border border-gray-300 shadow px-4 py-2 rounded-lg text-green-700 font-bold hover:bg-green-100">
+      <i class="fas fa-sign-out-alt mr-2"></i>退出登录
+    </button>
+    <!-- 登录弹窗 -->
+    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+      <div class="bg-white rounded-2xl shadow-2xl p-10 flex flex-col items-center w-80">
+        <h2 class="text-2xl font-bold mb-6 text-green-700">注册并登录开心农场</h2>
+        <form id="login-form" class="w-full flex flex-col items-center">
+          <input id="login-account" type="text" placeholder="账号" class="w-full mb-3 px-3 py-2 border rounded-lg focus:outline-none" required />
+          <input id="login-password" type="password" placeholder="密码" class="w-full mb-3 px-3 py-2 border rounded-lg focus:outline-none" required />
+          <button type="button" id="login-btn" class="w-full mb-4 py-2 rounded-2xl bg-green-500 hover:bg-green-600 text-white font-bold text-lg shadow transition">登录</button>
+          <div class="w-full flex items-center my-4">
+            <div class="flex-1 h-px bg-gray-300"></div>
+            <span class="mx-3 text-gray-400 text-sm select-none">注册</span>
+            <div class="flex-1 h-px bg-gray-300"></div>
+          </div>
+          <div class="w-full flex flex-row items-center justify-between gap-2 mt-2">
+            <button type="button" class="register-btn flex-1 flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-full shadow transition text-xs" data-type="qq" style="min-width:0;max-width:48px;max-height:48px;">
+              <i class="fab fa-qq" style="font-size:1.5rem;"></i>
+            </button>
+            <button type="button" class="register-btn flex-1 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white py-3 rounded-full shadow transition text-xs" data-type="wx" style="min-width:0;max-width:48px;max-height:48px;">
+              <i class="fab fa-weixin" style="font-size:1.5rem;"></i>
+            </button>
+            <button type="button" class="register-btn flex-1 flex items-center justify-center bg-black hover:bg-gray-800 text-white py-3 rounded-full shadow transition text-xs" data-type="douyin" style="min-width:0;max-width:48px;max-height:48px;">
+              <i class="fab fa-tiktok" style="font-size:1.5rem;"></i>
+            </button>
+            <button type="button" class="register-btn flex-1 flex items-center justify-center bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-full shadow transition text-xs" data-type="account" style="min-width:0;max-width:48px;max-height:48px;">
+              <i class="fas fa-user" style="font-size:1.5rem;"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- 管理员面板弹窗 -->
+    <div id="admin-panel" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50" style="display:none;">
+      <div class="bg-white rounded-2xl shadow-2xl p-8 w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto flex flex-col">
+        <h2 class="text-2xl font-bold mb-4 text-green-700">管理员面板</h2>
+        <div class="mb-6">
+          <h3 class="text-lg font-semibold mb-2">当前游戏数据</h3>
+          <div class="grid grid-cols-2 gap-4 mb-2">
+            <div>
+              <label class="block text-gray-700 text-sm font-bold mb-1">金币</label>
+              <input id="admin-money" type="number" class="w-full border rounded px-2 py-1" />
+            </div>
+            <div>
+              <label class="block text-gray-700 text-sm font-bold mb-1">经验</label>
+              <input id="admin-xp" type="number" class="w-full border rounded px-2 py-1" />
+            </div>
+            <div>
+              <label class="block text-gray-700 text-sm font-bold mb-1">等级</label>
+              <input id="admin-level" type="number" class="w-full border rounded px-2 py-1" />
+            </div>
+            <div>
+              <label class="block text-gray-700 text-sm font-bold mb-1">天气</label>
+              <select id="admin-weather" class="w-full border rounded px-2 py-1">
+                <option value="sunny">晴天</option>
+                <option value="rainy">雨天</option>
+                <option value="cloudy">阴天</option>
+                <option value="stormy">暴风雨</option>
+              </select>
+            </div>
+          </div>
+          <button id="admin-save" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded font-bold mt-2">保存修改</button>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-2">所有用户信息</h3>
+          <div id="admin-users-list" class="overflow-x-auto text-sm"></div>
+        </div>
+        <button id="admin-close" class="mt-6 bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded font-bold self-end">关闭</button>
+      </div>
+    </div>
+    <!-- 管理员按钮，仅管理员可见 -->
+    <button id="admin-open-btn" class="fixed top-4 right-4 z-50 bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-2 rounded-xl shadow-lg" style="display:none;">管理员</button>
+    <!-- 立即完成生长按钮，仅管理员可见 -->
+    <button id="admin-grow-btn" class="fixed top-16 right-4 z-50 bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-5 py-2 rounded-xl shadow-lg" style="display:none;">立即完成生长</button>
     <div class="container mx-auto px-4 py-8">
         <!-- 地区切换区域（更大更显眼） -->
         <div class="mb-8 flex items-center justify-center">
@@ -278,7 +434,8 @@
             completedTasks: 0,
             achievements: [],
             currentRegion: 'north_china', // 新增字段，默认中国东北
-            tasks: []
+            tasks: [],
+            farmData: [] // 新增字段，存储农田数据
         };
 
         // 地区数据（更细分且不重复）
@@ -392,7 +549,19 @@
             try {
                 // 保存游戏状态
                 localStorage.setItem('happyFarmGameState', JSON.stringify(gameState));
-
+                // 如果是普通用户，更新happyFarmUsers中的数据
+                const userInfo = JSON.parse(localStorage.getItem('happyFarmUserInfo')||'{}');
+                if(userInfo && userInfo.account && userInfo.account !== 'dyyssb'){
+                    let users = JSON.parse(localStorage.getItem('happyFarmUsers')||'[]');
+                    users = users.map(u => u.account === userInfo.account ? {
+                        ...u,
+                        lastPlayed: new Date().toLocaleString(),
+                        money: gameState.money,
+                        xp: gameState.xp,
+                        level: gameState.level
+                    } : u);
+                    localStorage.setItem('happyFarmUsers', JSON.stringify(users));
+                }
                 // 显示保存指示器
                 elements.saveIndicator.classList.add('show');
 
@@ -454,14 +623,40 @@
             // 从本地存储加载游戏数据
             loadGameData();
 
+            // 初始化农田数据结构（如果不存在）
+            if (!gameState.farmData) {
+                gameState.farmData = {};
+                // 为每个地块初始化数据
+                for (let i = 0; i < gameState.plots; i++) {
+                    gameState.farmData[i] = {
+                        state: 'empty',  // 'empty', 'planted', 'wasteland'
+                        seedId: null,
+                        growth: null,    // null, 'growing', 'completed'
+                        progress: 0,
+                        growthTime: 0
+                    };
+                }
+                saveGameData();
+            }
+
             // 检查上次游玩时间
             checkDailyLogin();
 
-            // 生成今日天气
-            generateWeather();
+            // 获取当前日期
+            const today = new Date().toDateString();
 
-            // 生成每日任务
-            generateDailyTasks();
+            // 只有在新的一天或者没有任务时才生成新任务
+            if (!gameState.lastTasksGenerated || gameState.lastTasksGenerated !== today || gameState.tasks.length === 0) {
+                // 生成今日天气
+                generateWeather();
+
+                // 生成每日任务
+                generateDailyTasks();
+
+                // 记录任务生成日期
+                gameState.lastTasksGenerated = today;
+                saveGameData();
+            }
 
             renderShop();
             renderFarm();
@@ -600,20 +795,125 @@
         function renderFarm() {
             elements.farmGrid.innerHTML = '';
 
+            // 确保farmData数组长度与plots一致
+            while (gameState.farmData.length < gameState.plots) {
+                gameState.farmData.push({
+                    state: 'empty', // empty, planted, wasteland
+                    seedId: null,
+                    growth: null, // null, growing, completed
+                    progress: 0,
+                    growthTime: 0
+                });
+            }
+
             for (let i = 0; i < gameState.plots; i++) {
+                const plotData = gameState.farmData[i];
                 const plot = document.createElement('div');
                 plot.className = 'crop-plot bg-yellow-50 border-2 border-yellow-200 rounded-2xl aspect-square flex flex-col items-center justify-center p-4 cursor-pointer shadow-md hover:shadow-xl transition';
-                plot.innerHTML = `
-                    <div class="text-5xl mb-2">🌱</div>
-                    <p class="text-base text-center text-gray-600 font-semibold">空闲农田</p>
-                    <div class="w-full bg-gray-200 rounded-full h-2 hidden">
-                        <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
-                    </div>
-                `;
+
+                // 根据地块状态设置不同的显示
+                if (plotData.state === 'empty') {
+                    // 空闲农田
+                    plot.innerHTML = `
+                        <div class="text-5xl mb-2">🌱</div>
+                        <p class="text-base text-center text-gray-600 font-semibold">空闲农田</p>
+                        <div class="w-full bg-gray-200 rounded-full h-2 hidden">
+                            <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    `;
+                } else if (plotData.state === 'wasteland') {
+                    // 荒地
+                    plot.innerHTML = `
+                        <div class="text-5xl mb-2">🌵</div>
+                        <p class="text-base text-center font-semibold text-red-800">荒地(需修复)</p>
+                        <button class="repair-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm mt-1" data-plot-index="${i}">
+                            修复 (50金币)
+                        </button>
+                    `;
+                    plot.querySelector('.repair-btn').addEventListener('click', function() {
+                        repairPlot(i);
+                    });
+                } else if (plotData.state === 'planted') {
+                    // 已种植
+                    const seed = getSeedById(plotData.seedId);
+                    if (seed) {
+                        plot.setAttribute('data-planted', seed.id);
+                        plot.setAttribute('data-growth', plotData.growth);
+
+                        if (plotData.growth === 'completed') {
+                            // 成熟的作物
+                            plot.innerHTML = `
+                                <div class="text-5xl mb-2">${seed.icon}</div>
+                                <p class="text-base text-center font-semibold text-green-800">${seed.name}</p>
+                                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                    <div class="progress-bar bg-yellow-500 h-2 rounded-full" style="width: 100%"></div>
+                                </div>
+                                <p class="text-base text-gray-500 mt-1">可以收获了!</p>
+                            `;
+                            plot.classList.add('animate-pulse');
+                        } else {
+                            // 生长中的作物
+                            plot.innerHTML = `
+                                <div class="text-5xl mb-2">${seed.icon}</div>
+                                <p class="text-base text-center font-semibold text-green-800">${seed.name}</p>
+                                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                    <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: ${Math.min(plotData.progress / plotData.growthTime * 100, 100)}%"></div>
+                                </div>
+                                <p class="text-base text-gray-500 mt-1">成长中...</p>
+                            `;
+
+                            // 继续生长计时器
+                            continuePlantGrowth(i, plot);
+                        }
+                    } else {
+                        // 如果找不到种子数据，重置为空闲
+                        plotData.state = 'empty';
+                        plotData.seedId = null;
+                        plotData.growth = null;
+                        plot.innerHTML = `
+                            <div class="text-5xl mb-2">🌱</div>
+                            <p class="text-base text-center text-gray-600 font-semibold">空闲农田</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2 hidden">
+                                <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        `;
+                    }
+                }
+
                 plot.setAttribute('data-plot-index', i);
                 plot.addEventListener('click', () => handlePlotClick(i));
                 elements.farmGrid.appendChild(plot);
             }
+
+            // 保存游戏数据
+            saveGameData();
+        }
+
+        // 继续植物生长
+        function continuePlantGrowth(plotIndex, plot) {
+            const plotData = gameState.farmData[plotIndex];
+            if (plotData.state !== 'planted' || plotData.growth === 'completed') return;
+
+            const progressBar = plot.querySelector('.progress-bar');
+            const growthInterval = setInterval(() => {
+                plotData.progress += 0.5;
+                progressBar.style.width = `${Math.min(plotData.progress / plotData.growthTime * 100, 100)}%`;
+
+                if (plotData.progress >= plotData.growthTime) {
+                    clearInterval(growthInterval);
+                    plotData.growth = 'completed';
+                    plot.setAttribute('data-growth', 'completed');
+                    plot.querySelector('p').textContent = '可以收获了!';
+                    progressBar.classList.remove('bg-green-600');
+                    progressBar.classList.add('bg-yellow-500');
+
+                    // 添加脉冲动画表示可以收获
+                    plot.classList.add('animate-pulse');
+
+                    // 保存游戏数据
+                    saveGameData();
+                }
+            }, 500);
         }
 
         // 处理农田点击
@@ -626,17 +926,12 @@
                 if (gameState.currentSelectedSeed) {
                     const seed = getSeedById(gameState.currentSelectedSeed);
 
-                    // 检查金币是否足够（种植需要消耗种子对应的金币）
-                    if (gameState.money >= seed.price) {
-                        gameState.money -= seed.price;
-                        plantSeed(plotIndex, seed);
-                        updateUI();
+                    // 直接种植，不消耗金币
+                    plantSeed(plotIndex, seed);
+                    updateUI();
 
-                        // 保存游戏数据
-                        saveGameData();
-                    } else {
-                        showNotification('金币不足!', 'error');
-                    }
+                    // 保存游戏数据
+                    saveGameData();
                 } else {
                     showNotification('请先选择一个种子!', 'error');
                 }
@@ -651,13 +946,22 @@
         // 种植种子
         function plantSeed(plotIndex, seed) {
             const plot = document.querySelector(`[data-plot-index="${plotIndex}"]`);
+            const plotData = gameState.farmData[plotIndex];
 
             // 有10%的概率种植失败，变成荒地
             if (Math.random() < 0.1) {
+                // 更新游戏状态中的农田数据
+                plotData.state = 'wasteland';
+                plotData.seedId = null;
+                plotData.growth = null;
+                plotData.progress = 0;
+                plotData.growthTime = 0;
+
+                // 更新DOM
                 plot.setAttribute('data-state', 'wasteland');
                 plot.innerHTML = `
                     <div class="text-5xl mb-2">🌵</div>
-                    <p class="text-xs text-center font-semibold text-red-800">荒地(需修复)</p>
+                    <p class="text-base text-center font-semibold text-red-800">荒地(需修复)</p>
                     <button class="repair-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm mt-1" data-plot-index="${plotIndex}">
                         修复 (50金币)
                     </button>
@@ -666,6 +970,9 @@
                     repairPlot(plotIndex);
                 });
                 showNotification('种植失败! 农田变成了荒地!', 'error');
+
+                // 保存游戏数据
+                saveGameData();
                 return;
             }
 
@@ -673,9 +980,9 @@
             const weather = weatherTypes.find(w => w.id === gameState.weather);
 
             // 应用浇水效率升级和天气影响
-            const growthTime = seed.growTime *
-                              (1 - (gameState.upgrades.watering * 0.1)) *
-                              (1 / weather.effect.growth);
+            let growthTime = seed.growTime *
+                           (1 - (gameState.upgrades.watering * 0.1)) *
+                           (1 / weather.effect.growth);
 
             // 应用温室升级减少天气影响
             if (gameState.upgrades.greenhouse > 0) {
@@ -684,38 +991,30 @@
                 growthTime = seed.growTime * (1 - (gameState.upgrades.watering * 0.1)) * (1 / adjustedGrowthEffect);
             }
 
-            // 更新地块状态
+            // 更新游戏状态中的农田数据
+            plotData.state = 'planted';
+            plotData.seedId = seed.id;
+            plotData.growth = 'growing';
+            plotData.progress = 0;
+            plotData.growthTime = growthTime;
+
+            // 更新DOM
             plot.setAttribute('data-planted', seed.id);
             plot.setAttribute('data-state', 'planted');
             plot.setAttribute('data-growth', 'growing');
             plot.innerHTML = `
                 <div class="text-5xl mb-2">${seed.icon}</div>
-                <p class="text-xs text-center font-semibold text-green-800">${seed.name}</p>
+                <p class="text-base text-center font-semibold text-green-800">${seed.name}</p>
                 <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
                     <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
                 </div>
-                <p class="text-xs text-gray-500 mt-1">成长中...</p>
+                <p class="text-base text-gray-500 mt-1">成长中...</p>
             `;
 
             // 开始生长计时器
-            let progress = 0;
-            const progressBar = plot.querySelector('.progress-bar');
-            const growthInterval = setInterval(() => {
-                progress += 0.5;
-                progressBar.style.width = `${Math.min(progress / growthTime * 100, 100)}%`;
+            continuePlantGrowth(plotIndex, plot);
 
-                if (progress >= growthTime) {
-                    clearInterval(growthInterval);
-                    plot.setAttribute('data-growth', 'completed');
-                    plot.querySelector('p').textContent = '可以收获了!';
-                    plot.querySelector('.progress-bar').classList.remove('bg-green-600');
-                    plot.querySelector('.progress-bar').classList.add('bg-yellow-500');
-
-                    // 添加脉冲动画表示可以收获
-                    plot.classList.add('animate-pulse');
-                }
-            }, 500);
-
+            // 更新种子库存
             gameState.purchasedSeeds[seed.id]--;
             if (gameState.purchasedSeeds[seed.id] <= 0) {
                 delete gameState.purchasedSeeds[seed.id];
@@ -725,6 +1024,11 @@
                     item.classList.remove('ring-2', 'ring-green-500');
                 });
             }
+
+            // 更新UI显示种子数量
+            updateUI();
+            renderShop();
+
             showNotification(`已种植 ${seed.name}!`, 'success');
 
             // 更新任务进度
@@ -737,16 +1041,30 @@
         // 收获作物
         function harvestCrop(plotIndex) {
             const plot = document.querySelector(`[data-plot-index="${plotIndex}"]`);
-            const seedId = plot.getAttribute('data-planted');
+            const plotData = gameState.farmData[plotIndex];
+            // 确保地块状态正确
+            if (plotData.state !== 'planted' || plotData.growth !== 'completed') {
+                showNotification('收获失败：作物未成熟或状态异常', 'error');
+                return;
+            }
+            const seedId = plotData.seedId;
             const seed = getSeedById(seedId);
-
+            if (!seed) {
+                // 如果找不到种子数据，重置为空闲
+                plotData.state = 'empty';
+                plotData.seedId = null;
+                plotData.growth = null;
+                plotData.progress = 0;
+                plotData.growthTime = 0;
+                saveGameData();
+                renderFarm();
+                showNotification('收获失败：作物数据异常', 'error');
+                return;
+            }
             // 获取当前天气
             const weather = weatherTypes.find(w => w.id === gameState.weather);
-
             // 应用质量升级和天气影响
             let sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
-
-            // 应用温室升级减少天气影响
             if (gameState.upgrades.greenhouse > 0) {
                 const weatherImpactReduction = 0.5; // 温室减少50%天气影响
                 const adjustedPriceEffect = weather.effect.price + (1 - weather.effect.price) * weatherImpactReduction;
@@ -754,44 +1072,42 @@
             } else {
                 sellPrice = Math.floor(sellPrice * weather.effect.price);
             }
-
-            // 更新游戏状态
-            gameState.money += sellPrice;
+            // 更新游戏状态（只获得经验，不获得金币）
             gameState.xp += seed.xp;
-
             // 更新任务进度
             updateTaskProgress('harvest');
-
             // 更新库存
             if (!gameState.inventory[seedId]) {
                 gameState.inventory[seedId] = 0;
             }
             gameState.inventory[seedId]++;
-
+            // 调试输出
+            console.log('收获后仓库:', JSON.parse(JSON.stringify(gameState.inventory)));
+            showNotification(`收获 ${seed.name}! +${seed.xp}经验，仓库+1`, 'success');
             // 检查是否升级
             checkLevelUp();
-
-            // 重置地块
+            // 重置地块数据
+            plotData.state = 'empty';
+            plotData.seedId = null;
+            plotData.growth = null;
+            plotData.progress = 0;
+            plotData.growthTime = 0;
+            // 重置DOM
             plot.removeAttribute('data-planted');
             plot.removeAttribute('data-growth');
             plot.classList.remove('animate-pulse');
             plot.innerHTML = `
                 <div class="text-5xl mb-2">🌱</div>
-                <p class="text-xs text-center text-gray-500">空闲农田</p>
+                <p class="text-base text-center text-gray-600 font-semibold">空闲农田</p>
                 <div class="w-full bg-gray-200 rounded-full h-2 hidden">
                     <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
                 </div>
             `;
-
             // 重新添加事件监听
             plot.addEventListener('click', () => handlePlotClick(plotIndex));
-
             // 更新UI
             updateUI();
             renderInventory();
-
-            showNotification(`收获 ${seed.name}! +${sellPrice}金币 +${seed.xp}经验`, 'success');
-
             // 保存游戏数据
             saveGameData();
         }
@@ -802,10 +1118,20 @@
 
             if (gameState.money >= 50) {
                 gameState.money -= 50;
+
+                // 更新游戏状态中的农田数据
+                const plotData = gameState.farmData[plotIndex];
+                plotData.state = 'empty';
+                plotData.seedId = null;
+                plotData.growth = null;
+                plotData.progress = 0;
+                plotData.growthTime = 0;
+
+                // 更新DOM
                 plot.removeAttribute('data-state');
                 plot.innerHTML = `
                     <div class="text-5xl mb-2">🌱</div>
-                    <p class="text-xs text-center text-gray-500">空闲农田</p>
+                    <p class="text-base text-center text-gray-600 font-semibold">空闲农田</p>
                     <div class="w-full bg-gray-200 rounded-full h-2 hidden">
                         <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
                     </div>
@@ -848,22 +1174,29 @@
                             <span class="text-2xl mr-3">${seed.icon}</span>
                             <span class="font-semibold text-lg">${seed.name} × ${count}</span>
                         </div>
-                        <button class="sell-btn btn-strong px-4 py-2 text-base" data-seed-id="${seedId}">
-                            出售 (${adjustedPrice}金币)
-                        </button>
+                        <div class="flex items-center gap-2">
+                            <input type="number" min="1" max="${count}" value="1" class="sell-qty-input w-14 px-1 py-0.5 border rounded text-center mr-1" data-seed-id="${seedId}" />
+                            <button class="sell-btn btn-strong px-4 py-2 text-base" data-seed-id="${seedId}">
+                                出售 (${adjustedPrice}金币)
+                            </button>
+                        </div>
                     </div>
                 `;
             }).join('');
             document.querySelectorAll('.sell-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    sellCrops(this.getAttribute('data-seed-id'));
+                    const seedId = this.getAttribute('data-seed-id');
+                    const qtyInput = document.querySelector(`.sell-qty-input[data-seed-id='${seedId}']`);
+                    let qty = parseInt(qtyInput.value) || 1;
+                    sellCrops(seedId, qty);
                 });
             });
         }
 
-        // 出售作物
-        function sellCrops(seedId) {
+        // 出售作物，支持数量
+        function sellCrops(seedId, qty = 1) {
             if (gameState.inventory[seedId] && gameState.inventory[seedId] > 0) {
+                qty = Math.max(1, Math.min(qty, gameState.inventory[seedId]));
                 const seed = getSeedById(seedId);
                 const sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
                 const weather = weatherTypes.find(w => w.id === gameState.weather);
@@ -875,22 +1208,16 @@
                 } else {
                     adjustedPrice = Math.floor(sellPrice * weather.effect.price);
                 }
-
-                gameState.money += adjustedPrice;
-                gameState.inventory[seedId]--;
-
-                if (gameState.inventory[seedId] === 0) {
+                gameState.money += adjustedPrice * qty;
+                gameState.inventory[seedId] -= qty;
+                if (gameState.inventory[seedId] <= 0) {
                     delete gameState.inventory[seedId];
                 }
-
                 updateUI();
                 renderInventory();
-
-                showNotification(`售出 ${seed.name}! +${adjustedPrice}金币`, 'success');
-
+                showNotification(`售出 ${seed.name} ×${qty}! +${adjustedPrice * qty}金币`, 'success');
                 // 更新任务进度
-                updateTaskProgress('sell', adjustedPrice);
-
+                updateTaskProgress('sell', adjustedPrice * qty);
                 // 保存游戏数据
                 saveGameData();
             }
@@ -1015,6 +1342,12 @@
                 } else {
                     item.classList.remove('opacity-50');
                 }
+
+                // 更新种子数量显示
+                const inventorySpan = item.querySelector('span.text-sm');
+                if (inventorySpan) {
+                    inventorySpan.textContent = `库存: ${gameState.purchasedSeeds[seedId] || 0}`;
+                }
             });
 
             // 检查扩展农田按钮
@@ -1040,8 +1373,8 @@
                 }
             }
 
-            // 保存游戏数据
-            saveGameData();
+            // 注意：不在这里保存游戏数据，避免重复保存
+            // 保存操作已移至initGame函数中
         }
 
         // 渲染天气信息
@@ -1063,8 +1396,8 @@
                 completed: false
             }));
 
-            // 保存游戏数据
-            saveGameData();
+            // 注意：不在这里保存游戏数据，避免重复保存
+            // 保存操作已移至initGame函数中
         }
 
         // 渲染任务列表
@@ -1231,8 +1564,167 @@
             }, 3000);
         }
 
-        // 初始化游戏
-        window.onload = initGame;
+        // 登录逻辑
+        function checkLogin() {
+            const loginModal = document.getElementById('login-modal');
+            const isLoggedIn = localStorage.getItem('happyFarmLoggedIn');
+            if (!isLoggedIn) {
+                loginModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            } else {
+                loginModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+            const loginForm = document.getElementById('login-form');
+            const loginAccount = document.getElementById('login-account');
+            const loginPassword = document.getElementById('login-password');
+            // 登录按钮事件
+            document.getElementById('login-btn').onclick = function() {
+                if(!loginAccount.value || !loginPassword.value){
+                    showNotification('请输入账号和密码', 'error');
+                    return;
+                }
+                // 管理员账号判断
+                if(loginAccount.value === 'dyyssb' && loginPassword.value === 'dyyssb'){
+                    localStorage.setItem('happyFarmLoggedIn', 'admin');
+                    loginModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                    showNotification('管理员登录成功！', 'success');
+                    // 显示管理员按钮
+                    document.getElementById('admin-open-btn').style.display = 'block';
+                    initGame();
+                    return;
+                }
+                // 只允许账号密码方式登录
+                const users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
+                const userInfo = users.find(u => u.account === loginAccount.value && u.password === loginPassword.value);
+                if(userInfo){
+                    localStorage.setItem('happyFarmLoggedIn', userInfo.type || 'account');
+                    localStorage.setItem('happyFarmUserInfo', JSON.stringify(userInfo));
+                    loginModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                    showNotification('登录成功！', 'success');
+                    initGame();
+                } else {
+                    showNotification('账号或密码错误，请先注册！', 'error');
+                }
+            };
+            // 注册按钮事件
+            document.querySelectorAll('.register-btn').forEach(btn => {
+                btn.onclick = function() {
+                    const currentType = this.getAttribute('data-type');
+                    if(!loginAccount.value || !loginPassword.value){
+                        showNotification('请输入账号和密码', 'error');
+                        return;
+                    }
+                    // 管理员账号不能注册
+                    if(loginAccount.value === 'dyyssb'){
+                        showNotification('该账号为管理员专用，不能注册！', 'error');
+                        return;
+                    }
+                    // 注册时存入happyFarmUsers
+                    let users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
+                    if(users.find(u => u.account === loginAccount.value)){
+                        showNotification('该账号已被注册！', 'error');
+                        return;
+                    }
+                    const userInfo = {
+                        type: currentType,
+                        account: loginAccount.value,
+                        password: loginPassword.value,
+                        lastPlayed: new Date().toLocaleString(),
+                        money: 100,
+                        xp: 0,
+                        level: 1
+                    };
+                    users.push(userInfo);
+                    localStorage.setItem('happyFarmUsers', JSON.stringify(users));
+                    localStorage.setItem('happyFarmUserInfo', JSON.stringify(userInfo));
+                    localStorage.setItem('happyFarmLoggedIn', currentType);
+                    loginModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                    showNotification('注册并登录成功！', 'success');
+                    initGame();
+                };
+            });
+        }
+        // 退出登录逻辑
+        function setupLogoutBtn() {
+            const logoutBtn = document.getElementById('logout-btn');
+            // 始终显示退出登录按钮（即使在登录弹窗时也可见）
+            logoutBtn.style.display = 'block';
+            logoutBtn.onclick = function() {
+                localStorage.removeItem('happyFarmLoggedIn');
+                location.reload();
+            };
+        }
+        // 页面加载时先检查登录
+        window.onload = function() {
+            checkLogin();
+            if (localStorage.getItem('happyFarmLoggedIn')) {
+                initGame();
+            }
+            setupLogoutBtn();
+            // 管理员按钮显示逻辑
+            if(localStorage.getItem('happyFarmLoggedIn') === 'admin'){
+                document.getElementById('admin-open-btn').style.display = 'block';
+                document.getElementById('admin-grow-btn').style.display = 'block';
+            } else {
+                document.getElementById('admin-open-btn').style.display = 'none';
+                document.getElementById('admin-grow-btn').style.display = 'none';
+            }
+            document.getElementById('admin-open-btn').onclick = function() {
+                showAdminPanel();
+            };
+            document.getElementById('admin-grow-btn').onclick = function() {
+                // 立即完成所有农田作物生长
+                if(Array.isArray(gameState.farmData)){
+                    for(let i=0;i<gameState.farmData.length;i++){
+                        if(gameState.farmData[i].state === 'planted' && gameState.farmData[i].growth !== 'completed'){
+                            gameState.farmData[i].growth = 'completed';
+                            gameState.farmData[i].progress = gameState.farmData[i].growthTime;
+                        }
+                    }
+                    renderFarm();
+                    saveGameData();
+                    showNotification('所有作物已成熟！', 'success');
+                }
+            };
+        };
+
+        // 管理员面板逻辑
+        function showAdminPanel() {
+            const adminPanel = document.getElementById('admin-panel');
+            adminPanel.style.display = 'flex';
+            // 显示当前游戏数据
+            document.getElementById('admin-money').value = gameState.money;
+            document.getElementById('admin-xp').value = gameState.xp;
+            document.getElementById('admin-level').value = gameState.level;
+            document.getElementById('admin-weather').value = gameState.weather;
+            // 显示所有用户信息
+            const users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
+            let html = '<table class="min-w-full border text-center"><thead><tr><th class="border px-2">账号</th><th class="border px-2">注册方式</th><th class="border px-2">最近游玩</th><th class="border px-2">金币</th><th class="border px-2">经验</th><th class="border px-2">等级</th></tr></thead><tbody>';
+            users.forEach(u => {
+                html += `<tr><td class="border px-2">${u.account}</td><td class="border px-2">${u.type}</td><td class="border px-2">${u.lastPlayed||''}</td><td class="border px-2">${u.money||''}</td><td class="border px-2">${u.xp||''}</td><td class="border px-2">${u.level||''}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('admin-users-list').innerHTML = html;
+            // 保存按钮
+            document.getElementById('admin-save').onclick = function() {
+                gameState.money = parseInt(document.getElementById('admin-money').value)||0;
+                gameState.xp = parseInt(document.getElementById('admin-xp').value)||0;
+                gameState.level = parseInt(document.getElementById('admin-level').value)||1;
+                gameState.weather = document.getElementById('admin-weather').value;
+                updateUI();
+                renderWeather();
+                saveGameData();
+                showNotification('数据已保存', 'success');
+            };
+            // 关闭按钮
+            document.getElementById('admin-close').onclick = function() {
+                adminPanel.style.display = 'none';
+            };
+        }
     </script>
 <p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=diyuyang/boss" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
 </html>
