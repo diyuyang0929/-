@@ -237,29 +237,44 @@
     <!-- 登录弹窗 -->
     <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
       <div class="bg-white rounded-2xl shadow-2xl p-10 flex flex-col items-center w-80">
-        <h2 class="text-2xl font-bold mb-6 text-green-700">注册并登录开心农场</h2>
-        <form id="login-form" class="w-full flex flex-col items-center">
+        <h2 id="login-title-main" class="text-2xl font-bold mb-6 text-green-700">登录开心农场</h2>
+        <!-- 登录表单 -->
+        <form id="login-form" class="w-full flex flex-col items-center mb-2">
           <input id="login-account" type="text" placeholder="账号" class="w-full mb-3 px-3 py-2 border rounded-lg focus:outline-none" required />
           <input id="login-password" type="password" placeholder="密码" class="w-full mb-3 px-3 py-2 border rounded-lg focus:outline-none" required />
-          <button type="button" id="login-btn" class="w-full mb-4 py-2 rounded-2xl bg-green-500 hover:bg-green-600 text-white font-bold text-lg shadow transition">登录</button>
-          <div class="w-full flex items-center my-4">
-            <div class="flex-1 h-px bg-gray-300"></div>
-            <span class="mx-3 text-gray-400 text-sm select-none">注册</span>
-            <div class="flex-1 h-px bg-gray-300"></div>
+          <button type="button" id="login-btn" class="w-full mb-2 py-2 rounded-2xl bg-green-500 hover:bg-green-600 text-white font-bold text-lg shadow transition">登录</button>
+        </form>
+        <div id="login-divider" class="w-full flex items-center my-2">
+          <div class="flex-1 h-px bg-gray-300"></div>
+          <span class="mx-3 text-gray-400 text-sm select-none">或使用以下方式注册</span>
+          <div class="flex-1 h-px bg-gray-300"></div>
+        </div>
+        <!-- 注册方式按钮区域 -->
+        <div id="register-choice" class="w-full flex flex-row items-center justify-between gap-2 mt-2 mb-2">
+          <button type="button" class="register-way-btn flex-1 flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-full shadow transition text-xs" data-type="qq" style="min-width:0;max-width:48px;max-height:48px;">
+            <i class="fab fa-qq" style="font-size:1.5rem;"></i>
+          </button>
+          <button type="button" class="register-way-btn flex-1 flex flex-col items-center justify-center bg-green-500 hover:bg-green-600 text-white py-3 rounded-full shadow transition text-xs" data-type="wx" style="min-width:0;max-width:48px;max-height:48px;">
+            <i class="fab fa-weixin" style="font-size:1.5rem;"></i>
+          </button>
+          <button type="button" class="register-way-btn flex-1 flex flex-col items-center justify-center bg-black hover:bg-gray-800 text-white py-3 rounded-full shadow transition text-xs" data-type="douyin" style="min-width:0;max-width:48px;max-height:48px;">
+            <i class="fab fa-tiktok" style="font-size:1.5rem;"></i>
+          </button>
+          <button type="button" class="register-way-btn flex-1 flex flex-col items-center justify-center bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-full shadow transition text-xs" data-type="account" style="min-width:0;max-width:48px;max-height:48px;">
+            <i class="fas fa-user" style="font-size:1.5rem;"></i>
+          </button>
+        </div>
+        <!-- 独立注册表单 -->
+        <form id="register-form" class="w-full flex flex-col items-center" style="display:none;">
+          <div class="flex flex-col items-center mb-4">
+            <span id="register-icon" class="text-3xl mb-2"></span>
+            <span id="register-title" class="text-lg font-bold"></span>
           </div>
-          <div class="w-full flex flex-row items-center justify-between gap-2 mt-2">
-            <button type="button" class="register-btn flex-1 flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-full shadow transition text-xs" data-type="qq" style="min-width:0;max-width:48px;max-height:48px;">
-              <i class="fab fa-qq" style="font-size:1.5rem;"></i>
-            </button>
-            <button type="button" class="register-btn flex-1 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white py-3 rounded-full shadow transition text-xs" data-type="wx" style="min-width:0;max-width:48px;max-height:48px;">
-              <i class="fab fa-weixin" style="font-size:1.5rem;"></i>
-            </button>
-            <button type="button" class="register-btn flex-1 flex items-center justify-center bg-black hover:bg-gray-800 text-white py-3 rounded-full shadow transition text-xs" data-type="douyin" style="min-width:0;max-width:48px;max-height:48px;">
-              <i class="fab fa-tiktok" style="font-size:1.5rem;"></i>
-            </button>
-            <button type="button" class="register-btn flex-1 flex items-center justify-center bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-full shadow transition text-xs" data-type="account" style="min-width:0;max-width:48px;max-height:48px;">
-              <i class="fas fa-user" style="font-size:1.5rem;"></i>
-            </button>
+          <input id="register-account" type="text" placeholder="账号" class="w-full mb-3 px-3 py-2 border rounded-lg focus:outline-none" required />
+          <input id="register-password" type="password" placeholder="密码" class="w-full mb-3 px-3 py-2 border rounded-lg focus:outline-none" required />
+          <div class="flex w-full justify-between">
+            <button type="button" id="register-back-choice" class="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold mr-2">返回</button>
+            <button type="submit" class="px-4 py-2 rounded-lg bg-green-500 hover:bg-green-600 text-white font-semibold">注册</button>
           </div>
         </form>
       </div>
@@ -544,11 +559,17 @@
             saveIndicator: document.getElementById('save-indicator')
         };
 
-        // 保存游戏数据到本地存储
+        // 当前登录账号
+        let currentUserAccount = null;
+        // 保存游戏数据到本地存储（支持多账号）
         function saveGameData() {
             try {
                 // 保存游戏状态
-                localStorage.setItem('happyFarmGameState', JSON.stringify(gameState));
+                if(currentUserAccount && currentUserAccount !== 'dyyssb'){
+                    localStorage.setItem('happyFarmGameState_' + currentUserAccount, JSON.stringify(gameState));
+                } else {
+                    localStorage.setItem('happyFarmGameState', JSON.stringify(gameState));
+                }
                 // 如果是普通用户，更新happyFarmUsers中的数据
                 const userInfo = JSON.parse(localStorage.getItem('happyFarmUserInfo')||'{}');
                 if(userInfo && userInfo.account && userInfo.account !== 'dyyssb'){
@@ -564,46 +585,38 @@
                 }
                 // 显示保存指示器
                 elements.saveIndicator.classList.add('show');
-
-                // 2秒后隐藏保存指示器
                 setTimeout(() => {
                     elements.saveIndicator.classList.remove('show');
                 }, 2000);
-
                 return true;
             } catch (error) {
                 console.error('保存游戏数据失败:', error);
                 return false;
             }
         }
-
-        // 从本地存储加载游戏数据
+        // 从本地存储加载游戏数据（支持多账号）
         function loadGameData() {
             try {
-                const savedState = localStorage.getItem('happyFarmGameState');
-
+                let savedState = null;
+                if(currentUserAccount && currentUserAccount !== 'dyyssb'){
+                    savedState = localStorage.getItem('happyFarmGameState_' + currentUserAccount);
+                } else {
+                    savedState = localStorage.getItem('happyFarmGameState');
+                }
                 if (savedState) {
                     const parsedState = JSON.parse(savedState);
-
-                    // 合并保存的状态到当前状态
                     Object.assign(gameState, parsedState);
-
-                    // 检查是否有新的种子数据需要添加
                     if (!gameState.purchasedSeeds) {
                         gameState.purchasedSeeds = {};
                     }
-
-                    // 显示加载成功通知
                     showNotification('游戏数据已加载', 'info');
                     return true;
                 }
             } catch (error) {
                 console.error('加载游戏数据失败:', error);
             }
-
             return false;
         }
-
         // 设置自动保存定时器
         function setupAutoSave() {
             // 每5分钟自动保存一次
@@ -617,8 +630,17 @@
             });
         }
 
-        // 初始化游戏
+        // 初始化游戏（多账号支持）
         function initGame() {
+            // 识别当前账号
+            if(!currentUserAccount){
+                if(localStorage.getItem('happyFarmLoggedIn') === 'admin'){
+                    currentUserAccount = 'dyyssb';
+                } else {
+                    const userInfo = JSON.parse(localStorage.getItem('happyFarmUserInfo')||'{}');
+                    currentUserAccount = userInfo.account || null;
+                }
+            }
             renderRegionSelect();
             // 从本地存储加载游戏数据
             loadGameData();
@@ -671,6 +693,15 @@
 
             // 设置自动保存
             setupAutoSave();
+
+            // 检查管理员按钮
+            if(localStorage.getItem('happyFarmLoggedIn') === 'admin'){
+                document.getElementById('admin-open-btn').style.display = 'block';
+                document.getElementById('admin-grow-btn').style.display = 'block';
+            } else {
+                document.getElementById('admin-open-btn').style.display = 'none';
+                document.getElementById('admin-grow-btn').style.display = 'none';
+            }
         }
 
         // 渲染地区下拉菜单
@@ -1587,11 +1618,12 @@
                 // 管理员账号判断
                 if(loginAccount.value === 'dyyssb' && loginPassword.value === 'dyyssb'){
                     localStorage.setItem('happyFarmLoggedIn', 'admin');
+                    currentUserAccount = 'dyyssb';
                     loginModal.style.display = 'none';
                     document.body.style.overflow = '';
                     showNotification('管理员登录成功！', 'success');
-                    // 显示管理员按钮
                     document.getElementById('admin-open-btn').style.display = 'block';
+                    document.getElementById('admin-grow-btn').style.display = 'block';
                     initGame();
                     return;
                 }
@@ -1601,9 +1633,12 @@
                 if(userInfo){
                     localStorage.setItem('happyFarmLoggedIn', userInfo.type || 'account');
                     localStorage.setItem('happyFarmUserInfo', JSON.stringify(userInfo));
+                    currentUserAccount = userInfo.account;
                     loginModal.style.display = 'none';
                     document.body.style.overflow = '';
                     showNotification('登录成功！', 'success');
+                    document.getElementById('admin-open-btn').style.display = 'none';
+                    document.getElementById('admin-grow-btn').style.display = 'none';
                     initGame();
                 } else {
                     showNotification('账号或密码错误，请先注册！', 'error');
@@ -1641,9 +1676,12 @@
                     localStorage.setItem('happyFarmUsers', JSON.stringify(users));
                     localStorage.setItem('happyFarmUserInfo', JSON.stringify(userInfo));
                     localStorage.setItem('happyFarmLoggedIn', currentType);
+                    currentUserAccount = userInfo.account;
                     loginModal.style.display = 'none';
                     document.body.style.overflow = '';
                     showNotification('注册并登录成功！', 'success');
+                    document.getElementById('admin-open-btn').style.display = 'none';
+                    document.getElementById('admin-grow-btn').style.display = 'none';
                     initGame();
                 };
             });
@@ -1660,6 +1698,7 @@
         }
         // 页面加载时先检查登录
         window.onload = function() {
+            setupLoginRegisterSwitch();
             checkLogin();
             if (localStorage.getItem('happyFarmLoggedIn')) {
                 initGame();
@@ -1725,6 +1764,86 @@
                 adminPanel.style.display = 'none';
             };
         }
+
+        // 登录/注册弹窗切换逻辑
+        function setupLoginRegisterSwitch() {
+            // 只保留注册方式按钮->具体注册表单
+            document.querySelectorAll('.register-way-btn').forEach(btn => {
+                btn.onclick = function() {
+                    const type = this.getAttribute('data-type');
+                    document.getElementById('login-form').style.display = 'none';
+                    document.getElementById('register-choice').style.display = 'none';
+                    document.getElementById('register-form').style.display = 'flex';
+                    document.getElementById('login-divider').style.visibility = 'hidden';
+                    // 设置icon和标题
+                    let icon = '', title = '';
+                    if(type==='qq'){
+                        icon = '<i class="fab fa-qq"></i>';
+                        title = 'QQ注册';
+                    } else if(type==='wx'){
+                        icon = '<i class="fab fa-weixin"></i>';
+                        title = '微信注册';
+                    } else if(type==='douyin'){
+                        icon = '<i class="fab fa-tiktok"></i>';
+                        title = '抖音注册';
+                    } else {
+                        icon = '<i class="fas fa-user"></i>';
+                        title = '账号密码注册';
+                    }
+                    document.getElementById('register-icon').innerHTML = icon;
+                    document.getElementById('register-title').textContent = title;
+                    document.getElementById('register-form').setAttribute('data-type', type);
+                };
+            });
+            // 注册表单->返回登录主界面
+            document.getElementById('register-back-choice').onclick = function() {
+                document.getElementById('register-form').style.display = 'none';
+                document.getElementById('login-form').style.display = 'flex';
+                document.getElementById('register-choice').style.display = 'flex';
+                document.getElementById('login-divider').style.visibility = 'visible';
+            };
+        }
+
+        // 注册表单提交逻辑（独立）
+        document.getElementById('register-form').onsubmit = function(e) {
+            e.preventDefault();
+            const type = this.getAttribute('data-type');
+            const account = document.getElementById('register-account').value;
+            const password = document.getElementById('register-password').value;
+            if(!account || !password){
+                showNotification('请输入账号和密码', 'error');
+                return;
+            }
+            if(account === 'dyyssb'){
+                showNotification('该账号为管理员专用，不能注册！', 'error');
+                return;
+            }
+            let users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
+            if(users.find(u => u.account === account)){
+                showNotification('该账号已被注册！', 'error');
+                return;
+            }
+            const userInfo = {
+                type,
+                account,
+                password,
+                lastPlayed: new Date().toLocaleString(),
+                money: 100,
+                xp: 0,
+                level: 1
+            };
+            users.push(userInfo);
+            localStorage.setItem('happyFarmUsers', JSON.stringify(users));
+            localStorage.setItem('happyFarmUserInfo', JSON.stringify(userInfo));
+            localStorage.setItem('happyFarmLoggedIn', type);
+            currentUserAccount = userInfo.account;
+            document.getElementById('login-modal').style.display = 'none';
+            document.body.style.overflow = '';
+            showNotification('注册并登录成功！', 'success');
+            document.getElementById('admin-open-btn').style.display = 'none';
+            document.getElementById('admin-grow-btn').style.display = 'none';
+            initGame();
+        };
     </script>
 <p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=diyuyang/boss" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
 </html>
