@@ -278,7 +278,8 @@
             completedTasks: 0,
             achievements: [],
             currentRegion: 'north_china', // 新增字段，默认中国东北
-            tasks: []
+            tasks: [],
+            farmData: [] // 新增字段，存储农田数据
         };
 
         // 地区数据（更细分且不重复）
@@ -453,15 +454,41 @@
             renderRegionSelect();
             // 从本地存储加载游戏数据
             loadGameData();
+            
+            // 初始化农田数据结构（如果不存在）
+            if (!gameState.farmData) {
+                gameState.farmData = {};
+                // 为每个地块初始化数据
+                for (let i = 0; i < gameState.plots; i++) {
+                    gameState.farmData[i] = {
+                        state: 'empty',  // 'empty', 'planted', 'wasteland'
+                        seedId: null,
+                        growth: null,    // null, 'growing', 'completed'
+                        progress: 0,
+                        growthTime: 0
+                    };
+                }
+                saveGameData();
+            }
 
             // 检查上次游玩时间
             checkDailyLogin();
 
-            // 生成今日天气
-            generateWeather();
-
-            // 生成每日任务
-            generateDailyTasks();
+            // 获取当前日期
+            const today = new Date().toDateString();
+            
+            // 只有在新的一天或者没有任务时才生成新任务
+            if (!gameState.lastTasksGenerated || gameState.lastTasksGenerated !== today || gameState.tasks.length === 0) {
+                // 生成今日天气
+                generateWeather();
+                
+                // 生成每日任务
+                generateDailyTasks();
+                
+                // 记录任务生成日期
+                gameState.lastTasksGenerated = today;
+                saveGameData();
+            }
 
             renderShop();
             renderFarm();
@@ -599,21 +626,126 @@
         // 渲染农田（只允许种植本地区的种子）
         function renderFarm() {
             elements.farmGrid.innerHTML = '';
+            
+            // 确保farmData数组长度与plots一致
+            while (gameState.farmData.length < gameState.plots) {
+                gameState.farmData.push({
+                    state: 'empty', // empty, planted, wasteland
+                    seedId: null,
+                    growth: null, // null, growing, completed
+                    progress: 0,
+                    growthTime: 0
+                });
+            }
 
             for (let i = 0; i < gameState.plots; i++) {
+                const plotData = gameState.farmData[i];
                 const plot = document.createElement('div');
                 plot.className = 'crop-plot bg-yellow-50 border-2 border-yellow-200 rounded-2xl aspect-square flex flex-col items-center justify-center p-4 cursor-pointer shadow-md hover:shadow-xl transition';
-                plot.innerHTML = `
-                    <div class="text-5xl mb-2">🌱</div>
-                    <p class="text-base text-center text-gray-600 font-semibold">空闲农田</p>
-                    <div class="w-full bg-gray-200 rounded-full h-2 hidden">
-                        <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
-                    </div>
-                `;
+                
+                // 根据地块状态设置不同的显示
+                if (plotData.state === 'empty') {
+                    // 空闲农田
+                    plot.innerHTML = `
+                        <div class="text-5xl mb-2">🌱</div>
+                        <p class="text-base text-center text-gray-600 font-semibold">空闲农田</p>
+                        <div class="w-full bg-gray-200 rounded-full h-2 hidden">
+                            <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    `;
+                } else if (plotData.state === 'wasteland') {
+                    // 荒地
+                    plot.innerHTML = `
+                        <div class="text-5xl mb-2">🌵</div>
+                        <p class="text-base text-center font-semibold text-red-800">荒地(需修复)</p>
+                        <button class="repair-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm mt-1" data-plot-index="${i}">
+                            修复 (50金币)
+                        </button>
+                    `;
+                    plot.querySelector('.repair-btn').addEventListener('click', function() {
+                        repairPlot(i);
+                    });
+                } else if (plotData.state === 'planted') {
+                    // 已种植
+                    const seed = getSeedById(plotData.seedId);
+                    if (seed) {
+                        plot.setAttribute('data-planted', seed.id);
+                        plot.setAttribute('data-growth', plotData.growth);
+                        
+                        if (plotData.growth === 'completed') {
+                            // 成熟的作物
+                            plot.innerHTML = `
+                                <div class="text-5xl mb-2">${seed.icon}</div>
+                                <p class="text-base text-center font-semibold text-green-800">${seed.name}</p>
+                                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                    <div class="progress-bar bg-yellow-500 h-2 rounded-full" style="width: 100%"></div>
+                                </div>
+                                <p class="text-base text-gray-500 mt-1">可以收获了!</p>
+                            `;
+                            plot.classList.add('animate-pulse');
+                        } else {
+                            // 生长中的作物
+                            plot.innerHTML = `
+                                <div class="text-5xl mb-2">${seed.icon}</div>
+                                <p class="text-base text-center font-semibold text-green-800">${seed.name}</p>
+                                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                    <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: ${Math.min(plotData.progress / plotData.growthTime * 100, 100)}%"></div>
+                                </div>
+                                <p class="text-base text-gray-500 mt-1">成长中...</p>
+                            `;
+                            
+                            // 继续生长计时器
+                            continuePlantGrowth(i, plot);
+                        }
+                    } else {
+                        // 如果找不到种子数据，重置为空闲
+                        plotData.state = 'empty';
+                        plotData.seedId = null;
+                        plotData.growth = null;
+                        plot.innerHTML = `
+                            <div class="text-5xl mb-2">🌱</div>
+                            <p class="text-base text-center text-gray-600 font-semibold">空闲农田</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2 hidden">
+                                <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        `;
+                    }
+                }
+                
                 plot.setAttribute('data-plot-index', i);
                 plot.addEventListener('click', () => handlePlotClick(i));
                 elements.farmGrid.appendChild(plot);
             }
+            
+            // 保存游戏数据
+            saveGameData();
+        }
+        
+        // 继续植物生长
+        function continuePlantGrowth(plotIndex, plot) {
+            const plotData = gameState.farmData[plotIndex];
+            if (plotData.state !== 'planted' || plotData.growth === 'completed') return;
+            
+            const progressBar = plot.querySelector('.progress-bar');
+            const growthInterval = setInterval(() => {
+                plotData.progress += 0.5;
+                progressBar.style.width = `${Math.min(plotData.progress / plotData.growthTime * 100, 100)}%`;
+
+                if (plotData.progress >= plotData.growthTime) {
+                    clearInterval(growthInterval);
+                    plotData.growth = 'completed';
+                    plot.setAttribute('data-growth', 'completed');
+                    plot.querySelector('p').textContent = '可以收获了!';
+                    progressBar.classList.remove('bg-green-600');
+                    progressBar.classList.add('bg-yellow-500');
+
+                    // 添加脉冲动画表示可以收获
+                    plot.classList.add('animate-pulse');
+                    
+                    // 保存游戏数据
+                    saveGameData();
+                }
+            }, 500);
         }
 
         // 处理农田点击
@@ -626,17 +758,12 @@
                 if (gameState.currentSelectedSeed) {
                     const seed = getSeedById(gameState.currentSelectedSeed);
 
-                    // 检查金币是否足够（种植需要消耗种子对应的金币）
-                    if (gameState.money >= seed.price) {
-                        gameState.money -= seed.price;
-                        plantSeed(plotIndex, seed);
-                        updateUI();
+                    // 直接种植，不消耗金币
+                    plantSeed(plotIndex, seed);
+                    updateUI();
 
-                        // 保存游戏数据
-                        saveGameData();
-                    } else {
-                        showNotification('金币不足!', 'error');
-                    }
+                    // 保存游戏数据
+                    saveGameData();
                 } else {
                     showNotification('请先选择一个种子!', 'error');
                 }
@@ -651,13 +778,22 @@
         // 种植种子
         function plantSeed(plotIndex, seed) {
             const plot = document.querySelector(`[data-plot-index="${plotIndex}"]`);
+            const plotData = gameState.farmData[plotIndex];
 
             // 有10%的概率种植失败，变成荒地
             if (Math.random() < 0.1) {
+                // 更新游戏状态中的农田数据
+                plotData.state = 'wasteland';
+                plotData.seedId = null;
+                plotData.growth = null;
+                plotData.progress = 0;
+                plotData.growthTime = 0;
+                
+                // 更新DOM
                 plot.setAttribute('data-state', 'wasteland');
                 plot.innerHTML = `
                     <div class="text-5xl mb-2">🌵</div>
-                    <p class="text-xs text-center font-semibold text-red-800">荒地(需修复)</p>
+                    <p class="text-base text-center font-semibold text-red-800">荒地(需修复)</p>
                     <button class="repair-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm mt-1" data-plot-index="${plotIndex}">
                         修复 (50金币)
                     </button>
@@ -666,6 +802,9 @@
                     repairPlot(plotIndex);
                 });
                 showNotification('种植失败! 农田变成了荒地!', 'error');
+                
+                // 保存游戏数据
+                saveGameData();
                 return;
             }
 
@@ -673,9 +812,9 @@
             const weather = weatherTypes.find(w => w.id === gameState.weather);
 
             // 应用浇水效率升级和天气影响
-            const growthTime = seed.growTime *
-                              (1 - (gameState.upgrades.watering * 0.1)) *
-                              (1 / weather.effect.growth);
+            let growthTime = seed.growTime *
+                           (1 - (gameState.upgrades.watering * 0.1)) *
+                           (1 / weather.effect.growth);
 
             // 应用温室升级减少天气影响
             if (gameState.upgrades.greenhouse > 0) {
@@ -684,38 +823,30 @@
                 growthTime = seed.growTime * (1 - (gameState.upgrades.watering * 0.1)) * (1 / adjustedGrowthEffect);
             }
 
-            // 更新地块状态
+            // 更新游戏状态中的农田数据
+            plotData.state = 'planted';
+            plotData.seedId = seed.id;
+            plotData.growth = 'growing';
+            plotData.progress = 0;
+            plotData.growthTime = growthTime;
+            
+            // 更新DOM
             plot.setAttribute('data-planted', seed.id);
             plot.setAttribute('data-state', 'planted');
             plot.setAttribute('data-growth', 'growing');
             plot.innerHTML = `
                 <div class="text-5xl mb-2">${seed.icon}</div>
-                <p class="text-xs text-center font-semibold text-green-800">${seed.name}</p>
+                <p class="text-base text-center font-semibold text-green-800">${seed.name}</p>
                 <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
                     <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
                 </div>
-                <p class="text-xs text-gray-500 mt-1">成长中...</p>
+                <p class="text-base text-gray-500 mt-1">成长中...</p>
             `;
 
             // 开始生长计时器
-            let progress = 0;
-            const progressBar = plot.querySelector('.progress-bar');
-            const growthInterval = setInterval(() => {
-                progress += 0.5;
-                progressBar.style.width = `${Math.min(progress / growthTime * 100, 100)}%`;
+            continuePlantGrowth(plotIndex, plot);
 
-                if (progress >= growthTime) {
-                    clearInterval(growthInterval);
-                    plot.setAttribute('data-growth', 'completed');
-                    plot.querySelector('p').textContent = '可以收获了!';
-                    plot.querySelector('.progress-bar').classList.remove('bg-green-600');
-                    plot.querySelector('.progress-bar').classList.add('bg-yellow-500');
-
-                    // 添加脉冲动画表示可以收获
-                    plot.classList.add('animate-pulse');
-                }
-            }, 500);
-
+            // 更新种子库存
             gameState.purchasedSeeds[seed.id]--;
             if (gameState.purchasedSeeds[seed.id] <= 0) {
                 delete gameState.purchasedSeeds[seed.id];
@@ -725,6 +856,11 @@
                     item.classList.remove('ring-2', 'ring-green-500');
                 });
             }
+            
+            // 更新UI显示种子数量
+            updateUI();
+            renderShop();
+            
             showNotification(`已种植 ${seed.name}!`, 'success');
 
             // 更新任务进度
@@ -737,8 +873,27 @@
         // 收获作物
         function harvestCrop(plotIndex) {
             const plot = document.querySelector(`[data-plot-index="${plotIndex}"]`);
-            const seedId = plot.getAttribute('data-planted');
+            const plotData = gameState.farmData[plotIndex];
+            
+            // 确保地块状态正确
+            if (plotData.state !== 'planted' || plotData.growth !== 'completed') {
+                return;
+            }
+            
+            const seedId = plotData.seedId;
             const seed = getSeedById(seedId);
+            
+            if (!seed) {
+                // 如果找不到种子数据，重置为空闲
+                plotData.state = 'empty';
+                plotData.seedId = null;
+                plotData.growth = null;
+                plotData.progress = 0;
+                plotData.growthTime = 0;
+                saveGameData();
+                renderFarm();
+                return;
+            }
 
             // 获取当前天气
             const weather = weatherTypes.find(w => w.id === gameState.weather);
@@ -755,8 +910,7 @@
                 sellPrice = Math.floor(sellPrice * weather.effect.price);
             }
 
-            // 更新游戏状态
-            gameState.money += sellPrice;
+            // 更新游戏状态（只获得经验，不获得金币）
             gameState.xp += seed.xp;
 
             // 更新任务进度
@@ -771,13 +925,20 @@
             // 检查是否升级
             checkLevelUp();
 
-            // 重置地块
+            // 重置地块数据
+            plotData.state = 'empty';
+            plotData.seedId = null;
+            plotData.growth = null;
+            plotData.progress = 0;
+            plotData.growthTime = 0;
+            
+            // 重置DOM
             plot.removeAttribute('data-planted');
             plot.removeAttribute('data-growth');
             plot.classList.remove('animate-pulse');
             plot.innerHTML = `
                 <div class="text-5xl mb-2">🌱</div>
-                <p class="text-xs text-center text-gray-500">空闲农田</p>
+                <p class="text-base text-center text-gray-600 font-semibold">空闲农田</p>
                 <div class="w-full bg-gray-200 rounded-full h-2 hidden">
                     <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
                 </div>
@@ -789,8 +950,11 @@
             // 更新UI
             updateUI();
             renderInventory();
+            
+            // 保存游戏数据
+            saveGameData();
 
-            showNotification(`收获 ${seed.name}! +${sellPrice}金币 +${seed.xp}经验`, 'success');
+            showNotification(`收获 ${seed.name}! +${seed.xp}经验`, 'success');
 
             // 保存游戏数据
             saveGameData();
@@ -802,10 +966,20 @@
 
             if (gameState.money >= 50) {
                 gameState.money -= 50;
+                
+                // 更新游戏状态中的农田数据
+                const plotData = gameState.farmData[plotIndex];
+                plotData.state = 'empty';
+                plotData.seedId = null;
+                plotData.growth = null;
+                plotData.progress = 0;
+                plotData.growthTime = 0;
+                
+                // 更新DOM
                 plot.removeAttribute('data-state');
                 plot.innerHTML = `
                     <div class="text-5xl mb-2">🌱</div>
-                    <p class="text-xs text-center text-gray-500">空闲农田</p>
+                    <p class="text-base text-center text-gray-600 font-semibold">空闲农田</p>
                     <div class="w-full bg-gray-200 rounded-full h-2 hidden">
                         <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
                     </div>
@@ -1015,6 +1189,12 @@
                 } else {
                     item.classList.remove('opacity-50');
                 }
+                
+                // 更新种子数量显示
+                const inventorySpan = item.querySelector('span.text-sm');
+                if (inventorySpan) {
+                    inventorySpan.textContent = `库存: ${gameState.purchasedSeeds[seedId] || 0}`;
+                }
             });
 
             // 检查扩展农田按钮
@@ -1039,9 +1219,9 @@
                     break;
                 }
             }
-
-            // 保存游戏数据
-            saveGameData();
+            
+            // 注意：不在这里保存游戏数据，避免重复保存
+            // 保存操作已移至initGame函数中
         }
 
         // 渲染天气信息
@@ -1062,9 +1242,9 @@
                 progress: 0,
                 completed: false
             }));
-
-            // 保存游戏数据
-            saveGameData();
+            
+            // 注意：不在这里保存游戏数据，避免重复保存
+            // 保存操作已移至initGame函数中
         }
 
         // 渲染任务列表
