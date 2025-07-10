@@ -147,9 +147,180 @@
             font-weight: 700;
             color: #388e3c;
         }
+        /* 登录弹窗美化 */
+        #login-modal input[type="text"], #login-modal input[type="password"] {
+            font-size: 1.1rem;
+            border-radius: 1rem;
+            border: 1.5px solid #b2dfdb;
+            box-shadow: 0 2px 8px 0 rgba(67,233,123,0.08);
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            transition: border 0.2s, box-shadow 0.2s;
+        }
+        #login-modal input[type="text"]:focus, #login-modal input[type="password"]:focus {
+            border: 2px solid #43e97b;
+            box-shadow: 0 4px 16px 0 rgba(67,233,123,0.15);
+        }
+        #login-modal .register-btn {
+            border-radius: 50%;
+            font-size: 0.95rem;
+            font-weight: bold;
+            box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.10);
+            transition: box-shadow 0.2s, transform 0.15s, background 0.2s;
+            padding: 0;
+            margin-bottom: 0;
+            min-width: 0;
+            flex: 1 1 0;
+            margin-right: 0;
+            width: 48px;
+            height: 48px;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+        #login-modal .register-btn:not(:last-child) {
+            margin-right: 0.5rem;
+        }
+        #login-modal .register-btn i {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        #login-modal .register-btn:hover {
+            box-shadow: 0 8px 24px 0 rgba(67,233,123,0.18);
+            transform: translateY(-2px) scale(1.08);
+            filter: brightness(1.05);
+        }
+        #login-modal .w-full.flex.flex-row.items-center.justify-between.gap-2.mt-2 {
+            gap: 0.7rem;
+        }
+        #login-modal .w-full.flex.items-center.my-4 {
+            margin: 1.2rem 0 1.1rem 0;
+        }
+        #login-modal hr {
+            margin: 1.2rem 0 1.1rem 0;
+        }
+        #login-modal input::placeholder {
+            color: #bdbdbd;
+            font-size: 1rem;
+        }
+        #login-btn {
+            border-radius: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 2px 8px 0 rgba(67,233,123,0.10);
+            transition: box-shadow 0.2s, background 0.2s, transform 0.1s;
+        }
+        #login-btn:hover {
+            background: #43e97b;
+            box-shadow: 0 8px 24px 0 rgba(67,233,123,0.18);
+            transform: scale(1.04);
+        }
+        /* 退出登录按钮样式加强 */
+        #logout-btn {
+            border-radius: 1.5rem;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.10);
+            transition: box-shadow 0.2s, background 0.2s, transform 0.1s;
+        }
+        #logout-btn:hover {
+            background: #e0f2f1;
+            box-shadow: 0 8px 24px 0 rgba(67,233,123,0.18);
+            transform: scale(1.04);
+        }
     </style>
 </head>
 <body class="bg-green-50 min-h-screen" id="main-body">
+    <!-- 退出登录按钮 -->
+    <button id="logout-btn" class="fixed top-4 left-4 z-50 bg-white border border-gray-300 shadow px-4 py-2 rounded-lg text-green-700 font-bold hover:bg-green-100">
+      <i class="fas fa-sign-out-alt mr-2"></i>退出登录
+    </button>
+    <!-- 登录弹窗 -->
+    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+      <div class="bg-white rounded-2xl shadow-2xl p-10 flex flex-col items-center w-80">
+        <h2 id="login-title-main" class="text-2xl font-bold mb-6 text-green-700">登录开心农场</h2>
+        <!-- 登录表单 -->
+        <form id="login-form" class="w-full flex flex-col items-center mb-2">
+          <input id="login-account" type="text" placeholder="账号" class="w-full mb-3 px-3 py-2 border rounded-lg focus:outline-none" required />
+          <input id="login-password" type="password" placeholder="密码" class="w-full mb-3 px-3 py-2 border rounded-lg focus:outline-none" required />
+          <button type="button" id="login-btn" class="w-full mb-2 py-2 rounded-2xl bg-green-500 hover:bg-green-600 text-white font-bold text-lg shadow transition">登录</button>
+        </form>
+        <div id="login-divider" class="w-full flex items-center my-2">
+          <div class="flex-1 h-px bg-gray-300"></div>
+          <span class="mx-3 text-gray-400 text-sm select-none">或使用以下方式注册</span>
+          <div class="flex-1 h-px bg-gray-300"></div>
+        </div>
+        <!-- 注册方式按钮区域 -->
+        <div id="register-choice" class="w-full flex flex-row items-center justify-between gap-2 mt-2 mb-2">
+          <button type="button" class="register-way-btn flex-1 flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-full shadow transition text-xs" data-type="qq" style="min-width:0;max-width:48px;max-height:48px;">
+            <i class="fab fa-qq" style="font-size:1.5rem;"></i>
+          </button>
+          <button type="button" class="register-way-btn flex-1 flex flex-col items-center justify-center bg-green-500 hover:bg-green-600 text-white py-3 rounded-full shadow transition text-xs" data-type="wx" style="min-width:0;max-width:48px;max-height:48px;">
+            <i class="fab fa-weixin" style="font-size:1.5rem;"></i>
+          </button>
+          <button type="button" class="register-way-btn flex-1 flex flex-col items-center justify-center bg-black hover:bg-gray-800 text-white py-3 rounded-full shadow transition text-xs" data-type="douyin" style="min-width:0;max-width:48px;max-height:48px;">
+            <i class="fab fa-tiktok" style="font-size:1.5rem;"></i>
+          </button>
+          <button type="button" class="register-way-btn flex-1 flex flex-col items-center justify-center bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-full shadow transition text-xs" data-type="account" style="min-width:0;max-width:48px;max-height:48px;">
+            <i class="fas fa-user" style="font-size:1.5rem;"></i>
+          </button>
+        </div>
+        <!-- 独立注册表单 -->
+        <form id="register-form" class="w-full flex flex-col items-center" style="display:none;">
+          <div class="flex flex-col items-center mb-4">
+            <span id="register-icon" class="text-3xl mb-2"></span>
+            <span id="register-title" class="text-lg font-bold"></span>
+          </div>
+          <input id="register-account" type="text" placeholder="账号" class="w-full mb-3 px-3 py-2 border rounded-lg focus:outline-none" required />
+          <input id="register-password" type="password" placeholder="密码" class="w-full mb-3 px-3 py-2 border rounded-lg focus:outline-none" required />
+          <div class="flex w-full justify-between">
+            <button type="button" id="register-back-choice" class="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold mr-2">返回</button>
+            <button type="submit" class="px-4 py-2 rounded-lg bg-green-500 hover:bg-green-600 text-white font-semibold">注册</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- 管理员面板弹窗 -->
+    <div id="admin-panel" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50" style="display:none;">
+      <div class="bg-white rounded-2xl shadow-2xl p-8 w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto flex flex-col">
+        <h2 class="text-2xl font-bold mb-4 text-green-700">管理员面板</h2>
+        <div class="mb-6">
+          <h3 class="text-lg font-semibold mb-2">当前游戏数据</h3>
+          <div class="grid grid-cols-2 gap-4 mb-2">
+            <div>
+              <label class="block text-gray-700 text-sm font-bold mb-1">金币</label>
+              <input id="admin-money" type="number" class="w-full border rounded px-2 py-1" />
+            </div>
+            <div>
+              <label class="block text-gray-700 text-sm font-bold mb-1">经验</label>
+              <input id="admin-xp" type="number" class="w-full border rounded px-2 py-1" />
+            </div>
+            <div>
+              <label class="block text-gray-700 text-sm font-bold mb-1">等级</label>
+              <input id="admin-level" type="number" class="w-full border rounded px-2 py-1" />
+            </div>
+            <div>
+              <label class="block text-gray-700 text-sm font-bold mb-1">天气</label>
+              <select id="admin-weather" class="w-full border rounded px-2 py-1">
+                <option value="sunny">晴天</option>
+                <option value="rainy">雨天</option>
+                <option value="cloudy">阴天</option>
+                <option value="stormy">暴风雨</option>
+              </select>
+            </div>
+          </div>
+          <button id="admin-save" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded font-bold mt-2">保存修改</button>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-2">所有用户信息</h3>
+          <div id="admin-users-list" class="overflow-x-auto text-sm"></div>
+        </div>
+        <button id="admin-close" class="mt-6 bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded font-bold self-end">关闭</button>
+      </div>
+    </div>
+    <!-- 管理员按钮，仅管理员可见 -->
+    <button id="admin-open-btn" class="fixed top-4 right-4 z-50 bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-2 rounded-xl shadow-lg" style="display:none;">管理员</button>
+    <!-- 立即完成生长按钮，仅管理员可见 -->
+    <button id="admin-grow-btn" class="fixed top-16 right-4 z-50 bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-5 py-2 rounded-xl shadow-lg" style="display:none;">立即完成生长</button>
     <div class="container mx-auto px-4 py-8">
         <!-- 地区切换区域（更大更显眼） -->
         <div class="mb-8 flex items-center justify-center">
@@ -262,8 +433,9 @@
             level: 1,
             xp: 0,
             maxXp: 100,
-            plots: 4,
+            plots: 4, // 当前区域农田数量
             maxPlots: 12,
+            regionPlots: {}, // 各区域独立农田数量
             inventory: {},
             upgrades: {
                 watering: 0,
@@ -279,7 +451,8 @@
             achievements: [],
             currentRegion: 'north_china', // 新增字段，默认中国东北
             tasks: [],
-            farmData: [] // 新增字段，存储农田数据
+            farmData: [], // 当前区域农田数据（视图）
+            regionFarmData: {} // 各区域独立农田数据
         };
 
         // 地区数据（更细分且不重复）
@@ -295,47 +468,47 @@
         // 植物种类不重复，每个区域独有，5-6种
         const seeds = [
             // 中国东北
-            { id: 'soybean', name: '大豆', price: 10, growTime: 10, sellPrice: 20, xp: 5, icon: '🌱', color: 'bg-lime-100', regions: ['north_china'] },
-            { id: 'millet', name: '小米', price: 12, growTime: 12, sellPrice: 22, xp: 6, icon: '🌾', color: 'bg-yellow-200', regions: ['north_china'] },
-            { id: 'sorghum', name: '高粱', price: 15, growTime: 15, sellPrice: 30, xp: 8, icon: '🌾', color: 'bg-red-200', regions: ['north_china'] },
-            { id: 'potato', name: '土豆', price: 20, growTime: 20, sellPrice: 45, xp: 12, icon: '🥔', color: 'bg-amber-100', regions: ['north_china'] },
-            { id: 'corn', name: '玉米', price: 18, growTime: 18, sellPrice: 38, xp: 10, icon: '🌽', color: 'bg-yellow-100', regions: ['north_china'] },
+            { id: 'soybean', name: '大豆', price: 10, growTime: 30, sellPrice: 20, xp: 5, icon: '🌱', color: 'bg-lime-100', regions: ['north_china'] },
+            { id: 'millet', name: '小米', price: 12, growTime: 36, sellPrice: 22, xp: 6, icon: '🌾', color: 'bg-yellow-200', regions: ['north_china'] },
+            { id: 'sorghum', name: '高粱', price: 15, growTime: 45, sellPrice: 30, xp: 8, icon: '🌾', color: 'bg-red-200', regions: ['north_china'] },
+            { id: 'potato', name: '土豆', price: 20, growTime: 60, sellPrice: 45, xp: 12, icon: '🥔', color: 'bg-amber-100', regions: ['north_china'] },
+            { id: 'corn', name: '玉米', price: 18, growTime: 54, sellPrice: 38, xp: 10, icon: '🌽', color: 'bg-yellow-100', regions: ['north_china'] },
             // 中国华南
-            { id: 'lychee', name: '荔枝', price: 22, growTime: 22, sellPrice: 50, xp: 13, icon: '🥭', color: 'bg-pink-100', regions: ['south_china'] },
-            { id: 'banana', name: '香蕉', price: 25, growTime: 25, sellPrice: 60, xp: 15, icon: '🍌', color: 'bg-yellow-200', regions: ['south_china'] },
-            { id: 'sugarcane', name: '甘蔗', price: 20, growTime: 20, sellPrice: 48, xp: 12, icon: '🎋', color: 'bg-green-200', regions: ['south_china'] },
-            { id: 'pineapple', name: '菠萝', price: 28, growTime: 28, sellPrice: 70, xp: 18, icon: '🍍', color: 'bg-amber-200', regions: ['south_china'] },
-            { id: 'dragonfruit', name: '火龙果', price: 35, growTime: 35, sellPrice: 90, xp: 22, icon: '🐉', color: 'bg-pink-200', regions: ['south_china'] },
+            { id: 'lychee', name: '荔枝', price: 22, growTime: 66, sellPrice: 50, xp: 13, icon: '🥭', color: 'bg-pink-100', regions: ['south_china'] },
+            { id: 'banana', name: '香蕉', price: 25, growTime: 75, sellPrice: 60, xp: 15, icon: '🍌', color: 'bg-yellow-200', regions: ['south_china'] },
+            { id: 'sugarcane', name: '甘蔗', price: 20, growTime: 60, sellPrice: 48, xp: 12, icon: '🎋', color: 'bg-green-200', regions: ['south_china'] },
+            { id: 'pineapple', name: '菠萝', price: 28, growTime: 84, sellPrice: 70, xp: 18, icon: '🍍', color: 'bg-amber-200', regions: ['south_china'] },
+            { id: 'dragonfruit', name: '火龙果', price: 35, growTime: 105, sellPrice: 90, xp: 22, icon: '🐉', color: 'bg-pink-200', regions: ['south_china'] },
             // 中国华东
-            { id: 'rice', name: '水稻', price: 15, growTime: 15, sellPrice: 32, xp: 9, icon: '🌾', color: 'bg-green-200', regions: ['east_china'] },
-            { id: 'peanut', name: '花生', price: 18, growTime: 18, sellPrice: 38, xp: 10, icon: '🥜', color: 'bg-yellow-300', regions: ['east_china'] },
-            { id: 'rapeseed', name: '油菜', price: 16, growTime: 16, sellPrice: 34, xp: 9, icon: '🌻', color: 'bg-yellow-100', regions: ['east_china'] },
-            { id: 'lotus', name: '莲藕', price: 22, growTime: 22, sellPrice: 50, xp: 13, icon: '🌸', color: 'bg-pink-100', regions: ['east_china'] },
-            { id: 'tea', name: '茶叶', price: 30, growTime: 30, sellPrice: 80, xp: 20, icon: '🍃', color: 'bg-green-100', regions: ['east_china'] },
+            { id: 'rice', name: '水稻', price: 15, growTime: 45, sellPrice: 32, xp: 9, icon: '🌾', color: 'bg-green-200', regions: ['east_china'] },
+            { id: 'peanut', name: '花生', price: 18, growTime: 54, sellPrice: 38, xp: 10, icon: '🥜', color: 'bg-yellow-300', regions: ['east_china'] },
+            { id: 'rapeseed', name: '油菜', price: 16, growTime: 48, sellPrice: 34, xp: 9, icon: '🌻', color: 'bg-yellow-100', regions: ['east_china'] },
+            { id: 'lotus', name: '莲藕', price: 22, growTime: 66, sellPrice: 50, xp: 13, icon: '🌸', color: 'bg-pink-100', regions: ['east_china'] },
+            { id: 'tea', name: '茶叶', price: 30, growTime: 90, sellPrice: 80, xp: 20, icon: '🍃', color: 'bg-green-100', regions: ['east_china'] },
             // 中国西部
-            { id: 'walnut', name: '核桃', price: 25, growTime: 25, sellPrice: 60, xp: 15, icon: '🌰', color: 'bg-amber-200', regions: ['west_china'] },
-            { id: 'apple', name: '苹果', price: 20, growTime: 20, sellPrice: 48, xp: 12, icon: '🍎', color: 'bg-red-100', regions: ['west_china'] },
-            { id: 'grape', name: '葡萄', price: 28, growTime: 28, sellPrice: 70, xp: 18, icon: '🍇', color: 'bg-purple-100', regions: ['west_china'] },
-            { id: 'apricot', name: '杏', price: 18, growTime: 18, sellPrice: 38, xp: 10, icon: '🍑', color: 'bg-orange-100', regions: ['west_china'] },
-            { id: 'melon', name: '哈密瓜', price: 35, growTime: 35, sellPrice: 90, xp: 22, icon: '🍈', color: 'bg-green-100', regions: ['west_china'] },
+            { id: 'walnut', name: '核桃', price: 25, growTime: 75, sellPrice: 60, xp: 15, icon: '🌰', color: 'bg-amber-200', regions: ['west_china'] },
+            { id: 'apple', name: '苹果', price: 20, growTime: 60, sellPrice: 48, xp: 12, icon: '🍎', color: 'bg-red-100', regions: ['west_china'] },
+            { id: 'grape', name: '葡萄', price: 28, growTime: 84, sellPrice: 70, xp: 18, icon: '🍇', color: 'bg-purple-100', regions: ['west_china'] },
+            { id: 'apricot', name: '杏', price: 18, growTime: 54, sellPrice: 38, xp: 10, icon: '🍑', color: 'bg-orange-100', regions: ['west_china'] },
+            { id: 'melon', name: '哈密瓜', price: 35, growTime: 105, sellPrice: 90, xp: 22, icon: '🍈', color: 'bg-green-100', regions: ['west_china'] },
             // 日本
-            { id: 'wasabi', name: '芥末', price: 30, growTime: 30, sellPrice: 80, xp: 20, icon: '🌱', color: 'bg-lime-100', regions: ['japan'] },
-            { id: 'sakura', name: '樱花', price: 40, growTime: 40, sellPrice: 100, xp: 25, icon: '🌸', color: 'bg-pink-200', regions: ['japan'] },
-            { id: 'sweet_potato', name: '红薯', price: 18, growTime: 18, sellPrice: 38, xp: 10, icon: '🍠', color: 'bg-orange-200', regions: ['japan'] },
-            { id: 'daikon', name: '大根', price: 22, growTime: 22, sellPrice: 50, xp: 13, icon: '🥕', color: 'bg-orange-100', regions: ['japan'] },
-            { id: 'mikan', name: '蜜柑', price: 28, growTime: 28, sellPrice: 70, xp: 18, icon: '🍊', color: 'bg-yellow-100', regions: ['japan'] },
+            { id: 'wasabi', name: '芥末', price: 30, growTime: 90, sellPrice: 80, xp: 20, icon: '🌱', color: 'bg-lime-100', regions: ['japan'] },
+            { id: 'sakura', name: '樱花', price: 40, growTime: 120, sellPrice: 100, xp: 25, icon: '🌸', color: 'bg-pink-200', regions: ['japan'] },
+            { id: 'sweet_potato', name: '红薯', price: 18, growTime: 54, sellPrice: 38, xp: 10, icon: '🍠', color: 'bg-orange-200', regions: ['japan'] },
+            { id: 'daikon', name: '大根', price: 22, growTime: 66, sellPrice: 50, xp: 13, icon: '🥕', color: 'bg-orange-100', regions: ['japan'] },
+            { id: 'mikan', name: '蜜柑', price: 28, growTime: 84, sellPrice: 70, xp: 18, icon: '🍊', color: 'bg-yellow-100', regions: ['japan'] },
             // 美国中部
-            { id: 'blueberry', name: '蓝莓', price: 25, growTime: 25, sellPrice: 60, xp: 15, icon: '🫐', color: 'bg-indigo-100', regions: ['us_midwest'] },
-            { id: 'pumpkin', name: '南瓜', price: 20, growTime: 20, sellPrice: 48, xp: 12, icon: '🎃', color: 'bg-orange-200', regions: ['us_midwest'] },
-            { id: 'wheat', name: '小麦', price: 15, growTime: 15, sellPrice: 32, xp: 9, icon: '🌾', color: 'bg-yellow-100', regions: ['us_midwest'] },
-            { id: 'cranberry', name: '蔓越莓', price: 28, growTime: 28, sellPrice: 70, xp: 18, icon: '🍒', color: 'bg-red-200', regions: ['us_midwest'] },
-            { id: 'sunflower', name: '向日葵', price: 18, growTime: 18, sellPrice: 38, xp: 10, icon: '🌻', color: 'bg-yellow-200', regions: ['us_midwest'] },
+            { id: 'blueberry', name: '蓝莓', price: 25, growTime: 75, sellPrice: 60, xp: 15, icon: '🫐', color: 'bg-indigo-100', regions: ['us_midwest'] },
+            { id: 'pumpkin', name: '南瓜', price: 20, growTime: 60, sellPrice: 48, xp: 12, icon: '🎃', color: 'bg-orange-200', regions: ['us_midwest'] },
+            { id: 'wheat', name: '小麦', price: 15, growTime: 45, sellPrice: 32, xp: 9, icon: '🌾', color: 'bg-yellow-100', regions: ['us_midwest'] },
+            { id: 'cranberry', name: '蔓越莓', price: 28, growTime: 84, sellPrice: 70, xp: 18, icon: '🍒', color: 'bg-red-200', regions: ['us_midwest'] },
+            { id: 'sunflower', name: '向日葵', price: 18, growTime: 54, sellPrice: 38, xp: 10, icon: '🌻', color: 'bg-yellow-200', regions: ['us_midwest'] },
             // 欧洲
-            { id: 'carrot', name: '胡萝卜', price: 15, growTime: 15, sellPrice: 32, xp: 9, icon: '🥕', color: 'bg-orange-100', regions: ['europe'] },
-            { id: 'strawberry', name: '草莓', price: 22, growTime: 22, sellPrice: 50, xp: 13, icon: '🍓', color: 'bg-red-100', regions: ['europe'] },
-            { id: 'lettuce', name: '生菜', price: 18, growTime: 18, sellPrice: 38, xp: 10, icon: '🥬', color: 'bg-green-100', regions: ['europe'] },
-            { id: 'asparagus', name: '芦笋', price: 28, growTime: 28, sellPrice: 70, xp: 18, icon: '🥦', color: 'bg-green-200', regions: ['europe'] },
-            { id: 'grapefruit', name: '葡萄柚', price: 35, growTime: 35, sellPrice: 90, xp: 22, icon: '🍇', color: 'bg-purple-100', regions: ['europe'] }
+            { id: 'carrot', name: '胡萝卜', price: 15, growTime: 45, sellPrice: 32, xp: 9, icon: '🥕', color: 'bg-orange-100', regions: ['europe'] },
+            { id: 'strawberry', name: '草莓', price: 22, growTime: 66, sellPrice: 50, xp: 13, icon: '🍓', color: 'bg-red-100', regions: ['europe'] },
+            { id: 'lettuce', name: '生菜', price: 18, growTime: 54, sellPrice: 38, xp: 10, icon: '🥬', color: 'bg-green-100', regions: ['europe'] },
+            { id: 'asparagus', name: '芦笋', price: 28, growTime: 84, sellPrice: 70, xp: 18, icon: '🥦', color: 'bg-green-200', regions: ['europe'] },
+            { id: 'grapefruit', name: '葡萄柚', price: 35, growTime: 105, sellPrice: 90, xp: 22, icon: '🍇', color: 'bg-purple-100', regions: ['europe'] }
         ];
 
         // 升级数据
@@ -356,10 +529,13 @@
 
         // 天气系统
         const weatherTypes = [
-            { id: 'sunny', name: '晴天', icon: '☀️', effect: { growth: 1.0, price: 1.0 } },
-            { id: 'rainy', name: '雨天', icon: '🌧️', effect: { growth: 1.2, price: 0.9 } },
-            { id: 'cloudy', name: '阴天', icon: '☁️', effect: { growth: 0.9, price: 1.1 } },
-            { id: 'stormy', name: '暴风雨', icon: '⛈️', effect: { growth: 0.7, price: 0.7 } }
+            { id: 'sunny', name: '晴天', icon: '☀️', effect: { growth: 1.2, needWater: true, yieldPenaltyIfNoWater: true } },
+            { id: 'rainy', name: '雨天', icon: '🌧️', effect: { growth: 1.0, needWater: false, pestChance: 0.1 } },
+            { id: 'stormy', name: '暴雨', icon: '⛈️', effect: { destroyLowFarm: true, fishDouble: true } },
+            { id: 'drought', name: '干旱', icon: '🔥', effect: { growth: 0, needWater: true, witherIfNoWater: true } },
+            { id: 'typhoon', name: '台风', icon: '🌀', effect: { blowFruitTree: true, rareSeedDrop: true } },
+            { id: 'rainbow', name: '彩虹天', icon: '🌈', effect: { yieldBonus: 0.5 } },
+            { id: 'sandstorm', name: '沙尘暴', icon: '🌪️', effect: { disableCollect: true } }
         ];
 
         // 成就系统
@@ -388,54 +564,64 @@
             saveIndicator: document.getElementById('save-indicator')
         };
 
-        // 保存游戏数据到本地存储
+        // 当前登录账号
+        let currentUserAccount = null;
+        // 保存游戏数据到本地存储（支持多账号）
         function saveGameData() {
             try {
                 // 保存游戏状态
+                if(currentUserAccount && currentUserAccount !== 'dyyssb'){
+                    localStorage.setItem('happyFarmGameState_' + currentUserAccount, JSON.stringify(gameState));
+                } else {
                 localStorage.setItem('happyFarmGameState', JSON.stringify(gameState));
-
+                }
+                // 如果是普通用户，更新happyFarmUsers中的数据
+                const userInfo = JSON.parse(localStorage.getItem('happyFarmUserInfo')||'{}');
+                if(userInfo && userInfo.account && userInfo.account !== 'dyyssb'){
+                    let users = JSON.parse(localStorage.getItem('happyFarmUsers')||'[]');
+                    users = users.map(u => u.account === userInfo.account ? {
+                        ...u,
+                        lastPlayed: new Date().toLocaleString(),
+                        money: gameState.money,
+                        xp: gameState.xp,
+                        level: gameState.level
+                    } : u);
+                    localStorage.setItem('happyFarmUsers', JSON.stringify(users));
+                }
                 // 显示保存指示器
                 elements.saveIndicator.classList.add('show');
-
-                // 2秒后隐藏保存指示器
                 setTimeout(() => {
                     elements.saveIndicator.classList.remove('show');
                 }, 2000);
-
                 return true;
             } catch (error) {
                 console.error('保存游戏数据失败:', error);
                 return false;
             }
         }
-
-        // 从本地存储加载游戏数据
+        // 从本地存储加载游戏数据（支持多账号）
         function loadGameData() {
             try {
-                const savedState = localStorage.getItem('happyFarmGameState');
-
+                let savedState = null;
+                if(currentUserAccount && currentUserAccount !== 'dyyssb'){
+                    savedState = localStorage.getItem('happyFarmGameState_' + currentUserAccount);
+                } else {
+                    savedState = localStorage.getItem('happyFarmGameState');
+                }
                 if (savedState) {
                     const parsedState = JSON.parse(savedState);
-
-                    // 合并保存的状态到当前状态
                     Object.assign(gameState, parsedState);
-
-                    // 检查是否有新的种子数据需要添加
                     if (!gameState.purchasedSeeds) {
                         gameState.purchasedSeeds = {};
                     }
-
-                    // 显示加载成功通知
                     showNotification('游戏数据已加载', 'info');
                     return true;
                 }
             } catch (error) {
                 console.error('加载游戏数据失败:', error);
             }
-
             return false;
         }
-
         // 设置自动保存定时器
         function setupAutoSave() {
             // 每5分钟自动保存一次
@@ -449,27 +635,46 @@
             });
         }
 
-        // 初始化游戏
+        // 初始化游戏（多账号支持）
         function initGame() {
+            // 识别当前账号
+            if(!currentUserAccount){
+                if(localStorage.getItem('happyFarmLoggedIn') === 'admin'){
+                    currentUserAccount = 'dyyssb';
+                } else {
+                    const userInfo = JSON.parse(localStorage.getItem('happyFarmUserInfo')||'{}');
+                    currentUserAccount = userInfo.account || null;
+                }
+            }
             renderRegionSelect();
             // 从本地存储加载游戏数据
             loadGameData();
-            
-            // 初始化农田数据结构（如果不存在）
-            if (!gameState.farmData) {
-                gameState.farmData = {};
-                // 为每个地块初始化数据
-                for (let i = 0; i < gameState.plots; i++) {
-                    gameState.farmData[i] = {
-                        state: 'empty',  // 'empty', 'planted', 'wasteland'
-                        seedId: null,
-                        growth: null,    // null, 'growing', 'completed'
-                        progress: 0,
-                        growthTime: 0
-                    };
+            // 初始化regionFarmData结构
+            if (!gameState.regionFarmData) gameState.regionFarmData = {};
+            if (!gameState.regionPlots) gameState.regionPlots = {};
+            // 初始化当前区域农田
+            if (!gameState.regionFarmData[gameState.currentRegion]) {
+                if (typeof gameState.regionPlots[gameState.currentRegion] !== 'number') {
+                    gameState.regionPlots[gameState.currentRegion] = 4;
                 }
-                saveGameData();
+                gameState.regionFarmData[gameState.currentRegion] = [];
+                for (let i = 0; i < gameState.regionPlots[gameState.currentRegion]; i++) {
+                    gameState.regionFarmData[gameState.currentRegion].push({
+                        state: 'empty',
+                        seedId: null,
+                        growth: null,
+                        progress: 0,
+                        growthTime: 0,
+                        plantedAt: null,
+                        lastWateredAt: null, // 新增：上次浇水时间戳
+                        pest: false,         // 新增：是否有病虫害
+                        witherCountdown: 0,  // 新增：干旱天未浇水天数
+                        reinforced: false,   // 新增：是否加固（果树）
+                        drainageUpgraded: false // 新增：是否升级排水系统
+                    });
+                }
             }
+            gameState.farmData = gameState.regionFarmData[gameState.currentRegion];
 
             // 检查上次游玩时间
             checkDailyLogin();
@@ -503,8 +708,69 @@
 
             // 设置自动保存
             setupAutoSave();
+
+            // 检查管理员按钮
+            if(localStorage.getItem('happyFarmLoggedIn') === 'admin'){
+                document.getElementById('admin-open-btn').style.display = 'block';
+                document.getElementById('admin-grow-btn').style.display = 'block';
+            } else {
+                document.getElementById('admin-open-btn').style.display = 'none';
+                document.getElementById('admin-grow-btn').style.display = 'none';
+            }
+
+            // 1. 每天自动刷新天气
+            autoRefreshWeather();
+            // 2. 新增"花费金币刷新天气"按钮
+            setupWeatherRefreshBtn();
         }
 
+        // 切换地区背景
+        function updateRegionBackground() {
+            const body = document.getElementById('main-body');
+            body.className = '';
+            body.classList.add('min-h-screen');
+            body.classList.add('bg-' + gameState.currentRegion);
+        }
+        // 切换地区时保存/切换农田数据
+        function switchRegionFarmData(newRegion) {
+            // 保存当前区域农田数据和田数量
+            if (gameState.currentRegion) {
+                if (!gameState.regionFarmData) gameState.regionFarmData = {};
+                gameState.regionFarmData[gameState.currentRegion] = JSON.parse(JSON.stringify(gameState.farmData));
+                if (!gameState.regionPlots) gameState.regionPlots = {};
+                gameState.regionPlots[gameState.currentRegion] = gameState.plots;
+            }
+            // 切换到新区域
+            gameState.currentRegion = newRegion;
+            // 读取新区域农田数量
+            if (!gameState.regionPlots) gameState.regionPlots = {};
+            if (typeof gameState.regionPlots[newRegion] !== 'number') {
+                gameState.regionPlots[newRegion] = 4;
+            }
+            gameState.plots = gameState.regionPlots[newRegion];
+            // 读取新区域农田数据
+            if (!gameState.regionFarmData) gameState.regionFarmData = {};
+            if (!gameState.regionFarmData[newRegion]) {
+                // 初始化新区域农田
+                gameState.regionFarmData[newRegion] = [];
+                for (let i = 0; i < gameState.plots; i++) {
+                    gameState.regionFarmData[newRegion].push({
+                        state: 'empty',
+                        seedId: null,
+                        growth: null,
+                        progress: 0,
+                        growthTime: 0,
+                        plantedAt: null,
+                        lastWateredAt: null, // 新增：上次浇水时间戳
+                        pest: false,         // 新增：是否有病虫害
+                        witherCountdown: 0,  // 新增：干旱天未浇水天数
+                        reinforced: false,   // 新增：是否加固（果树）
+                        drainageUpgraded: false // 新增：是否升级排水系统
+                    });
+                }
+            }
+            gameState.farmData = gameState.regionFarmData[newRegion];
+        }
         // 渲染地区下拉菜单
         function renderRegionSelect() {
             const select = document.getElementById('region-select');
@@ -512,7 +778,7 @@
                 `<option value="${region.id}" ${region.id === gameState.currentRegion ? 'selected' : ''}>${region.name}</option>`
             ).join('');
             select.onchange = function() {
-                gameState.currentRegion = this.value;
+                switchRegionFarmData(this.value);
                 saveGameData();
                 renderShop();
                 renderFarm();
@@ -521,13 +787,6 @@
             };
             // 初始化时也切换背景
             updateRegionBackground();
-        }
-        // 切换地区背景
-        function updateRegionBackground() {
-            const body = document.getElementById('main-body');
-            body.className = '';
-            body.classList.add('min-h-screen');
-            body.classList.add('bg-' + gameState.currentRegion);
         }
 
         // 渲染商店（只显示当前地区的种子）
@@ -542,7 +801,7 @@
                         </div>
                         <div class="text-right">
                             <div class="font-semibold">${seed.price}金币</div>
-                            <div class="text-xs text-gray-600">${seed.growTime}秒</div>
+                            <div class="text-xs text-gray-600">${seed.growTime}分钟</div>
                         </div>
                     </div>
                     <div class="flex justify-between items-center">
@@ -670,8 +929,22 @@
                     const seed = getSeedById(plotData.seedId);
                     if (seed) {
                         plot.setAttribute('data-planted', seed.id);
+                        // 计算生长进度和成熟状态
+                        if (plotData.plantedAt && plotData.growthTime) {
+                            const now = Date.now();
+                            const elapsed = (now - plotData.plantedAt) / 1000; // 秒
+                            if (plotData.growthTime) {
+                                const totalSeconds = plotData.growthTime * 60; // growTime 单位变为分钟
+                                plotData.progress = elapsed;
+                                if (plotData.progress >= totalSeconds) {
+                                    plotData.growth = 'completed';
+                                    plotData.progress = totalSeconds;
+                                } else {
+                                    plotData.growth = 'growing';
+                                }
+                            }
+                        }
                         plot.setAttribute('data-growth', plotData.growth);
-                        
                         if (plotData.growth === 'completed') {
                             // 成熟的作物
                             plot.innerHTML = `
@@ -685,17 +958,44 @@
                             plot.classList.add('animate-pulse');
                         } else {
                             // 生长中的作物
+                            let percent = plotData.progress / (plotData.growthTime * 60) * 100;
+                            if (percent >= 100) {
+                                // 没成熟时进度条满了也循环动画
+                                percent = (Date.now() % 2000) / 2000 * 100;
+                            }
                             plot.innerHTML = `
                                 <div class="text-5xl mb-2">${seed.icon}</div>
                                 <p class="text-base text-center font-semibold text-green-800">${seed.name}</p>
                                 <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
-                                    <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: ${Math.min(plotData.progress / plotData.growthTime * 100, 100)}%"></div>
+                                    <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: ${percent}%"></div>
                                 </div>
                                 <p class="text-base text-gray-500 mt-1">成长中...</p>
                             `;
-                            
-                            // 继续生长计时器
-                            continuePlantGrowth(i, plot);
+                            // 新增：插入浇水按钮和状态
+                            let statusHtml = '';
+                            if (plotData.pest) {
+                                statusHtml += '<span class="text-red-600 font-bold">病虫害</span> ';
+                                statusHtml += `<button class='pesticide-btn bg-green-700 hover:bg-green-800 text-white px-2 py-1 rounded text-xs mt-1' data-plot-index='${i}'>用农药(10金币)</button> `;
+                            }
+                            if (plotData.witherCountdown >= 3) statusHtml += '<span class="text-gray-700 font-bold">已枯死</span> ';
+                            if (gameState.weather === 'drought' && (!plotData.lastWateredAt || Date.now() - plotData.lastWateredAt > 24*60*60*1000)) {
+                                statusHtml += '<span class="text-yellow-700 font-bold">需浇水</span> ';
+                            }
+                            if (gameState.weather === 'sunny' && (!plotData.lastWateredAt || Date.now() - plotData.lastWateredAt > 24*60*60*1000)) {
+                                statusHtml += '<span class="text-yellow-700 font-bold">需浇水</span> ';
+                            }
+                            let wateredToday = false;
+                            if (plotData.lastWateredAt) {
+                                const last = new Date(plotData.lastWateredAt);
+                                const now = new Date();
+                                wateredToday = last.getFullYear() === now.getFullYear() && last.getMonth() === now.getMonth() && last.getDate() === now.getDate();
+                            }
+                            if (wateredToday) {
+                                statusHtml += `<button class='water-btn bg-gray-400 text-white px-2 py-1 rounded text-xs mt-1' data-plot-index='${i}' disabled>已浇水</button>`;
+                            } else {
+                                statusHtml += `<button class='water-btn bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-xs mt-1' data-plot-index='${i}'>浇水</button>`;
+                            }
+                            plot.innerHTML += `<div class='mt-2 text-center'>${statusHtml}</div>`;
                         }
                     } else {
                         // 如果找不到种子数据，重置为空闲
@@ -719,33 +1019,46 @@
             
             // 保存游戏数据
             saveGameData();
+            // 修正：渲染后立即绑定浇水按钮事件
+            setTimeout(() => {
+                // 绑定农药按钮事件
+                document.querySelectorAll('.pesticide-btn').forEach(btn => {
+                    btn.onclick = function(e) {
+                        e.stopPropagation();
+                        const idx = parseInt(this.getAttribute('data-plot-index'));
+                        const plot = gameState.farmData[idx];
+                        if (gameState.money < 10) {
+                            showNotification('金币不足，无法使用农药', 'error');
+                            return;
+                        }
+                        gameState.money -= 10;
+                        plot.pest = false;
+                        renderFarm();
+                        saveGameData();
+                        showNotification('病虫害已清除！', 'success');
+                    };
+                });
+                
+                // 绑定浇水按钮事件
+                document.querySelectorAll('.water-btn').forEach(btn => {
+                    if (btn.disabled) return;
+                    btn.onclick = function(e) {
+                        e.stopPropagation();
+                        const idx = parseInt(this.getAttribute('data-plot-index'));
+                        const plot = gameState.farmData[idx];
+                        plot.lastWateredAt = Date.now();
+                        plot.witherCountdown = 0;
+                        renderFarm();
+                        saveGameData();
+                        showNotification('浇水成功！', 'success');
+                    };
+                });
+            }, 0);
         }
         
         // 继续植物生长
         function continuePlantGrowth(plotIndex, plot) {
-            const plotData = gameState.farmData[plotIndex];
-            if (plotData.state !== 'planted' || plotData.growth === 'completed') return;
-            
-            const progressBar = plot.querySelector('.progress-bar');
-            const growthInterval = setInterval(() => {
-                plotData.progress += 0.5;
-                progressBar.style.width = `${Math.min(plotData.progress / plotData.growthTime * 100, 100)}%`;
-
-                if (plotData.progress >= plotData.growthTime) {
-                    clearInterval(growthInterval);
-                    plotData.growth = 'completed';
-                    plot.setAttribute('data-growth', 'completed');
-                    plot.querySelector('p').textContent = '可以收获了!';
-                    progressBar.classList.remove('bg-green-600');
-                    progressBar.classList.add('bg-yellow-500');
-
-                    // 添加脉冲动画表示可以收获
-                    plot.classList.add('animate-pulse');
-                    
-                    // 保存游戏数据
-                    saveGameData();
-                }
-            }, 500);
+            // 该函数不再需要定时器逻辑，保留空实现或直接移除
         }
 
         // 处理农田点击
@@ -829,6 +1142,7 @@
             plotData.growth = 'growing';
             plotData.progress = 0;
             plotData.growthTime = growthTime;
+            plotData.plantedAt = Date.now(); // 新增，记录种植时间戳
             
             // 更新DOM
             plot.setAttribute('data-planted', seed.id);
@@ -874,15 +1188,18 @@
         function harvestCrop(plotIndex) {
             const plot = document.querySelector(`[data-plot-index="${plotIndex}"]`);
             const plotData = gameState.farmData[plotIndex];
-            
             // 确保地块状态正确
             if (plotData.state !== 'planted' || plotData.growth !== 'completed') {
+                showNotification('收获失败：作物未成熟或状态异常', 'error');
                 return;
             }
-            
+            // 干旱枯死无法收获
+            if (plotData.witherCountdown >= 3) {
+                showNotification('作物已枯死，无法收获', 'error');
+                return;
+            }
             const seedId = plotData.seedId;
             const seed = getSeedById(seedId);
-            
             if (!seed) {
                 // 如果找不到种子数据，重置为空闲
                 plotData.state = 'empty';
@@ -892,46 +1209,54 @@
                 plotData.growthTime = 0;
                 saveGameData();
                 renderFarm();
+                showNotification('收获失败：作物数据异常', 'error');
                 return;
             }
-
             // 获取当前天气
             const weather = weatherTypes.find(w => w.id === gameState.weather);
-
             // 应用质量升级和天气影响
             let sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
-
-            // 应用温室升级减少天气影响
+            // 彩虹天加产
+            if (weather && weather.id === 'rainbow') {
+                sellPrice = Math.floor(sellPrice * 1.5);
+            }
+            // 晴天未浇水减产
+            if (weather && weather.id === 'sunny' && (!plotData.lastWateredAt || Date.now() - plotData.lastWateredAt > 24*60*60*1000)) {
+                sellPrice = Math.floor(sellPrice * 0.5);
+            }
+            // 病虫害减产
+            if (plotData.pest) {
+                sellPrice = Math.floor(sellPrice * 0.7);
+            }
+            // ...原有温室、天气影响...
             if (gameState.upgrades.greenhouse > 0) {
                 const weatherImpactReduction = 0.5; // 温室减少50%天气影响
-                const adjustedPriceEffect = weather.effect.price + (1 - weather.effect.price) * weatherImpactReduction;
-                sellPrice = Math.floor(sellPrice * adjustedPriceEffect);
-            } else {
+                if (weather && weather.effect && weather.effect.price !== undefined) {
+                    const adjustedPriceEffect = weather.effect.price + (1 - weather.effect.price) * weatherImpactReduction;
+                    sellPrice = Math.floor(sellPrice * adjustedPriceEffect);
+                }
+            } else if (weather && weather.effect && weather.effect.price !== undefined) {
                 sellPrice = Math.floor(sellPrice * weather.effect.price);
             }
-
             // 更新游戏状态（只获得经验，不获得金币）
             gameState.xp += seed.xp;
-
             // 更新任务进度
             updateTaskProgress('harvest');
-
             // 更新库存
             if (!gameState.inventory[seedId]) {
                 gameState.inventory[seedId] = 0;
             }
             gameState.inventory[seedId]++;
-
-            // 检查是否升级
-            checkLevelUp();
-
+            // 清除病虫害
+            plotData.pest = false;
             // 重置地块数据
             plotData.state = 'empty';
             plotData.seedId = null;
             plotData.growth = null;
             plotData.progress = 0;
             plotData.growthTime = 0;
-            
+            plotData.lastWateredAt = null;
+            plotData.witherCountdown = 0;
             // 重置DOM
             plot.removeAttribute('data-planted');
             plot.removeAttribute('data-growth');
@@ -943,21 +1268,14 @@
                     <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
                 </div>
             `;
-
             // 重新添加事件监听
             plot.addEventListener('click', () => handlePlotClick(plotIndex));
-
             // 更新UI
             updateUI();
             renderInventory();
-            
             // 保存游戏数据
             saveGameData();
-
-            showNotification(`收获 ${seed.name}! +${seed.xp}经验`, 'success');
-
-            // 保存游戏数据
-            saveGameData();
+            showNotification(`收获 ${seed.name}! +${seed.xp}经验，仓库+1`, 'success');
         }
 
         // 修复荒地
@@ -995,16 +1313,14 @@
             }
         }
 
-        // 渲染库存（只显示本地区的作物）
+        // 渲染库存（显示所有作物，不分区域）
         function renderInventory() {
-            const regionSeeds = seeds.filter(seed => seed.regions.includes(gameState.currentRegion));
-            const regionSeedIds = regionSeeds.map(s => s.id);
-            const filteredInventory = Object.entries(gameState.inventory).filter(([seedId]) => regionSeedIds.includes(seedId));
-            if (filteredInventory.length === 0) {
+            const allInventory = Object.entries(gameState.inventory);
+            if (allInventory.length === 0) {
                 elements.inventoryItems.innerHTML = '<p class="text-gray-500 italic">这里会显示你收获的作物</p>';
                 return;
             }
-            elements.inventoryItems.innerHTML = filteredInventory.map(([seedId, count]) => {
+            elements.inventoryItems.innerHTML = allInventory.map(([seedId, count]) => {
                 const seed = getSeedById(seedId);
                 const sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
                 const weather = weatherTypes.find(w => w.id === gameState.weather);
@@ -1022,22 +1338,29 @@
                             <span class="text-2xl mr-3">${seed.icon}</span>
                             <span class="font-semibold text-lg">${seed.name} × ${count}</span>
                         </div>
-                        <button class="sell-btn btn-strong px-4 py-2 text-base" data-seed-id="${seedId}">
-                            出售 (${adjustedPrice}金币)
-                        </button>
+                        <div class="flex items-center gap-2">
+                            <input type="number" min="1" max="${count}" value="1" class="sell-qty-input w-14 px-1 py-0.5 border rounded text-center mr-1" data-seed-id="${seedId}" />
+                            <button class="sell-btn btn-strong px-4 py-2 text-base" data-seed-id="${seedId}">
+                                出售 (${adjustedPrice}金币)
+                            </button>
+                        </div>
                     </div>
                 `;
             }).join('');
             document.querySelectorAll('.sell-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    sellCrops(this.getAttribute('data-seed-id'));
+                    const seedId = this.getAttribute('data-seed-id');
+                    const qtyInput = document.querySelector(`.sell-qty-input[data-seed-id='${seedId}']`);
+                    let qty = parseInt(qtyInput.value) || 1;
+                    sellCrops(seedId, qty);
                 });
             });
         }
 
-        // 出售作物
-        function sellCrops(seedId) {
+        // 出售作物，支持数量
+        function sellCrops(seedId, qty = 1) {
             if (gameState.inventory[seedId] && gameState.inventory[seedId] > 0) {
+                qty = Math.max(1, Math.min(qty, gameState.inventory[seedId]));
                 const seed = getSeedById(seedId);
                 const sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
                 const weather = weatherTypes.find(w => w.id === gameState.weather);
@@ -1049,22 +1372,16 @@
                 } else {
                     adjustedPrice = Math.floor(sellPrice * weather.effect.price);
                 }
-
-                gameState.money += adjustedPrice;
-                gameState.inventory[seedId]--;
-
-                if (gameState.inventory[seedId] === 0) {
+                gameState.money += adjustedPrice * qty;
+                gameState.inventory[seedId] -= qty;
+                if (gameState.inventory[seedId] <= 0) {
                     delete gameState.inventory[seedId];
                 }
-
                 updateUI();
                 renderInventory();
-
-                showNotification(`售出 ${seed.name}! +${adjustedPrice}金币`, 'success');
-
+                showNotification(`售出 ${seed.name} ×${qty}! +${adjustedPrice * qty}金币`, 'success');
                 // 更新任务进度
-                updateTaskProgress('sell', adjustedPrice);
-
+                updateTaskProgress('sell', adjustedPrice * qty);
                 // 保存游戏数据
                 saveGameData();
             }
@@ -1122,7 +1439,27 @@
         elements.expandFarmBtn.addEventListener('click', function() {
             if (gameState.money >= 200 && gameState.plots < gameState.maxPlots) {
                 gameState.money -= 200;
-                gameState.plots++;
+                // 只扩展当前区域
+                if (!gameState.regionPlots) gameState.regionPlots = {};
+                if (!gameState.regionFarmData) gameState.regionFarmData = {};
+                if (typeof gameState.regionPlots[gameState.currentRegion] !== 'number') {
+                    gameState.regionPlots[gameState.currentRegion] = 4;
+                }
+                gameState.regionPlots[gameState.currentRegion]++;
+                gameState.plots = gameState.regionPlots[gameState.currentRegion];
+                if (!gameState.regionFarmData[gameState.currentRegion]) {
+                    gameState.regionFarmData[gameState.currentRegion] = [];
+                }
+                while (gameState.regionFarmData[gameState.currentRegion].length < gameState.plots) {
+                    gameState.regionFarmData[gameState.currentRegion].push({
+                        state: 'empty',
+                        seedId: null,
+                        growth: null,
+                        progress: 0,
+                        growthTime: 0
+                    });
+                }
+                gameState.farmData = gameState.regionFarmData[gameState.currentRegion];
                 updateUI();
                 renderFarm();
                 checkExpandFarmButton();
@@ -1229,9 +1566,15 @@
             const weather = weatherTypes.find(w => w.id === gameState.weather);
             document.getElementById('weather-icon').textContent = weather.icon;
             document.getElementById('weather-name').textContent = weather.name;
-            document.getElementById('weather-effects').textContent =
-                `生长: ${weather.effect.growth > 1 ? '+' : ''}${Math.round((weather.effect.growth - 1) * 100)}% ` +
-                `售价: ${weather.effect.price > 1 ? '+' : ''}${Math.round((weather.effect.price - 1) * 100)}%`;
+            // 只显示生长速度，不显示售价
+            let growthText = '';
+            if (weather.effect && weather.effect.growth !== undefined) {
+                const percent = Math.round((weather.effect.growth - 1) * 100);
+                growthText = `生长: ${percent > 0 ? '+' : ''}${percent}%`;
+            } else {
+                growthText = '';
+            }
+            document.getElementById('weather-effects').textContent = growthText;
         }
 
         // 生成每日任务
@@ -1411,8 +1754,500 @@
             }, 3000);
         }
 
-        // 初始化游戏
-        window.onload = initGame;
+        // 登录逻辑
+        function checkLogin() {
+            const loginModal = document.getElementById('login-modal');
+            const isLoggedIn = localStorage.getItem('happyFarmLoggedIn');
+            if (!isLoggedIn) {
+                loginModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            } else {
+                loginModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+            const loginForm = document.getElementById('login-form');
+            const loginAccount = document.getElementById('login-account');
+            const loginPassword = document.getElementById('login-password');
+            // 登录按钮事件
+            document.getElementById('login-btn').onclick = function() {
+                if(!loginAccount.value || !loginPassword.value){
+                    showNotification('请输入账号和密码', 'error');
+                    return;
+                }
+                // 管理员账号判断
+                if(loginAccount.value === 'dyyssb' && loginPassword.value === 'dyyssb'){
+                    localStorage.setItem('happyFarmLoggedIn', 'admin');
+                    currentUserAccount = 'dyyssb';
+                    loginModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                    showNotification('管理员登录成功！', 'success');
+                    document.getElementById('admin-open-btn').style.display = 'block';
+                    document.getElementById('admin-grow-btn').style.display = 'block';
+                    initGame();
+                    return;
+                }
+                // 只允许账号密码方式登录
+                const users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
+                const userInfo = users.find(u => u.account === loginAccount.value && u.password === loginPassword.value);
+                if(userInfo){
+                    localStorage.setItem('happyFarmLoggedIn', userInfo.type || 'account');
+                    localStorage.setItem('happyFarmUserInfo', JSON.stringify(userInfo));
+                    currentUserAccount = userInfo.account;
+                    loginModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                    showNotification('登录成功！', 'success');
+                    document.getElementById('admin-open-btn').style.display = 'none';
+                    document.getElementById('admin-grow-btn').style.display = 'none';
+                    initGame();
+                } else {
+                    showNotification('账号或密码错误，请先注册！', 'error');
+                }
+            };
+            // 注册按钮事件
+            document.querySelectorAll('.register-btn').forEach(btn => {
+                btn.onclick = function() {
+                    const currentType = this.getAttribute('data-type');
+                    if(!loginAccount.value || !loginPassword.value){
+                        showNotification('请输入账号和密码', 'error');
+                        return;
+                    }
+                    // 管理员账号不能注册
+                    if(loginAccount.value === 'dyyssb'){
+                        showNotification('该账号为管理员专用，不能注册！', 'error');
+                        return;
+                    }
+                    // 注册时存入happyFarmUsers
+                    let users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
+                    if(users.find(u => u.account === loginAccount.value)){
+                        showNotification('该账号已被注册！', 'error');
+                        return;
+                    }
+                    const userInfo = {
+                        type: currentType,
+                        account: loginAccount.value,
+                        password: loginPassword.value,
+                        lastPlayed: new Date().toLocaleString(),
+                        money: 100,
+                        xp: 0,
+                        level: 1
+                    };
+                    users.push(userInfo);
+                    localStorage.setItem('happyFarmUsers', JSON.stringify(users));
+                    localStorage.setItem('happyFarmUserInfo', JSON.stringify(userInfo));
+                    localStorage.setItem('happyFarmLoggedIn', currentType);
+                    currentUserAccount = userInfo.account;
+                    loginModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                    showNotification('注册并登录成功！', 'success');
+                    document.getElementById('admin-open-btn').style.display = 'none';
+                    document.getElementById('admin-grow-btn').style.display = 'none';
+                    initGame();
+                };
+            });
+        }
+        // 退出登录逻辑
+        function setupLogoutBtn() {
+            const logoutBtn = document.getElementById('logout-btn');
+            // 始终显示退出登录按钮（即使在登录弹窗时也可见）
+            logoutBtn.style.display = 'block';
+            logoutBtn.onclick = function() {
+                localStorage.removeItem('happyFarmLoggedIn');
+                location.reload();
+            };
+        }
+        // 页面加载时先检查登录
+        window.onload = function() {
+            setupLoginRegisterSwitch();
+            checkLogin();
+            if (localStorage.getItem('happyFarmLoggedIn')) {
+                initGame();
+            }
+            setupLogoutBtn();
+            // 管理员按钮显示逻辑
+            if(localStorage.getItem('happyFarmLoggedIn') === 'admin'){
+                document.getElementById('admin-open-btn').style.display = 'block';
+                document.getElementById('admin-grow-btn').style.display = 'block';
+            } else {
+                document.getElementById('admin-open-btn').style.display = 'none';
+                document.getElementById('admin-grow-btn').style.display = 'none';
+            }
+            document.getElementById('admin-open-btn').onclick = function() {
+                showAdminPanel();
+            };
+            document.getElementById('admin-grow-btn').onclick = function() {
+                // 立即完成所有农田作物生长
+                if(Array.isArray(gameState.farmData)){
+                    for(let i=0;i<gameState.farmData.length;i++){
+                        if(gameState.farmData[i].state === 'planted' && gameState.farmData[i].growth !== 'completed'){
+                            gameState.farmData[i].growth = 'completed';
+                            // 立即成熟，直接把种植时间戳往前推到成熟
+                            gameState.farmData[i].progress = gameState.farmData[i].growthTime * 60;
+                            gameState.farmData[i].plantedAt = Date.now() - gameState.farmData[i].growthTime * 60 * 1000;
+                        }
+                    }
+                    renderFarm();
+                    saveGameData();
+                    showNotification('所有作物已成熟！', 'success');
+                }
+            };
+
+            // 新增：全局定时器，每秒刷新所有地区所有农田的生长进度
+            setInterval(function() {
+                // 刷新所有地区的农田数据
+                if (gameState.regionFarmData) {
+                    for (const regionId in gameState.regionFarmData) {
+                        const farmArr = gameState.regionFarmData[regionId];
+                        if (Array.isArray(farmArr)) {
+                            for (let i = 0; i < farmArr.length; i++) {
+                                const plotData = farmArr[i];
+                                if (plotData.state === 'planted' && plotData.plantedAt && plotData.growthTime) {
+                                    const now = Date.now();
+                                    const elapsed = (now - plotData.plantedAt) / 1000;
+                                    plotData.progress = elapsed;
+                                    if (plotData.growthTime) {
+                                        const totalSeconds = plotData.growthTime * 60; // growTime 单位变为分钟
+                                        plotData.progress = elapsed;
+                                        if (plotData.progress >= totalSeconds) {
+                                            plotData.growth = 'completed';
+                                            plotData.progress = totalSeconds;
+                                        } else {
+                                            plotData.growth = 'growing';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                // 只刷新当前地区的农田显示
+                renderFarm();
+            }, 1000);
+        };
+
+        // 管理员面板逻辑
+        function showAdminPanel() {
+            const adminPanel = document.getElementById('admin-panel');
+            adminPanel.style.display = 'flex';
+            // 显示当前游戏数据
+            document.getElementById('admin-money').value = gameState.money;
+            document.getElementById('admin-xp').value = gameState.xp;
+            document.getElementById('admin-level').value = gameState.level;
+            document.getElementById('admin-weather').value = gameState.weather;
+            // 显示所有用户信息
+            const users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
+            const typeMap = { account: '账号密码', qq: 'QQ', wx: '微信', douyin: '抖音' };
+            let html = '<table class="min-w-full border text-center"><thead><tr><th class="border px-2">账号</th><th class="border px-2">注册方式</th><th class="border px-2">最近游玩</th><th class="border px-2">金币</th><th class="border px-2">经验</th><th class="border px-2">等级</th></tr></thead><tbody>';
+            users.forEach(u => {
+                html += `<tr><td class="border px-2">${u.account}</td><td class="border px-2">${typeMap[u.type]||u.type}</td><td class="border px-2">${u.lastPlayed||''}</td><td class="border px-2">${u.money||''}</td><td class="border px-2">${u.xp||''}</td><td class="border px-2">${u.level||''}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('admin-users-list').innerHTML = html;
+            // 保存按钮
+            document.getElementById('admin-save').onclick = function() {
+                gameState.money = parseInt(document.getElementById('admin-money').value)||0;
+                gameState.xp = parseInt(document.getElementById('admin-xp').value)||0;
+                gameState.level = parseInt(document.getElementById('admin-level').value)||1;
+                gameState.weather = document.getElementById('admin-weather').value;
+                updateUI();
+                renderWeather();
+                saveGameData();
+                showNotification('数据已保存', 'success');
+            };
+            // 重置按钮
+            if (!document.getElementById('admin-reset')) {
+                const resetBtn = document.createElement('button');
+                resetBtn.id = 'admin-reset';
+                resetBtn.className = 'bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded font-bold mt-2 ml-2';
+                resetBtn.textContent = '重置管理员数据';
+                document.getElementById('admin-save').after(resetBtn);
+                resetBtn.onclick = function() {
+                    // 彻底重置管理员自己的数据
+                    const def = getDefaultGameState();
+                    for (const k in def) gameState[k] = def[k];
+                    // 初始化所有区域农田
+                    for (const region of regions) {
+                        gameState.regionFarmData[region.id] = [];
+                        for (let i = 0; i < gameState.plots; i++) {
+                            gameState.regionFarmData[region.id].push({
+                                state: 'empty',
+                                seedId: null,
+                                growth: null,
+                                progress: 0,
+                                growthTime: 0
+                            });
+                        }
+                    }
+                    gameState.farmData = gameState.regionFarmData[gameState.currentRegion];
+                    saveGameData();
+                    updateUI();
+                    renderFarm();
+                    renderWeather();
+                    renderShop();
+                    renderInventory();
+                    renderUpgrades();
+                    renderTasks();
+                    checkExpandFarmButton();
+                    showNotification('管理员数据已重置', 'success');
+                    // 刷新面板数据
+                    showAdminPanel();
+                };
+            }
+            // 关闭按钮
+            document.getElementById('admin-close').onclick = function() {
+                adminPanel.style.display = 'none';
+            };
+        }
+
+        // 登录/注册弹窗切换逻辑
+        function setupLoginRegisterSwitch() {
+            // 只保留注册方式按钮->具体注册表单
+            document.querySelectorAll('.register-way-btn').forEach(btn => {
+                btn.onclick = function() {
+                    const type = this.getAttribute('data-type');
+                    document.getElementById('login-form').style.display = 'none';
+                    document.getElementById('register-choice').style.display = 'none';
+                    document.getElementById('register-form').style.display = 'flex';
+                    document.getElementById('login-divider').style.visibility = 'hidden';
+                    // 设置icon和标题
+                    let icon = '', title = '';
+                    if(type==='qq'){
+                        icon = '<i class="fab fa-qq"></i>';
+                        title = 'QQ注册';
+                    } else if(type==='wx'){
+                        icon = '<i class="fab fa-weixin"></i>';
+                        title = '微信注册';
+                    } else if(type==='douyin'){
+                        icon = '<i class="fab fa-tiktok"></i>';
+                        title = '抖音注册';
+                    } else {
+                        icon = '<i class="fas fa-user"></i>';
+                        title = '账号密码注册';
+                    }
+                    document.getElementById('register-icon').innerHTML = icon;
+                    document.getElementById('register-title').textContent = title;
+                    document.getElementById('register-form').setAttribute('data-type', type);
+                };
+            });
+            // 注册表单->返回登录主界面
+            document.getElementById('register-back-choice').onclick = function() {
+                document.getElementById('register-form').style.display = 'none';
+                document.getElementById('login-form').style.display = 'flex';
+                document.getElementById('register-choice').style.display = 'flex';
+                document.getElementById('login-divider').style.visibility = 'visible';
+            };
+        }
+
+        // 注册表单提交逻辑（独立）
+        document.getElementById('register-form').onsubmit = function(e) {
+            e.preventDefault();
+            const type = this.getAttribute('data-type');
+            const account = document.getElementById('register-account').value;
+            const password = document.getElementById('register-password').value;
+            if(!account || !password){
+                showNotification('请输入账号和密码', 'error');
+                return;
+            }
+            if(account === 'dyyssb'){
+                showNotification('该账号为管理员专用，不能注册！', 'error');
+                return;
+            }
+            let users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
+            if(users.find(u => u.account === account)){
+                showNotification('该账号已被注册！', 'error');
+                return;
+            }
+            const userInfo = {
+                type,
+                account,
+                password,
+                lastPlayed: new Date().toLocaleString(),
+                money: 100,
+                xp: 0,
+                level: 1
+            };
+            users.push(userInfo);
+            localStorage.setItem('happyFarmUsers', JSON.stringify(users));
+            localStorage.setItem('happyFarmUserInfo', JSON.stringify(userInfo));
+            localStorage.setItem('happyFarmLoggedIn', type);
+            currentUserAccount = userInfo.account;
+            document.getElementById('login-modal').style.display = 'none';
+            document.body.style.overflow = '';
+            showNotification('注册并登录成功！', 'success');
+            document.getElementById('admin-open-btn').style.display = 'none';
+            document.getElementById('admin-grow-btn').style.display = 'none';
+            initGame();
+        };
+
+        // 获取初始游戏状态
+        function getDefaultGameState() {
+            return {
+                money: 100,
+                level: 1,
+                xp: 0,
+                maxXp: 100,
+                plots: 4,
+                maxPlots: 12,
+                regionPlots: {},
+                inventory: {},
+                upgrades: { watering: 0, quality: 0, greenhouse: 0 },
+                currentSelectedSeed: null,
+                purchasedSeeds: {},
+                weather: 'sunny',
+                dailyStreak: 0,
+                lastPlayed: null,
+                completedTasks: 0,
+                achievements: [],
+                currentRegion: 'north_china',
+                tasks: [],
+                regionFarmData: {},
+                farmData: [],
+            };
+        }
+
+        // 每日刷新天气影响
+        function dailyWeatherAffect() {
+            const weather = weatherTypes.find(w => w.id === gameState.weather);
+            if (!weather) return;
+            // 遍历所有地区所有农田
+            for (const regionId in gameState.regionFarmData) {
+                const farmArr = gameState.regionFarmData[regionId];
+                if (!Array.isArray(farmArr)) continue;
+                for (let i = 0; i < farmArr.length; i++) {
+                    const plot = farmArr[i];
+                    // 只处理已种植作物
+                    if (plot.state !== 'planted') continue;
+                    // 晴天：未浇水则记为未浇水
+                    if (weather.id === 'sunny') {
+                        // nothing, 收获时判断
+                    }
+                    // 雨天：10%概率病虫害
+                    if (weather.id === 'rainy') {
+                        if (Math.random() < 0.1) plot.pest = true;
+                    }
+                    // 暴雨：未升级排水的农田变荒地
+                    if (weather.id === 'stormy') {
+                        if (!plot.drainageUpgraded) {
+                            plot.state = 'wasteland';
+                            plot.seedId = null;
+                            plot.growth = null;
+                            plot.progress = 0;
+                            plot.growthTime = 0;
+                            plot.plantedAt = null;
+                            plot.lastWateredAt = null;
+                            plot.pest = false;
+                            plot.witherCountdown = 0;
+                        }
+                    }
+                    // 干旱：未浇水天数+1，3天未浇水枯死
+                    if (weather.id === 'drought') {
+                        const now = Date.now();
+                        if (!plot.lastWateredAt || now - plot.lastWateredAt > 24*60*60*1000) {
+                            plot.witherCountdown = (plot.witherCountdown || 0) + 1;
+                        } else {
+                            plot.witherCountdown = 0;
+                        }
+                        if (plot.witherCountdown >= 3) {
+                            plot.state = 'wasteland';
+                            plot.seedId = null;
+                            plot.growth = null;
+                            plot.progress = 0;
+                            plot.growthTime = 0;
+                            plot.plantedAt = null;
+                            plot.lastWateredAt = null;
+                            plot.pest = false;
+                            plot.witherCountdown = 0;
+                        }
+                    }
+                    // 台风：未加固果树倒伏
+                    if (weather.id === 'typhoon') {
+                        const fruitTreeIds = ['apple','banana','grape','apricot','melon','mikan','walnut','sakura'];
+                        if (fruitTreeIds.includes(plot.seedId) && !plot.reinforced) {
+                            plot.state = 'wasteland';
+                            plot.seedId = null;
+                            plot.growth = null;
+                            plot.progress = 0;
+                            plot.growthTime = 0;
+                            plot.plantedAt = null;
+                            plot.lastWateredAt = null;
+                            plot.pest = false;
+                            plot.witherCountdown = 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 在initGame和generateDailyTasks后调用
+        dailyWeatherAffect();
+
+        // 3. 浇水按钮交互
+        setTimeout(() => {
+            document.querySelectorAll('.water-btn').forEach(btn => {
+                if (btn.disabled) return;
+                btn.onclick = function(e) {
+                    e.stopPropagation();
+                    const idx = parseInt(this.getAttribute('data-plot-index'));
+                    const plot = gameState.farmData[idx];
+                    plot.lastWateredAt = Date.now();
+                    plot.witherCountdown = 0;
+                    renderFarm();
+                    saveGameData();
+                    showNotification('浇水成功！', 'success');
+                };
+            });
+        }, 0);
+
+        // 1. 每天自动刷新天气
+        function autoRefreshWeather() {
+            // 按权重概率生成天气，权重越高越常见
+            const weatherPool = [
+                { id: 'sunny', weight: 30 },
+                { id: 'rainy', weight: 20 },
+                { id: 'stormy', weight: 8 },
+                { id: 'drought', weight: 6 },
+                { id: 'typhoon', weight: 4 },
+                { id: 'rainbow', weight: 2 },
+                { id: 'sandstorm', weight: 2 }
+            ];
+            let total = weatherPool.reduce((sum, w) => sum + w.weight, 0);
+            let r = Math.random() * total;
+            for (let w of weatherPool) {
+                if (r < w.weight) {
+                    gameState.weather = w.id;
+                    break;
+                }
+                r -= w.weight;
+            }
+            saveGameData();
+            renderWeather();
+            dailyWeatherAffect();
+            renderFarm();
+        }
+
+        // 2. 新增"花费金币刷新天气"按钮
+        function setupWeatherRefreshBtn() {
+            if (!document.getElementById('weather-refresh-btn')) {
+                const btn = document.createElement('button');
+                btn.id = 'weather-refresh-btn';
+                btn.className = 'ml-4 px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded shadow';
+                btn.textContent = '花10金币刷新天气';
+                document.getElementById('weather-name').parentNode.appendChild(btn);
+                btn.onclick = function() {
+                    if (gameState.money < 10) {
+                        showNotification('金币不足，无法刷新天气', 'error');
+                        return;
+                    }
+                    gameState.money -= 10;
+                    autoRefreshWeather();
+                    updateUI();
+                    showNotification('已刷新天气', 'success');
+                };
+            }
+        }
+
+        // 在initGame和每日刷新时调用 autoRefreshWeather 和 setupWeatherRefreshBtn
+        // 例如initGame最后加：
+        setupWeatherRefreshBtn();
     </script>
-<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=diyuyang/boss" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
+</body>
 </html>
