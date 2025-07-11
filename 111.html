@@ -110,6 +110,210 @@
             background-size: cover;
             background-attachment: fixed;
         }
+        
+        /* 天气效果样式 */
+        .weather-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        /* 晴天效果 - 阳光照射 */
+        .weather-sunny::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 0, 0.1) 0%, transparent 70%);
+            animation: sunnyGlow 3s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes sunnyGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+        
+        /* 雨天效果 - 雨滴动画 */
+        .weather-rainy::before {
+            content: '🌧️';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 2rem;
+            animation: rainFall 1s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes rainFall {
+            0% { transform: translateY(-100px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        
+        /* 暴雨效果 - 密集雨滴和闪电 */
+        .weather-stormy::before {
+            content: '⛈️';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 2.5rem;
+            animation: stormRain 0.8s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .weather-stormy::after {
+            content: '⚡';
+            position: fixed;
+            top: 20%;
+            left: 30%;
+            font-size: 4rem;
+            animation: lightning 2s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes stormRain {
+            0% { transform: translateY(-100px); opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        
+        @keyframes lightning {
+            0%, 90% { opacity: 0; }
+            95% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        /* 干旱效果 - 热浪扭曲 */
+        .weather-drought::before {
+            content: '🔥';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 2rem;
+            animation: heatWave 2s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes heatWave {
+            0%, 100% { 
+                opacity: 0.3; 
+                transform: scale(1) rotate(0deg); 
+            }
+            50% { 
+                opacity: 0.7; 
+                transform: scale(1.1) rotate(5deg); 
+            }
+        }
+        
+        /* 台风效果 - 旋转风 */
+        .weather-typhoon::before {
+            content: '🌀';
+            position: fixed;
+            top: 20%;
+            left: 20%;
+            font-size: 3rem;
+            animation: typhoonSpin 1.5s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .weather-typhoon::after {
+            content: '💨';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 1.5rem;
+            animation: windBlow 1s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes typhoonSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        
+        @keyframes windBlow {
+            0% { transform: translateX(-100px) translateY(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100vw) translateY(50px); opacity: 0; }
+        }
+        
+        /* 彩虹天效果 - 彩虹色彩 */
+        .weather-rainbow::before {
+            content: '🌈';
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 4rem;
+            animation: rainbowGlow 3s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes rainbowGlow {
+            0%, 100% { 
+                opacity: 0.6; 
+                transform: translateX(-50%) scale(1); 
+            }
+            50% { 
+                opacity: 1; 
+                transform: translateX(-50%) scale(1.1); 
+            }
+        }
+        
+        /* 沙尘暴效果 - 沙尘飞舞 */
+        .weather-sandstorm::before {
+            content: '🌪️';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 2rem;
+            animation: sandstormSwirl 2s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes sandstormSwirl {
+            0% { 
+                transform: translateX(-50px) translateY(0) rotate(0deg); 
+                opacity: 0.3; 
+            }
+            50% { 
+                transform: translateX(50px) translateY(50px) rotate(180deg); 
+                opacity: 0.7; 
+            }
+            100% { 
+                transform: translateX(-50px) translateY(100px) rotate(360deg); 
+                opacity: 0.3; 
+            }
+        }
         /* 卡片和按钮美化 */
         .card-strong {
             background: rgba(255,255,255,0.92);
@@ -227,11 +431,221 @@
             box-shadow: 0 8px 24px 0 rgba(67,233,123,0.18);
             transform: scale(1.04);
         }
+        
+        /* 随机事件动画样式 */
+        .event-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            z-index: 1000;
+            animation: eventPopup 3s ease-in-out forwards;
+            text-align: center;
+            min-width: 300px;
+        }
+        
+        @keyframes eventPopup {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+        }
+        
+        /* 金雨动画 */
+        .rainbow-rain {
+            position: relative;
+            overflow: hidden;
+        }
+        .rainbow-rain::before {
+            content: '🌧️';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            animation: goldenRain 2s linear infinite;
+            font-size: 2rem;
+            color: #ffd700;
+        }
+        
+        @keyframes goldenRain {
+            0% { transform: translateY(-100px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100px); opacity: 0; }
+        }
+        
+        /* 精灵闪烁动画 */
+        .fairy-sparkle {
+            animation: fairySparkle 1.5s ease-in-out;
+        }
+        
+        @keyframes fairySparkle {
+            0% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.2); filter: brightness(1.5) hue-rotate(60deg); }
+            100% { transform: scale(1); filter: brightness(1); }
+        }
+        
+        /* 营养发光动画 */
+        .nutrient-glow {
+            animation: nutrientGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes nutrientGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.8); }
+        }
+        
+        /* 时钟旋转动画 */
+        .clock-spin {
+            animation: clockSpin 1s linear infinite;
+        }
+        
+        @keyframes clockSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 虫害爬行动画 */
+        .pest-crawl {
+            animation: pestCrawl 1s ease-in-out;
+        }
+        
+        .pest-crawl::after {
+            content: '🐛';
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: bugCrawl 2s linear infinite;
+        }
+        
+        @keyframes pestCrawl {
+            0% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(0.9); filter: brightness(0.7); }
+            100% { transform: scale(1); filter: brightness(1); }
+        }
+        
+        @keyframes bugCrawl {
+            0% { transform: translateX(-20px) translateY(0); }
+            25% { transform: translateX(0) translateY(-5px); }
+            50% { transform: translateX(20px) translateY(0); }
+            75% { transform: translateX(0) translateY(5px); }
+            100% { transform: translateX(-20px) translateY(0); }
+        }
+        
+        /* 病害扩散动画 */
+        .disease-spread {
+            animation: diseaseSpread 2s ease-in-out;
+        }
+        
+        @keyframes diseaseSpread {
+            0% { filter: brightness(1) saturate(1); }
+            50% { filter: brightness(0.8) saturate(0.5) hue-rotate(180deg); }
+            100% { filter: brightness(1) saturate(1); }
+        }
+        
+        /* 霜冻冻结动画 */
+        .frost-freeze {
+            animation: frostFreeze 1.5s ease-in-out;
+        }
+        
+        .frost-freeze::after {
+            content: '❄️';
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: frostFall 2s linear infinite;
+        }
+        
+        @keyframes frostFreeze {
+            0% { filter: brightness(1) saturate(1); }
+            100% { filter: brightness(0.7) saturate(0.3) hue-rotate(180deg); }
+        }
+        
+        @keyframes frostFall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(10px) rotate(180deg); opacity: 0; }
+        }
+        
+        /* 杂草生长动画 */
+        .weed-grow {
+            animation: weedGrow 2s ease-in-out;
+        }
+        
+        .weed-grow::after {
+            content: '🌿';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: weedSprout 1.5s ease-out;
+        }
+        
+        @keyframes weedGrow {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes weedSprout {
+            0% { transform: translateX(-50%) scale(0); opacity: 0; }
+            50% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+            100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+        }
+        
+        /* 迷雾旋转动画 */
+        .fog-swirl {
+            animation: fogSwirl 3s ease-in-out infinite;
+        }
+        
+        @keyframes fogSwirl {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+        
+        /* 土壤变化动画 */
+        .soil-shift {
+            animation: soilShift 2s ease-in-out;
+        }
+        
+        @keyframes soilShift {
+            0% { filter: brightness(1) saturate(1); }
+            50% { filter: brightness(1.2) saturate(1.3) hue-rotate(30deg); }
+            100% { filter: brightness(1) saturate(1); }
+        }
+        
+        /* 事件影响指示器 */
+        .event-indicator {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            animation: eventIndicator 2s ease-in-out infinite;
+            z-index: 10;
+        }
+        
+        @keyframes eventIndicator {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
     </style>
 </head>
 <body class="bg-green-50 min-h-screen" id="main-body">
     <!-- 退出登录按钮 -->
-    <button id="logout-btn" class="fixed top-4 left-4 z-50 bg-white border border-gray-300 shadow px-4 py-2 rounded-lg text-green-700 font-bold hover:bg-green-100">
+    <button id="logout-btn" class="fixed top-4 left-4 bg-white border border-gray-300 shadow px-4 py-2 rounded-lg text-green-700 font-bold hover:bg-green-100" style="z-index: 9999;">
       <i class="fas fa-sign-out-alt mr-2"></i>退出登录
     </button>
     <!-- 登录弹窗 -->
@@ -351,6 +765,20 @@
                 <div class="bg-white rounded-lg p-3 shadow">
                     <p class="font-semibold text-green-700"><i class="fas fa-chart-line text-blue-500 mr-1"></i> 经验: <span id="xp">0</span>/<span id="maxXp">100</span></p>
                 </div>
+                <!-- 天气详细信息 -->
+                <div id="weather-details" class="bg-white rounded-lg p-3 shadow cursor-pointer hover:bg-gray-50 transition">
+                    <p class="font-semibold text-green-700 text-sm mb-1"><i class="fas fa-cloud text-blue-500 mr-1"></i> 天气详情</p>
+                    <div id="weather-description" class="text-xs text-gray-600">
+                        <!-- 天气描述将在这里动态显示 -->
+                    </div>
+                </div>
+                <!-- 事件状态显示 -->
+                <div id="events-panel" class="bg-white rounded-lg p-3 shadow" style="display: none;">
+                    <p class="font-semibold text-green-700 text-sm mb-1"><i class="fas fa-magic text-purple-500 mr-1"></i> 活跃事件</p>
+                    <div id="active-events-list" class="text-xs text-gray-600">
+                        <!-- 事件列表将在这里动态显示 -->
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -452,7 +880,12 @@
             currentRegion: 'north_china', // 新增字段，默认中国东北
             tasks: [],
             farmData: [], // 当前区域农田数据（视图）
-            regionFarmData: {} // 各区域独立农田数据
+            regionFarmData: {}, // 各区域独立农田数据
+            // 随机事件相关字段
+            activeEvents: [], // 当前激活的事件
+            lastEventTime: 0, // 上次触发事件的时间
+            eventCooldown: 30000, // 事件冷却时间（30秒）
+            eventChance: 0.1 // 每秒触发事件的概率（10%）
         };
 
         // 地区数据（更细分且不重复）
@@ -529,13 +962,164 @@
 
         // 天气系统
         const weatherTypes = [
-            { id: 'sunny', name: '晴天', icon: '☀️', effect: { growth: 1.2, needWater: true, yieldPenaltyIfNoWater: true } },
-            { id: 'rainy', name: '雨天', icon: '🌧️', effect: { growth: 1.0, needWater: false, pestChance: 0.1 } },
-            { id: 'stormy', name: '暴雨', icon: '⛈️', effect: { destroyLowFarm: true, fishDouble: true } },
-            { id: 'drought', name: '干旱', icon: '🔥', effect: { growth: 0, needWater: true, witherIfNoWater: true } },
-            { id: 'typhoon', name: '台风', icon: '🌀', effect: { blowFruitTree: true, rareSeedDrop: true } },
-            { id: 'rainbow', name: '彩虹天', icon: '🌈', effect: { yieldBonus: 0.5 } },
-            { id: 'sandstorm', name: '沙尘暴', icon: '🌪️', effect: { disableCollect: true } }
+            { 
+                id: 'sunny', 
+                name: '晴天', 
+                icon: '☀️', 
+                effect: { growth: 1.2, needWater: true, yieldPenaltyIfNoWater: true },
+                description: '阳光充足，作物生长加快20%，但需要及时浇水'
+            },
+            { 
+                id: 'rainy', 
+                name: '雨天', 
+                icon: '🌧️', 
+                effect: { growth: 1.0, needWater: false, pestChance: 0.1 },
+                description: '雨水滋润，无需浇水，但有10%概率出现病虫害'
+            },
+            { 
+                id: 'stormy', 
+                name: '暴雨', 
+                icon: '⛈️', 
+                effect: { destroyLowFarm: true, fishDouble: true },
+                description: '暴雨来袭，未升级排水的农田可能被破坏'
+            },
+            { 
+                id: 'drought', 
+                name: '干旱', 
+                icon: '🔥', 
+                effect: { growth: 0, needWater: true, witherIfNoWater: true },
+                description: '极度干旱，作物停止生长，3天不浇水会枯死'
+            },
+            { 
+                id: 'typhoon', 
+                name: '台风', 
+                icon: '🌀', 
+                effect: { blowFruitTree: true, rareSeedDrop: true },
+                description: '台风过境，未加固的果树可能倒伏'
+            },
+            { 
+                id: 'rainbow', 
+                name: '彩虹天', 
+                icon: '🌈', 
+                effect: { yieldBonus: 0.5 },
+                description: '彩虹天赐福，作物售价提升50%'
+            },
+            { 
+                id: 'sandstorm', 
+                name: '沙尘暴', 
+                icon: '🌪️', 
+                effect: { disableCollect: true },
+                description: '沙尘暴肆虐，无法收获作物'
+            }
+        ];
+
+        // 随机事件系统
+        const randomEvents = [
+            // 正面事件
+            { 
+                id: 'golden_rain', 
+                name: '金雨降临', 
+                icon: '🌧️', 
+                color: 'text-yellow-500',
+                effect: 'growth_boost',
+                duration: 30, // 30秒
+                description: '作物生长速度提升50%',
+                animation: 'rainbow-rain'
+            },
+            { 
+                id: 'fairy_blessing', 
+                name: '精灵祝福', 
+                icon: '🧚', 
+                color: 'text-pink-500',
+                effect: 'instant_growth',
+                duration: 0, // 立即生效
+                description: '所有作物立即成熟',
+                animation: 'fairy-sparkle'
+            },
+            { 
+                id: 'nutrient_boost', 
+                name: '营养爆发', 
+                icon: '💚', 
+                color: 'text-green-500',
+                effect: 'quality_boost',
+                duration: 60, // 60秒
+                description: '作物品质提升，售价翻倍',
+                animation: 'nutrient-glow'
+            },
+            { 
+                id: 'time_acceleration', 
+                name: '时间加速', 
+                icon: '⏰', 
+                color: 'text-blue-500',
+                effect: 'time_speed',
+                duration: 45, // 45秒
+                description: '时间流逝加快3倍',
+                animation: 'clock-spin'
+            },
+            
+            // 负面事件
+            { 
+                id: 'pest_invasion', 
+                name: '虫害入侵', 
+                icon: '🐛', 
+                color: 'text-red-500',
+                effect: 'pest_damage',
+                duration: 20, // 20秒
+                description: '作物受到虫害，生长停滞',
+                animation: 'pest-crawl'
+            },
+            { 
+                id: 'disease_outbreak', 
+                name: '病害爆发', 
+                icon: '🦠', 
+                color: 'text-purple-500',
+                effect: 'disease_damage',
+                duration: 25, // 25秒
+                description: '作物感染病害，产量减半',
+                animation: 'disease-spread'
+            },
+            { 
+                id: 'frost_damage', 
+                name: '霜冻伤害', 
+                icon: '❄️', 
+                color: 'text-cyan-500',
+                effect: 'frost_damage',
+                duration: 15, // 15秒
+                description: '作物受到霜冻，生长缓慢',
+                animation: 'frost-freeze'
+            },
+            { 
+                id: 'weed_infestation', 
+                name: '杂草丛生', 
+                icon: '🌿', 
+                color: 'text-brown-500',
+                effect: 'weed_competition',
+                duration: 35, // 35秒
+                description: '杂草抢夺养分，生长减速',
+                animation: 'weed-grow'
+            },
+            
+            // 中性事件
+            { 
+                id: 'mysterious_fog', 
+                name: '神秘迷雾', 
+                icon: '🌫️', 
+                color: 'text-gray-500',
+                effect: 'random_effect',
+                duration: 40, // 40秒
+                description: '迷雾笼罩，随机效果',
+                animation: 'fog-swirl'
+            },
+            { 
+                id: 'soil_change', 
+                name: '土壤变化', 
+                icon: '🌱', 
+                color: 'text-orange-500',
+                effect: 'soil_alteration',
+                duration: 50, // 50秒
+                description: '土壤性质改变，影响未知',
+                animation: 'soil-shift'
+            }
         ];
 
         // 成就系统
@@ -701,10 +1285,12 @@
             renderWeather();
             renderTasks();
             updateUI();
+            
+            // 确保天气效果在初始化时应用
+            applyWeatherEffect(gameState.weather);
 
-            // 检查扩展农田按钮状态
+            // 检查扩展农田按钮
             checkExpandFarmButton();
-            checkAchievements();
 
             // 设置自动保存
             setupAutoSave();
@@ -718,8 +1304,6 @@
                 document.getElementById('admin-grow-btn').style.display = 'none';
             }
 
-            // 1. 每天自动刷新天气
-            autoRefreshWeather();
             // 2. 新增"花费金币刷新天气"按钮
             setupWeatherRefreshBtn();
         }
@@ -1012,6 +1596,22 @@
                     }
                 }
                 
+                // 添加事件影响指示器
+                const activeEvent = gameState.activeEvents.find(event => 
+                    event.affectedPlots.includes(i)
+                );
+                
+                if (activeEvent) {
+                    const eventIndicator = document.createElement('div');
+                    eventIndicator.className = `event-indicator ${activeEvent.color}`;
+                    eventIndicator.innerHTML = activeEvent.icon;
+                    eventIndicator.title = `${activeEvent.name}: ${activeEvent.description}`;
+                    plot.appendChild(eventIndicator);
+                    
+                    // 添加事件动画类
+                    plot.classList.add(activeEvent.animation);
+                }
+                
                 plot.setAttribute('data-plot-index', i);
                 plot.addEventListener('click', () => handlePlotClick(i));
                 elements.farmGrid.appendChild(plot);
@@ -1216,27 +1816,49 @@
             const weather = weatherTypes.find(w => w.id === gameState.weather);
             // 应用质量升级和天气影响
             let sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
-            // 彩虹天加产
-            if (weather && weather.id === 'rainbow') {
-                sellPrice = Math.floor(sellPrice * 1.5);
+            
+            // 根据天气类型应用不同的价格影响
+            if (weather) {
+                if (weather.id === 'rainbow') {
+                    // 彩虹天：产量加成50%
+                    sellPrice = Math.floor(sellPrice * 1.5);
+                } else if (weather.id === 'sunny') {
+                    // 晴天：正常价格，但未浇水减产
+                    if (!plotData.lastWateredAt || Date.now() - plotData.lastWateredAt > 24*60*60*1000) {
+                        sellPrice = Math.floor(sellPrice * 0.5);
+                    }
+                } else if (weather.id === 'rainy') {
+                    // 雨天：正常价格
+                    sellPrice = sellPrice;
+                } else if (weather.id === 'stormy') {
+                    // 暴雨：价格降低20%
+                    sellPrice = Math.floor(sellPrice * 0.8);
+                } else if (weather.id === 'drought') {
+                    // 干旱：价格降低30%
+                    sellPrice = Math.floor(sellPrice * 0.7);
+                } else if (weather.id === 'typhoon') {
+                    // 台风：价格降低25%
+                    sellPrice = Math.floor(sellPrice * 0.75);
+                } else if (weather.id === 'sandstorm') {
+                    // 沙尘暴：价格降低40%
+                    sellPrice = Math.floor(sellPrice * 0.6);
+                }
             }
-            // 晴天未浇水减产
-            if (weather && weather.id === 'sunny' && (!plotData.lastWateredAt || Date.now() - plotData.lastWateredAt > 24*60*60*1000)) {
+            
+            // 应用事件影响
+            if (plotData.qualityMultiplier) {
+                sellPrice = Math.floor(sellPrice * plotData.qualityMultiplier);
+            }
+            if (plotData.disease) {
                 sellPrice = Math.floor(sellPrice * 0.5);
             }
+            if (plotData.soilEffect) {
+                sellPrice = Math.floor(sellPrice * plotData.soilEffect.quality);
+            }
+            
             // 病虫害减产
             if (plotData.pest) {
                 sellPrice = Math.floor(sellPrice * 0.7);
-            }
-            // ...原有温室、天气影响...
-            if (gameState.upgrades.greenhouse > 0) {
-                const weatherImpactReduction = 0.5; // 温室减少50%天气影响
-                if (weather && weather.effect && weather.effect.price !== undefined) {
-                    const adjustedPriceEffect = weather.effect.price + (1 - weather.effect.price) * weatherImpactReduction;
-                    sellPrice = Math.floor(sellPrice * adjustedPriceEffect);
-                }
-            } else if (weather && weather.effect && weather.effect.price !== undefined) {
-                sellPrice = Math.floor(sellPrice * weather.effect.price);
             }
             // 更新游戏状态（只获得经验，不获得金币）
             gameState.xp += seed.xp;
@@ -1325,13 +1947,36 @@
                 const sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
                 const weather = weatherTypes.find(w => w.id === gameState.weather);
                 let adjustedPrice = sellPrice;
-                if (gameState.upgrades.greenhouse > 0) {
-                    const weatherImpactReduction = 0.5;
-                    const adjustedPriceEffect = weather.effect.price + (1 - weather.effect.price) * weatherImpactReduction;
-                    adjustedPrice = Math.floor(sellPrice * adjustedPriceEffect);
-                } else {
-                    adjustedPrice = Math.floor(sellPrice * weather.effect.price);
+                
+                // 根据天气类型应用不同的价格影响
+                if (weather) {
+                    if (weather.id === 'rainbow') {
+                        // 彩虹天：产量加成50%
+                        adjustedPrice = Math.floor(sellPrice * 1.5);
+                    } else if (weather.id === 'sunny') {
+                        // 晴天：正常价格
+                        adjustedPrice = sellPrice;
+                    } else if (weather.id === 'rainy') {
+                        // 雨天：正常价格
+                        adjustedPrice = sellPrice;
+                    } else if (weather.id === 'stormy') {
+                        // 暴雨：价格降低20%
+                        adjustedPrice = Math.floor(sellPrice * 0.8);
+                    } else if (weather.id === 'drought') {
+                        // 干旱：价格降低30%
+                        adjustedPrice = Math.floor(sellPrice * 0.7);
+                    } else if (weather.id === 'typhoon') {
+                        // 台风：价格降低25%
+                        adjustedPrice = Math.floor(sellPrice * 0.75);
+                    } else if (weather.id === 'sandstorm') {
+                        // 沙尘暴：价格降低40%
+                        adjustedPrice = Math.floor(sellPrice * 0.6);
+                    } else {
+                        // 默认正常价格
+                        adjustedPrice = sellPrice;
+                    }
                 }
+                
                 return `
                     <div class="flex justify-between items-center p-3 border-b card-strong mb-2">
                         <div class="flex items-center">
@@ -1365,13 +2010,36 @@
                 const sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
                 const weather = weatherTypes.find(w => w.id === gameState.weather);
                 let adjustedPrice = sellPrice;
-                if (gameState.upgrades.greenhouse > 0) {
-                    const weatherImpactReduction = 0.5;
-                    const adjustedPriceEffect = weather.effect.price + (1 - weather.effect.price) * weatherImpactReduction;
-                    adjustedPrice = Math.floor(sellPrice * adjustedPriceEffect);
-                } else {
-                    adjustedPrice = Math.floor(sellPrice * weather.effect.price);
+                
+                // 根据天气类型应用不同的价格影响
+                if (weather) {
+                    if (weather.id === 'rainbow') {
+                        // 彩虹天：产量加成50%
+                        adjustedPrice = Math.floor(sellPrice * 1.5);
+                    } else if (weather.id === 'sunny') {
+                        // 晴天：正常价格
+                        adjustedPrice = sellPrice;
+                    } else if (weather.id === 'rainy') {
+                        // 雨天：正常价格
+                        adjustedPrice = sellPrice;
+                    } else if (weather.id === 'stormy') {
+                        // 暴雨：价格降低20%
+                        adjustedPrice = Math.floor(sellPrice * 0.8);
+                    } else if (weather.id === 'drought') {
+                        // 干旱：价格降低30%
+                        adjustedPrice = Math.floor(sellPrice * 0.7);
+                    } else if (weather.id === 'typhoon') {
+                        // 台风：价格降低25%
+                        adjustedPrice = Math.floor(sellPrice * 0.75);
+                    } else if (weather.id === 'sandstorm') {
+                        // 沙尘暴：价格降低40%
+                        adjustedPrice = Math.floor(sellPrice * 0.6);
+                    } else {
+                        // 默认正常价格
+                        adjustedPrice = sellPrice;
+                    }
                 }
+                
                 gameState.money += adjustedPrice * qty;
                 gameState.inventory[seedId] -= qty;
                 if (gameState.inventory[seedId] <= 0) {
@@ -1575,6 +2243,105 @@
                 growthText = '';
             }
             document.getElementById('weather-effects').textContent = growthText;
+            
+            // 更新天气详情面板
+            updateWeatherDetails(weather);
+            
+            // 应用天气视觉效果
+            applyWeatherEffect(gameState.weather);
+        }
+        
+        // 更新天气详情面板
+        function updateWeatherDetails(weather) {
+            const weatherDetails = document.getElementById('weather-details');
+            const weatherDescription = document.getElementById('weather-description');
+            
+            if (weather && weatherDetails && weatherDescription) {
+                let detailsText = weather.description;
+                
+                // 添加特殊效果说明
+                if (weather.effect.growth > 1) {
+                    detailsText += `\n生长速度: +${Math.round((weather.effect.growth - 1) * 100)}%`;
+                } else if (weather.effect.growth === 0) {
+                    detailsText += '\n生长速度: 停止';
+                } else {
+                    detailsText += '\n生长速度: 正常';
+                }
+                
+                if (weather.effect.yieldBonus) {
+                    detailsText += `\n售价加成: +${Math.round(weather.effect.yieldBonus * 100)}%`;
+                }
+                
+                if (weather.effect.needWater) {
+                    detailsText += '\n需要浇水: 是';
+                } else {
+                    detailsText += '\n需要浇水: 否';
+                }
+                
+                if (weather.effect.pestChance) {
+                    detailsText += `\n病虫害概率: ${Math.round(weather.effect.pestChance * 100)}%`;
+                }
+                
+                weatherDescription.textContent = detailsText;
+                
+                // 移除之前的事件监听器，避免重复绑定
+                weatherDetails.removeEventListener('click', weatherDetails._weatherClickHandler);
+                
+                // 创建新的点击处理函数
+                weatherDetails._weatherClickHandler = function() {
+                    showWeatherInfoModal(weather);
+                };
+                
+                // 添加新的点击事件
+                weatherDetails.addEventListener('click', weatherDetails._weatherClickHandler);
+            }
+        }
+        
+        // 显示天气信息弹窗
+        function showWeatherInfoModal(weather) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[10000]';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+                    <div class="text-center mb-4">
+                        <div class="text-4xl mb-2">${weather.icon}</div>
+                        <h2 class="text-xl font-bold text-gray-800">${weather.name}</h2>
+                    </div>
+                    <div class="text-gray-600 mb-4">
+                        <p class="mb-2">${weather.description}</p>
+                        <div class="border-t pt-2">
+                            <p><strong>生长速度:</strong> ${weather.effect.growth > 1 ? '+' + Math.round((weather.effect.growth - 1) * 100) + '%' : weather.effect.growth === 0 ? '停止' : '正常'}</p>
+                            ${weather.effect.yieldBonus ? `<p><strong>售价加成:</strong> +${Math.round(weather.effect.yieldBonus * 100)}%</p>` : ''}
+                            <p><strong>需要浇水:</strong> ${weather.effect.needWater ? '是' : '否'}</p>
+                            ${weather.effect.pestChance ? `<p><strong>病虫害概率:</strong> ${Math.round(weather.effect.pestChance * 100)}%</p>` : ''}
+                        </div>
+                    </div>
+                    <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg" onclick="this.parentElement.parentElement.remove()">
+                        关闭
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // 点击背景关闭弹窗
+            modal.onclick = function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            };
+        }
+        
+        // 应用天气视觉效果
+        function applyWeatherEffect(weatherId) {
+            const body = document.getElementById('main-body');
+            
+            // 移除所有天气效果类
+            body.classList.remove('weather-sunny', 'weather-rainy', 'weather-stormy', 
+                                'weather-drought', 'weather-typhoon', 'weather-rainbow', 'weather-sandstorm');
+            
+            // 添加当前天气效果类
+            body.classList.add(`weather-${weatherId}`);
         }
 
         // 生成每日任务
@@ -1757,13 +2524,20 @@
         // 登录逻辑
         function checkLogin() {
             const loginModal = document.getElementById('login-modal');
+            const logoutBtn = document.getElementById('logout-btn');
             const isLoggedIn = localStorage.getItem('happyFarmLoggedIn');
             if (!isLoggedIn) {
                 loginModal.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
+                // 确保退出登录按钮在登录弹窗时也可见
+                logoutBtn.style.display = 'block';
+                logoutBtn.style.zIndex = '9999';
             } else {
                 loginModal.style.display = 'none';
                 document.body.style.overflow = '';
+                // 确保退出登录按钮在游戏界面时也可见
+                logoutBtn.style.display = 'block';
+                logoutBtn.style.zIndex = '9999';
             }
             const loginForm = document.getElementById('login-form');
             const loginAccount = document.getElementById('login-account');
@@ -1803,66 +2577,43 @@
                     showNotification('账号或密码错误，请先注册！', 'error');
                 }
             };
-            // 注册按钮事件
-            document.querySelectorAll('.register-btn').forEach(btn => {
-                btn.onclick = function() {
-                    const currentType = this.getAttribute('data-type');
-                    if(!loginAccount.value || !loginPassword.value){
-                        showNotification('请输入账号和密码', 'error');
-                        return;
-                    }
-                    // 管理员账号不能注册
-                    if(loginAccount.value === 'dyyssb'){
-                        showNotification('该账号为管理员专用，不能注册！', 'error');
-                        return;
-                    }
-                    // 注册时存入happyFarmUsers
-                    let users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
-                    if(users.find(u => u.account === loginAccount.value)){
-                        showNotification('该账号已被注册！', 'error');
-                        return;
-                    }
-                    const userInfo = {
-                        type: currentType,
-                        account: loginAccount.value,
-                        password: loginPassword.value,
-                        lastPlayed: new Date().toLocaleString(),
-                        money: 100,
-                        xp: 0,
-                        level: 1
-                    };
-                    users.push(userInfo);
-                    localStorage.setItem('happyFarmUsers', JSON.stringify(users));
-                    localStorage.setItem('happyFarmUserInfo', JSON.stringify(userInfo));
-                    localStorage.setItem('happyFarmLoggedIn', currentType);
-                    currentUserAccount = userInfo.account;
-                    loginModal.style.display = 'none';
-                    document.body.style.overflow = '';
-                    showNotification('注册并登录成功！', 'success');
-                    document.getElementById('admin-open-btn').style.display = 'none';
-                    document.getElementById('admin-grow-btn').style.display = 'none';
-                    initGame();
-                };
-            });
+
         }
         // 退出登录逻辑
         function setupLogoutBtn() {
             const logoutBtn = document.getElementById('logout-btn');
             // 始终显示退出登录按钮（即使在登录弹窗时也可见）
             logoutBtn.style.display = 'block';
-            logoutBtn.onclick = function() {
-                localStorage.removeItem('happyFarmLoggedIn');
-                location.reload();
-            };
+            logoutBtn.style.zIndex = '9999';
+            
+            // 移除之前的事件监听器，避免重复绑定
+            logoutBtn.removeEventListener('click', handleLogout);
+            // 添加新的事件监听器
+            logoutBtn.addEventListener('click', handleLogout);
         }
+        
+        // 退出登录处理函数
+        function handleLogout() {
+            console.log('退出登录按钮被点击');
+            localStorage.removeItem('happyFarmLoggedIn');
+            localStorage.removeItem('happyFarmUserInfo');
+            currentUserAccount = null;
+            location.reload();
+        }
+        // DOM加载完成后立即设置退出登录按钮
+        document.addEventListener('DOMContentLoaded', function() {
+            setupLogoutBtn();
+        });
+        
         // 页面加载时先检查登录
         window.onload = function() {
+            // 立即设置退出登录按钮
+            setupLogoutBtn();
             setupLoginRegisterSwitch();
             checkLogin();
             if (localStorage.getItem('happyFarmLoggedIn')) {
                 initGame();
             }
-            setupLogoutBtn();
             // 管理员按钮显示逻辑
             if(localStorage.getItem('happyFarmLoggedIn') === 'admin'){
                 document.getElementById('admin-open-btn').style.display = 'block';
@@ -1903,10 +2654,22 @@
                                 if (plotData.state === 'planted' && plotData.plantedAt && plotData.growthTime) {
                                     const now = Date.now();
                                     const elapsed = (now - plotData.plantedAt) / 1000;
-                                    plotData.progress = elapsed;
+                                    
+                                    // 计算事件影响
+                                    let timeMultiplier = 1;
+                                    if (plotData.timeSpeedMultiplier) {
+                                        timeMultiplier = plotData.timeSpeedMultiplier;
+                                    }
+                                    if (plotData.growthSpeedMultiplier) {
+                                        timeMultiplier *= plotData.growthSpeedMultiplier;
+                                    }
+                                    
+                                    // 应用时间倍数
+                                    const adjustedElapsed = elapsed * timeMultiplier;
+                                    plotData.progress = adjustedElapsed;
+                                    
                                     if (plotData.growthTime) {
                                         const totalSeconds = plotData.growthTime * 60; // growTime 单位变为分钟
-                                        plotData.progress = elapsed;
                                         if (plotData.progress >= totalSeconds) {
                                             plotData.growth = 'completed';
                                             plotData.progress = totalSeconds;
@@ -2000,7 +2763,7 @@
 
         // 登录/注册弹窗切换逻辑
         function setupLoginRegisterSwitch() {
-            // 只保留注册方式按钮->具体注册表单
+            // 注册方式按钮->具体注册表单
             document.querySelectorAll('.register-way-btn').forEach(btn => {
                 btn.onclick = function() {
                     const type = this.getAttribute('data-type');
@@ -2211,17 +2974,48 @@
             ];
             let total = weatherPool.reduce((sum, w) => sum + w.weight, 0);
             let r = Math.random() * total;
+            let newWeather = 'sunny';
             for (let w of weatherPool) {
                 if (r < w.weight) {
-                    gameState.weather = w.id;
+                    newWeather = w.id;
                     break;
                 }
                 r -= w.weight;
             }
+            
+            // 如果天气发生变化，显示特殊效果
+            if (newWeather !== gameState.weather) {
+                const oldWeather = weatherTypes.find(w => w.id === gameState.weather);
+                const newWeatherObj = weatherTypes.find(w => w.id === newWeather);
+                
+                // 显示天气变化动画
+                showWeatherChangeAnimation(oldWeather, newWeatherObj);
+            }
+            
+            gameState.weather = newWeather;
             saveGameData();
             renderWeather();
             dailyWeatherAffect();
             renderFarm();
+        }
+        
+        // 显示天气变化动画
+        function showWeatherChangeAnimation(oldWeather, newWeather) {
+            // 创建天气变化通知
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-80 text-white p-6 rounded-lg text-center z-[10000]';
+            notification.innerHTML = `
+                <div class="text-4xl mb-4">${oldWeather ? oldWeather.icon : '🌤️'} → ${newWeather.icon}</div>
+                <div class="text-xl mb-2">${oldWeather ? oldWeather.name : '未知'} → ${newWeather.name}</div>
+                <div class="text-sm opacity-75">天气正在变化...</div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // 3秒后移除通知
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
         }
 
         // 2. 新增"花费金币刷新天气"按钮
@@ -2238,9 +3032,18 @@
                         return;
                     }
                     gameState.money -= 10;
-                    autoRefreshWeather();
-                    updateUI();
-                    showNotification('已刷新天气', 'success');
+                    
+                    // 显示刷新动画
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 刷新中...';
+                    btn.disabled = true;
+                    
+                    setTimeout(() => {
+                        autoRefreshWeather();
+                        updateUI();
+                        showNotification('已刷新天气', 'success');
+                        btn.innerHTML = '花10金币刷新天气';
+                        btn.disabled = false;
+                    }, 1000);
                 };
             }
         }
