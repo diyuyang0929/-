@@ -714,12 +714,17 @@
             </div>
             <div>
               <label class="block text-gray-700 text-sm font-bold mb-1">天气</label>
-              <select id="admin-weather" class="w-full border rounded px-2 py-1">
-                <option value="sunny">晴天</option>
-                <option value="rainy">雨天</option>
-                <option value="cloudy">阴天</option>
-                <option value="stormy">暴风雨</option>
-              </select>
+              <div class="flex items-center gap-2">
+                <select id="admin-weather" class="w-full border rounded px-2 py-1">
+                  <option value="sunny">晴天</option>
+                  <option value="rainy">雨天</option>
+                  <option value="cloudy">阴天</option>
+                  <option value="stormy">暴风雨</option>
+                  <option value="typhoon">台风</option>
+                  <option value="rainbow">彩虹天</option>
+                </select>
+                <span class="text-xs text-gray-500 ml-2">仅本地前端生效</span>
+              </div>
             </div>
           </div>
           <button id="admin-save" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded font-bold mt-2">保存修改</button>
@@ -727,6 +732,11 @@
         <div>
           <h3 class="text-lg font-semibold mb-2">所有用户信息</h3>
           <div id="admin-users-list" class="overflow-x-auto text-sm"></div>
+        </div>
+        <!-- 随机事件管理 -->
+        <div class="mt-8">
+          <h3 class="text-lg font-semibold mb-2">随机事件管理</h3>
+          <div id="admin-events-list" class="grid grid-cols-1 gap-2"></div>
         </div>
         <button id="admin-close" class="mt-6 bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded font-bold self-end">关闭</button>
       </div>
@@ -842,6 +852,67 @@
                         <!-- 升级项将通过JavaScript动态生成 -->
                     </div>
                 </div>
+
+                <!-- 道具商店 -->
+                <div class="card-strong p-6">
+                    <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                        <i class="fas fa-toolbox mr-3"></i> 道具商店
+                    </h2>
+                    <div id="item-shop" class="space-y-3"></div>
+                </div>
+
+                <!-- 装饰商店 -->
+                <div class="card-strong p-6">
+                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                    <i class="fas fa-tree mr-3"></i> 装饰商店
+                  </h2>
+                  <div id="decor-shop" class="space-y-3"></div>
+                </div>
+
+                <!-- 我的装饰 -->
+                <div class="card-strong p-6">
+                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                    <i class="fas fa-gift mr-3"></i> 我的装饰
+                  </h2>
+                  <div id="my-decors" class="space-y-3"></div>
+                </div>
+
+                <!-- 动物商店 -->
+                <div class="card-strong p-6">
+                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                    <i class="fas fa-dog mr-3"></i> 动物商店
+                  </h2>
+                  <div id="animal-shop" class="space-y-3"></div>
+                </div>
+
+                <!-- 我的动物 -->
+                <div class="card-strong p-6">
+                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                    <i class="fas fa-paw mr-3"></i> 我的动物
+                  </h2>
+                  <div id="my-animals" class="space-y-3"></div>
+                </div>
+
+                <!-- 幸福值、动物健康、动物副产品 -->
+                <div class="card-strong p-6">
+                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                    <i class="fas fa-smile mr-3"></i> 幸福值
+                  </h2>
+                  <div id="happiness-bar" class="mb-2">幸福值: <span id="happiness-value">0</span></div>
+                </div>
+                <div class="card-strong p-6">
+                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                    <i class="fas fa-apple-alt mr-3"></i> 动物健康与喂养
+                  </h2>
+                  <div id="animal-health-list"></div>
+                  <div class="mt-2">饲料库存: <span id="feed-count">0</span> <button id="feed-animals-btn" class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded ml-2">喂养全部动物</button></div>
+                </div>
+                <div class="card-strong p-6">
+                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                    <i class="fas fa-gift mr-3"></i> 动物副产品
+                  </h2>
+                  <div id="animal-products-list"></div>
+                </div>
             </div>
         </main>
 
@@ -885,7 +956,14 @@
             activeEvents: [], // 当前激活的事件
             lastEventTime: 0, // 上次触发事件的时间
             eventCooldown: 30000, // 事件冷却时间（30秒）
-            eventChance: 0.1 // 每秒触发事件的概率（10%）
+            eventChance: 0.1, // 每秒触发事件的概率（10%）
+            items: { pesticide: 0, medicine: 0, weedkiller: 0, insulation: 0 }, // 新增道具背包，直接默认值
+            decors: { fence: 0, fountain: 0, scarecrow: 0, flowerbed: 0 },
+            animals: { chicken: 0, cow: 0, sheep: 0 }, // 新增动物库存
+            animalHealth: { chicken: 100, cow: 100, sheep: 100 }, // 健康度
+            animalFeed: 5, // 饲料库存
+            animalProducts: { egg: 0, milk: 0, wool: 0 }, // 副产品库存
+            happiness: 0 // 幸福值
         };
 
         // 地区数据（更细分且不重复）
@@ -1285,7 +1363,8 @@
             renderWeather();
             renderTasks();
             updateUI();
-            
+            renderItemShop(); // 确保道具商店渲染
+
             // 确保天气效果在初始化时应用
             applyWeatherEffect(gameState.weather);
 
@@ -1306,6 +1385,22 @@
 
             // 2. 新增"花费金币刷新天气"按钮
             setupWeatherRefreshBtn();
+
+            // 渲染道具商店和道具数量
+            renderItemShop();
+
+            // 渲染装饰商店和我的装饰
+            renderDecorShop();
+            renderMyDecors();
+
+            // 渲染动物商店和我的动物
+            renderAnimalShop();
+            renderMyAnimals();
+
+            // 渲染幸福值、动物健康、动物副产品
+            renderHappiness();
+            renderAnimalHealth();
+            renderAnimalProducts();
         }
 
         // 切换地区背景
@@ -1816,7 +1911,7 @@
             const weather = weatherTypes.find(w => w.id === gameState.weather);
             // 应用质量升级和天气影响
             let sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
-            
+
             // 根据天气类型应用不同的价格影响
             if (weather) {
                 if (weather.id === 'rainbow') {
@@ -1971,10 +2066,10 @@
                     } else if (weather.id === 'sandstorm') {
                         // 沙尘暴：价格降低40%
                         adjustedPrice = Math.floor(sellPrice * 0.6);
-                    } else {
+                } else {
                         // 默认正常价格
                         adjustedPrice = sellPrice;
-                    }
+                }
                 }
                 
                 return `
@@ -1985,9 +2080,9 @@
                         </div>
                         <div class="flex items-center gap-2">
                             <input type="number" min="1" max="${count}" value="1" class="sell-qty-input w-14 px-1 py-0.5 border rounded text-center mr-1" data-seed-id="${seedId}" />
-                            <button class="sell-btn btn-strong px-4 py-2 text-base" data-seed-id="${seedId}">
-                                出售 (${adjustedPrice}金币)
-                            </button>
+                        <button class="sell-btn btn-strong px-4 py-2 text-base" data-seed-id="${seedId}">
+                            出售 (${adjustedPrice}金币)
+                        </button>
                         </div>
                     </div>
                 `;
@@ -2000,6 +2095,7 @@
                     sellCrops(seedId, qty);
                 });
             });
+            renderItemShop(); // 确保道具商店渲染
         }
 
         // 出售作物，支持数量
@@ -2034,7 +2130,7 @@
                     } else if (weather.id === 'sandstorm') {
                         // 沙尘暴：价格降低40%
                         adjustedPrice = Math.floor(sellPrice * 0.6);
-                    } else {
+                } else {
                         // 默认正常价格
                         adjustedPrice = sellPrice;
                     }
@@ -2231,24 +2327,27 @@
 
         // 渲染天气信息
         function renderWeather() {
-            const weather = weatherTypes.find(w => w.id === gameState.weather);
-            document.getElementById('weather-icon').textContent = weather.icon;
-            document.getElementById('weather-name').textContent = weather.name;
-            // 只显示生长速度，不显示售价
-            let growthText = '';
-            if (weather.effect && weather.effect.growth !== undefined) {
-                const percent = Math.round((weather.effect.growth - 1) * 100);
-                growthText = `生长: ${percent > 0 ? '+' : ''}${percent}%`;
-            } else {
-                growthText = '';
+            const weatherIcon = document.getElementById('weather-icon');
+            const weatherName = document.getElementById('weather-name');
+            const weatherEffects = document.getElementById('weather-effects');
+            let icon = '☀️', name = '晴天', effects = '生长+0% 售价+0%';
+            switch(gameState.weather){
+                case 'sunny':
+                    icon = '☀️'; name = '晴天'; effects = '生长+0% 售价+0%'; break;
+                case 'rainy':
+                    icon = '🌧️'; name = '雨天'; effects = '生长+10% 售价-5%'; break;
+                case 'cloudy':
+                    icon = '☁️'; name = '阴天'; effects = '生长-5% 售价+0%'; break;
+                case 'stormy':
+                    icon = '⛈️'; name = '暴风雨'; effects = '生长-20% 售价-10%'; break;
+                case 'typhoon':
+                    icon = '🌀'; name = '台风'; effects = '作物易倒伏，生长-50%'; break;
+                case 'rainbow':
+                    icon = '🌈'; name = '彩虹天'; effects = '生长+20% 售价+10%'; break;
             }
-            document.getElementById('weather-effects').textContent = growthText;
-            
-            // 更新天气详情面板
-            updateWeatherDetails(weather);
-            
-            // 应用天气视觉效果
-            applyWeatherEffect(gameState.weather);
+            weatherIcon.textContent = icon;
+            weatherName.textContent = name;
+            weatherEffects.textContent = effects;
         }
         
         // 更新天气详情面板
@@ -2539,45 +2638,6 @@
                 logoutBtn.style.display = 'block';
                 logoutBtn.style.zIndex = '9999';
             }
-            const loginForm = document.getElementById('login-form');
-            const loginAccount = document.getElementById('login-account');
-            const loginPassword = document.getElementById('login-password');
-            // 登录按钮事件
-            document.getElementById('login-btn').onclick = function() {
-                if(!loginAccount.value || !loginPassword.value){
-                    showNotification('请输入账号和密码', 'error');
-                    return;
-                }
-                // 管理员账号判断
-                if(loginAccount.value === 'dyyssb' && loginPassword.value === 'dyyssb'){
-                    localStorage.setItem('happyFarmLoggedIn', 'admin');
-                    currentUserAccount = 'dyyssb';
-                    loginModal.style.display = 'none';
-                    document.body.style.overflow = '';
-                    showNotification('管理员登录成功！', 'success');
-                    document.getElementById('admin-open-btn').style.display = 'block';
-                    document.getElementById('admin-grow-btn').style.display = 'block';
-                    initGame();
-                    return;
-                }
-                // 只允许账号密码方式登录
-                const users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
-                const userInfo = users.find(u => u.account === loginAccount.value && u.password === loginPassword.value);
-                if(userInfo){
-                    localStorage.setItem('happyFarmLoggedIn', userInfo.type || 'account');
-                    localStorage.setItem('happyFarmUserInfo', JSON.stringify(userInfo));
-                    currentUserAccount = userInfo.account;
-                    loginModal.style.display = 'none';
-                    document.body.style.overflow = '';
-                    showNotification('登录成功！', 'success');
-                    document.getElementById('admin-open-btn').style.display = 'none';
-                    document.getElementById('admin-grow-btn').style.display = 'none';
-                    initGame();
-                } else {
-                    showNotification('账号或密码错误，请先注册！', 'error');
-                }
-            };
-
         }
         // 退出登录逻辑
         function setupLogoutBtn() {
@@ -2696,6 +2756,15 @@
             document.getElementById('admin-xp').value = gameState.xp;
             document.getElementById('admin-level').value = gameState.level;
             document.getElementById('admin-weather').value = gameState.weather;
+            // 实时天气切换
+            const adminWeather = document.getElementById('admin-weather');
+            adminWeather.onchange = function() {
+                gameState.weather = this.value;
+                updateUI();
+                renderWeather();
+                saveGameData();
+                showNotification('天气已切换', 'success');
+            };
             // 显示所有用户信息
             const users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
             const typeMap = { account: '账号密码', qq: 'QQ', wx: '微信', douyin: '抖音' };
@@ -2759,6 +2828,88 @@
             document.getElementById('admin-close').onclick = function() {
                 adminPanel.style.display = 'none';
             };
+            // 随机事件管理
+            const eventsList = document.getElementById('admin-events-list');
+            if (eventsList) {
+                eventsList.innerHTML = randomEvents.map(event => `
+                    <div class="flex items-center gap-2 p-2 border rounded-lg">
+                        <span class="text-2xl">${event.icon}</span>
+                        <span class="font-bold">${event.name}</span>
+                        <span class="text-xs text-gray-500">${event.description}</span>
+                        <button class="admin-trigger-event bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded ml-auto" data-event-id="${event.id}">触发</button>
+                    </div>
+                `).join('');
+                // 绑定触发事件按钮
+                eventsList.querySelectorAll('.admin-trigger-event').forEach(btn => {
+                    btn.onclick = function() {
+                        const eventId = this.getAttribute('data-event-id');
+                        const event = randomEvents.find(e => e.id === eventId);
+                        if (!event) return;
+                        // 随机影响部分地块
+                        const plantedPlots = gameState.farmData.filter(p => p.state === 'planted');
+                        if (plantedPlots.length === 0) {
+                            showNotification('当前没有已种植作物，无法触发事件', 'error');
+                            return;
+                        }
+                        const affectedCount = Math.max(1, Math.floor(Math.random() * plantedPlots.length));
+                        const affectedIndexes = [];
+                        while (affectedIndexes.length < affectedCount) {
+                            const idx = Math.floor(Math.random() * gameState.farmData.length);
+                            if (!affectedIndexes.includes(idx) && gameState.farmData[idx].state === 'planted') {
+                                affectedIndexes.push(idx);
+                            }
+                        }
+                        const now = Date.now();
+                        const eventObj = {
+                            ...event,
+                            affectedPlots: affectedIndexes,
+                            startTime: now
+                        };
+                        gameState.activeEvents.push(eventObj);
+                        gameState.lastEventTime = now;
+                        showNotification(`管理员触发事件：${event.icon} ${event.name} - ${event.description}`,'info');
+                        // 应用事件效果
+                        affectedIndexes.forEach(i => {
+                            const plot = gameState.farmData[i];
+                            switch(event.effect){
+                                case 'growth_boost':
+                                    plot.growthSpeedMultiplier = 1.5; break;
+                                case 'instant_growth':
+                                    plot.progress = plot.growthTime * 60; plot.growth = 'completed'; break;
+                                case 'quality_boost':
+                                    plot.qualityBoost = true; break;
+                                case 'time_speed':
+                                    plot.timeSpeedMultiplier = 3; break;
+                                case 'pest_damage':
+                                    plot.pest = true; break;
+                                case 'disease_damage':
+                                    plot.disease = true; break;
+                                case 'frost_damage':
+                                    plot.growthSpeedMultiplier = 0.5; break;
+                                case 'weed_competition':
+                                    plot.growthSpeedMultiplier = 0.7; break;
+                                case 'random_effect':
+                                    if (Math.random()<0.5) plot.pest = true; else plot.growthSpeedMultiplier = 2; break;
+                            }
+                        });
+                        renderFarm();
+                        saveGameData();
+                        // 定时移除事件
+                        setTimeout(()=>{
+                            affectedIndexes.forEach(i => {
+                                const plot = gameState.farmData[i];
+                                delete plot.growthSpeedMultiplier;
+                                delete plot.timeSpeedMultiplier;
+                                delete plot.qualityBoost;
+                                delete plot.disease;
+                            });
+                            gameState.activeEvents = gameState.activeEvents.filter(e=>e!==eventObj);
+                            renderFarm();
+                            saveGameData();
+                        }, event.duration*1000 || 20000);
+                    };
+                });
+            }
         }
 
         // 登录/注册弹窗切换逻辑
@@ -2885,7 +3036,9 @@
                     }
                     // 雨天：10%概率病虫害
                     if (weather.id === 'rainy') {
-                        if (Math.random() < 0.1) plot.pest = true;
+                        let scarecrowCount = gameState.decors.scarecrow||0;
+                        let pestChance = 0.1 * (1 - Math.min(scarecrowCount*0.1,0.5));
+                        if (Math.random() < pestChance) plot.pest = true;
                     }
                     // 暴雨：未升级排水的农田变荒地
                     if (weather.id === 'stormy') {
@@ -3051,6 +3204,322 @@
         // 在initGame和每日刷新时调用 autoRefreshWeather 和 setupWeatherRefreshBtn
         // 例如initGame最后加：
         setupWeatherRefreshBtn();
+
+        // 随机事件系统自动触发
+        setInterval(function() {
+            // 仅在有作物时才触发
+            const plantedPlots = gameState.farmData.filter(p => p.state === 'planted');
+            if (plantedPlots.length === 0) return;
+            // 事件冷却
+            const now = Date.now();
+            if (now - (gameState.lastEventTime || 0) < gameState.eventCooldown) return;
+            if (Math.random() < gameState.eventChance) {
+                // 随机选一个事件
+                const event = randomEvents[Math.floor(Math.random() * randomEvents.length)];
+                // 随机影响部分地块
+                const affectedCount = Math.max(1, Math.floor(Math.random() * plantedPlots.length));
+                const affectedIndexes = [];
+                while (affectedIndexes.length < affectedCount) {
+                    const idx = Math.floor(Math.random() * gameState.farmData.length);
+                    if (!affectedIndexes.includes(idx) && gameState.farmData[idx].state === 'planted') {
+                        affectedIndexes.push(idx);
+                    }
+                }
+                // 记录事件
+                const eventObj = {
+                    ...event,
+                    affectedPlots: affectedIndexes,
+                    startTime: now
+                };
+                gameState.activeEvents.push(eventObj);
+                gameState.lastEventTime = now;
+                // 弹窗提示
+                showNotification(`随机事件：${event.icon} ${event.name} - ${event.description}`,'info');
+                // 应用事件效果
+                affectedIndexes.forEach(i => {
+                    const plot = gameState.farmData[i];
+                    switch(event.effect){
+                        case 'growth_boost':
+                            plot.growthSpeedMultiplier = 1.5; break;
+                        case 'instant_growth':
+                            plot.progress = plot.growthTime * 60; plot.growth = 'completed'; break;
+                        case 'quality_boost':
+                            plot.qualityBoost = true; break;
+                        case 'time_speed':
+                            plot.timeSpeedMultiplier = 3; break;
+                        case 'pest_damage':
+                            plot.pest = true; break;
+                        case 'disease_damage':
+                            plot.disease = true; break;
+                        case 'frost_damage':
+                            plot.growthSpeedMultiplier = 0.5; break;
+                        case 'weed_competition':
+                            plot.growthSpeedMultiplier = 0.7; break;
+                        case 'random_effect':
+                            if (Math.random()<0.5) plot.pest = true; else plot.growthSpeedMultiplier = 2; break;
+                    }
+                });
+                renderFarm();
+                saveGameData();
+                // 定时移除事件
+                setTimeout(()=>{
+                    // 移除事件效果
+                    affectedIndexes.forEach(i => {
+                        const plot = gameState.farmData[i];
+                        delete plot.growthSpeedMultiplier;
+                        delete plot.timeSpeedMultiplier;
+                        delete plot.qualityBoost;
+                        delete plot.disease;
+                        // 病虫害需玩家手动处理
+                    });
+                    // 移除事件
+                    gameState.activeEvents = gameState.activeEvents.filter(e=>e!==eventObj);
+                    renderFarm();
+                    saveGameData();
+                }, event.duration*1000 || 20000);
+            }
+        }, 30000);
+
+        // 渲染道具商店和道具数量
+        function renderItemShop() {
+            const shop = document.getElementById('item-shop');
+            if (!shop) return;
+            const items = [
+                { id: 'pesticide', name: '农药', price: 10, desc: '清除虫害', icon: '🧪' },
+                { id: 'medicine', name: '药剂', price: 15, desc: '治愈病害', icon: '💊' },
+                { id: 'weedkiller', name: '除草剂', price: 8, desc: '清除杂草', icon: '🌿' },
+                { id: 'insulation', name: '保温布', price: 12, desc: '抵御霜冻', icon: '🧣' }
+            ];
+            shop.innerHTML = items.map(item => `
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">${item.icon}</span>
+                    <span class="font-bold">${item.name}</span>
+                    <span class="text-xs text-gray-500">${item.desc}</span>
+                    <span class="ml-auto text-green-700">库存: ${gameState.items[item.id]||0}</span>
+                    <button class="buy-item bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded" data-item-id="${item.id}">购买(${item.price}金币)</button>
+                </div>
+            `).join('');
+            shop.querySelectorAll('.buy-item').forEach(btn => {
+                btn.onclick = function() {
+                    const id = this.getAttribute('data-item-id');
+                    const item = items.find(i=>i.id===id);
+                    if (gameState.money < item.price) {
+                        showNotification('金币不足，无法购买','error'); return;
+                    }
+                    gameState.money -= item.price;
+                    gameState.items[id] = (gameState.items[id]||0)+1;
+                    renderItemShop();
+                    updateUI();
+                    saveGameData();
+                    showNotification(`购买${item.name}成功！`,'success');
+                };
+            });
+        }
+
+        // 渲染装饰商店和我的装饰
+        function renderDecorShop() {
+          const shop = document.getElementById('decor-shop');
+          if (!shop) return;
+          const decors = [
+            { id: 'fence', name: '围栏', price: 30, desc: '美化农场', icon: '🪵' },
+            { id: 'fountain', name: '喷泉', price: 80, desc: '提升幸福值', icon: '⛲' },
+            { id: 'scarecrow', name: '稻草人', price: 50, desc: '减少虫害概率', icon: '🪆' },
+            { id: 'flowerbed', name: '花坛', price: 40, desc: '美化农场', icon: '🌸' }
+          ];
+          shop.innerHTML = decors.map(decor => `
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">${decor.icon}</span>
+              <span class="font-bold">${decor.name}</span>
+              <span class="text-xs text-gray-500">${decor.desc}</span>
+              <span class="ml-auto text-green-700">库存: ${gameState.decors[decor.id]||0}</span>
+              <button class="buy-decor bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded" data-decor-id="${decor.id}">购买(${decor.price}金币)</button>
+            </div>
+          `).join('');
+          shop.querySelectorAll('.buy-decor').forEach(btn => {
+            btn.onclick = function() {
+              const id = this.getAttribute('data-decor-id');
+              const decor = decors.find(d=>d.id===id);
+              if (gameState.money < decor.price) {
+                showNotification('金币不足，无法购买','error'); return;
+              }
+              gameState.money -= decor.price;
+              gameState.decors[id] = (gameState.decors[id]||0)+1;
+              renderDecorShop();
+              renderMyDecors();
+              updateUI();
+              saveGameData();
+              showNotification(`购买${decor.name}成功！`,'success');
+            };
+          });
+        }
+        function renderMyDecors() {
+          const box = document.getElementById('my-decors');
+          if (!box) return;
+          const decors = [
+            { id: 'fence', name: '围栏', icon: '🪵' },
+            { id: 'fountain', name: '喷泉', icon: '⛲' },
+            { id: 'scarecrow', name: '稻草人', icon: '🪆' },
+            { id: 'flowerbed', name: '花坛', icon: '🌸' }
+          ];
+          box.innerHTML = decors.map(decor => `
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">${decor.icon}</span>
+              <span class="font-bold">${decor.name}</span>
+              <span class="ml-auto text-green-700">数量: ${gameState.decors[decor.id]||0}</span>
+            </div>
+          `).join('');
+        }
+
+        // 渲染动物商店和我的动物
+        function renderAnimalShop() {
+          const shop = document.getElementById('animal-shop');
+          if (!shop) return;
+          const animals = [
+            { id: 'chicken', name: '鸡', price: 60, desc: '产蛋', icon: '🐔' },
+            { id: 'cow', name: '牛', price: 200, desc: '产奶', icon: '🐄' },
+            { id: 'sheep', name: '羊', price: 120, desc: '产羊毛', icon: '🐑' }
+          ];
+          shop.innerHTML = animals.map(animal => `
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">${animal.icon}</span>
+              <span class="font-bold">${animal.name}</span>
+              <span class="text-xs text-gray-500">${animal.desc}</span>
+              <span class="ml-auto text-green-700">库存: ${gameState.animals[animal.id]||0}</span>
+              <button class="buy-animal bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded" data-animal-id="${animal.id}">购买(${animal.price}金币)</button>
+            </div>
+          `).join('');
+          shop.querySelectorAll('.buy-animal').forEach(btn => {
+            btn.onclick = function() {
+              const id = this.getAttribute('data-animal-id');
+              const animal = animals.find(a=>a.id===id);
+              if (gameState.money < animal.price) {
+                showNotification('金币不足，无法购买','error'); return;
+              }
+              gameState.money -= animal.price;
+              gameState.animals[id] = (gameState.animals[id]||0)+1;
+              renderAnimalShop();
+              renderMyAnimals();
+              updateUI();
+              saveGameData();
+              showNotification(`购买${animal.name}成功！`,'success');
+            };
+          });
+        }
+        function renderMyAnimals() {
+          const box = document.getElementById('my-animals');
+          if (!box) return;
+          const animals = [
+            { id: 'chicken', name: '鸡', icon: '🐔' },
+            { id: 'cow', name: '牛', icon: '🐄' },
+            { id: 'sheep', name: '羊', icon: '🐑' }
+          ];
+          box.innerHTML = animals.map(animal => `
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">${animal.icon}</span>
+              <span class="font-bold">${animal.name}</span>
+              <span class="ml-auto text-green-700">数量: ${gameState.animals[animal.id]||0}</span>
+            </div>
+          `).join('');
+        }
+
+        // 渲染幸福值、动物健康、动物副产品
+        function renderHappiness() {
+          // 幸福值=喷泉*10+花坛*5
+          gameState.happiness = (gameState.decors.fountain||0)*10 + (gameState.decors.flowerbed||0)*5;
+          document.getElementById('happiness-value').textContent = gameState.happiness;
+        }
+        function renderAnimalHealth() {
+          const list = document.getElementById('animal-health-list');
+          if (!list) return;
+          const animals = [
+            { id: 'chicken', name: '鸡', icon: '🐔' },
+            { id: 'cow', name: '牛', icon: '🐄' },
+            { id: 'sheep', name: '羊', icon: '🐑' }
+          ];
+          list.innerHTML = animals.map(a => `
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-2xl">${a.icon}</span>
+              <span>${a.name}</span>
+              <span class="ml-auto text-green-700">健康度: ${gameState.animalHealth[a.id]||0}</span>
+            </div>
+          `).join('');
+          document.getElementById('feed-count').textContent = gameState.animalFeed||0;
+        }
+        function renderAnimalProducts() {
+          const box = document.getElementById('animal-products-list');
+          if (!box) return;
+          const products = [
+            { id: 'egg', name: '鸡蛋', icon: '🥚', price: 8 },
+            { id: 'milk', name: '牛奶', icon: '🥛', price: 20 },
+            { id: 'wool', name: '羊毛', icon: '🧶', price: 15 }
+          ];
+          box.innerHTML = products.map(p => `
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-2xl">${p.icon}</span>
+              <span>${p.name}</span>
+              <span class="ml-auto text-green-700">数量: ${gameState.animalProducts[p.id]||0}</span>
+              <button class="sell-product bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded" data-product-id="${p.id}" data-price="${p.price}">出售</button>
+            </div>
+          `).join('');
+          box.querySelectorAll('.sell-product').forEach(btn => {
+            btn.onclick = function() {
+              const id = this.getAttribute('data-product-id');
+              const price = parseInt(this.getAttribute('data-price'));
+              if ((gameState.animalProducts[id]||0) <= 0) {
+                showNotification('没有可出售的副产品','error'); return;
+              }
+              gameState.animalProducts[id]--;
+              gameState.money += price;
+              renderAnimalProducts();
+              updateUI();
+              saveGameData();
+              showNotification(`出售${id==='egg'?'鸡蛋':id==='milk'?'牛奶':'羊毛'}成功！+${price}金币`,'success');
+            };
+          });
+        }
+
+        // 喂养动物按钮逻辑
+        setTimeout(()=>{
+          const feedBtn = document.getElementById('feed-animals-btn');
+          if(feedBtn){
+            feedBtn.onclick = function(){
+              if((gameState.animalFeed||0)<=0){
+                showNotification('饲料不足','error');return;
+              }
+              ['chicken','cow','sheep'].forEach(id=>{
+                if(gameState.animals[id]>0){
+                  gameState.animalHealth[id]=100;
+                }
+              });
+              gameState.animalFeed--;
+              renderAnimalHealth();
+              saveGameData();
+              showNotification('动物已全部喂养，健康恢复！','success');
+            };
+          }
+        },0);
+
+        // 定时器：动物产出与健康度变化
+        setInterval(()=>{
+          // 幸福值影响产出效率
+          const happinessBonus = 1 + (gameState.happiness||0)/100;
+          // 动物产出
+          if(gameState.animals.chicken>0 && (gameState.animalHealth.chicken||0)>0){
+            if(Math.random()<0.2*happinessBonus) gameState.animalProducts.egg += gameState.animals.chicken;
+            gameState.animalHealth.chicken = Math.max(0, gameState.animalHealth.chicken-2);
+          }
+          if(gameState.animals.cow>0 && (gameState.animalHealth.cow||0)>0){
+            if(Math.random()<0.1*happinessBonus) gameState.animalProducts.milk += gameState.animals.cow;
+            gameState.animalHealth.cow = Math.max(0, gameState.animalHealth.cow-1);
+          }
+          if(gameState.animals.sheep>0 && (gameState.animalHealth.sheep||0)>0){
+            if(Math.random()<0.12*happinessBonus) gameState.animalProducts.wool += gameState.animals.sheep;
+            gameState.animalHealth.sheep = Math.max(0, gameState.animalHealth.sheep-1);
+          }
+          renderAnimalProducts();
+          renderAnimalHealth();
+          saveGameData();
+        },60000); // 每分钟产出一次
     </script>
 </body>
 </html>
