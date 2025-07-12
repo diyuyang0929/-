@@ -339,6 +339,37 @@
             box-shadow: 0 4px 16px 0 rgba(67,233,123,0.25);
             transform: scale(1.05);
         }
+
+        /* 商店标签按钮样式 */
+        .shop-tab-btn {
+            background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+            color: #374151;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .shop-tab-btn:hover {
+            background: linear-gradient(135deg, #d1d5db, #9ca3af);
+            transform: translateY(-1px);
+        }
+
+        .shop-tab-btn.active {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 商店内容区域样式 */
+        .shop-content {
+            transition: all 0.3s ease;
+        }
+
+        .shop-content.active {
+            display: block !important;
+        }
         .title-strong {
             font-size: 2.5rem;
             font-weight: 900;
@@ -641,6 +672,380 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.2); }
         }
+        
+        @keyframes lightning {
+            0%, 90% { opacity: 0; }
+            95% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        /* 牧场动物动画效果 */
+        .ranch-animal {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .ranch-animal:hover {
+            transform: scale(1.2);
+            filter: brightness(1.2);
+        }
+        
+        /* 动物移动动画 */
+        .animal-walk {
+            animation: walkAround 8s linear infinite;
+        }
+        
+        @keyframes walkAround {
+            0% { transform: translateX(0px) translateY(0px); }
+            25% { transform: translateX(20px) translateY(-10px); }
+            50% { transform: translateX(-15px) translateY(5px); }
+            75% { transform: translateX(10px) translateY(-5px); }
+            100% { transform: translateX(0px) translateY(0px); }
+        }
+        
+        /* 动物跳跃动画 */
+        .animal-bounce {
+            animation: bounceUp 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounceUp {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        /* 动物摇摆动画 */
+        .animal-sway {
+            animation: sway 3s ease-in-out infinite;
+        }
+        
+        @keyframes sway {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+        
+        /* 动物呼吸动画 */
+        .animal-breathe {
+            animation: breathe 4s ease-in-out infinite;
+        }
+        
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* 动物眨眼动画 */
+        .animal-blink {
+            animation: blink 5s ease-in-out infinite;
+        }
+        
+        @keyframes blink {
+            0%, 90%, 100% { opacity: 1; }
+            95% { opacity: 0.3; }
+        }
+        
+        /* 牧场环境动画 */
+        .ranch-environment {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 草地摇摆效果 */
+        .grass-sway {
+            animation: grassWave 6s ease-in-out infinite;
+        }
+        
+        @keyframes grassWave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(1deg); }
+            75% { transform: rotate(-1deg); }
+        }
+        
+        /* 云朵飘动效果 */
+        .cloud-float {
+            animation: cloudMove 20s linear infinite;
+        }
+        
+        @keyframes cloudMove {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(100px); }
+        }
+        
+        /* 动物健康状态动画 */
+        .animal-healthy {
+            animation: healthyGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes healthyGlow {
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 5px rgba(0, 255, 0, 0.3)); }
+            50% { filter: brightness(1.1) drop-shadow(0 0 10px rgba(0, 255, 0, 0.5)); }
+        }
+        
+        .animal-sick {
+            animation: sickShake 2s ease-in-out infinite;
+        }
+        
+        @keyframes sickShake {
+            0%, 100% { transform: translateX(0px); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+        
+        /* 牧场大气效果 */
+        .ranch-atmosphere {
+            position: relative;
+        }
+        
+        .ranch-atmosphere::before {
+            content: '🌾';
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            font-size: 1.5rem;
+            animation: grassWave 4s ease-in-out infinite;
+            opacity: 0.6;
+        }
+        
+        .ranch-atmosphere::after {
+            content: '☁️';
+            position: absolute;
+            top: 5%;
+            right: 20%;
+            font-size: 2rem;
+            animation: cloudMove 15s linear infinite;
+            opacity: 0.7;
+        }
+        
+        /* 天气效果增强 */
+        .sunny-effect {
+            background: radial-gradient(circle at 80% 20%, rgba(255, 255, 0, 0.1) 0%, transparent 50%);
+            animation: sunnyShine 4s ease-in-out infinite;
+        }
+        
+        @keyframes sunnyShine {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        
+        .cloudy-effect {
+            background: linear-gradient(135deg, rgba(200, 200, 200, 0.2) 0%, rgba(150, 150, 150, 0.1) 100%);
+        }
+        
+        .rainy-effect {
+            background: linear-gradient(135deg, rgba(0, 100, 200, 0.1) 0%, rgba(0, 50, 150, 0.05) 100%);
+            animation: rainEffect 1s linear infinite;
+        }
+        
+        .rainy-effect::before {
+            content: '💧';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 1rem;
+            animation: rainDrop 2s linear infinite;
+            opacity: 0.6;
+        }
+        
+        @keyframes rainDrop {
+            0% { transform: translateY(-20px); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(100px); opacity: 0; }
+        }
+        
+        .snowy-effect {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(200, 200, 255, 0.1) 100%);
+        }
+        
+        .snowy-effect::before {
+            content: '❄️';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 1.5rem;
+            animation: snowFall 3s linear infinite;
+            opacity: 0.8;
+        }
+        
+        @keyframes snowFall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
+        }
+        
+        /* 牧场互动效果 */
+        .ranch-animal:hover::after {
+            content: '💕';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 1rem;
+            animation: loveFloat 1s ease-out forwards;
+        }
+        
+        @keyframes loveFloat {
+            0% { transform: translateY(0px); opacity: 1; }
+            100% { transform: translateY(-20px); opacity: 0; }
+        }
+        
+        /* 动物健康状态指示器 */
+        .health-indicator {
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 3px;
+            border-radius: 2px;
+            background: #ddd;
+        }
+        
+        .health-indicator::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        .health-high::after {
+            background: #10b981;
+        }
+        
+        .health-medium::after {
+            background: #f59e0b;
+        }
+        
+        .health-low::after {
+            background: #ef4444;
+        }
+        
+        @keyframes snowFall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
+        }
+        
+        /* 干旱效果 */
+        .drought-effect {
+            background: linear-gradient(135deg, rgba(255, 100, 0, 0.2) 0%, rgba(255, 150, 0, 0.1) 100%);
+            animation: heatWave 3s ease-in-out infinite;
+        }
+        
+        @keyframes heatWave {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(10deg); }
+        }
+        
+        /* 台风效果 */
+        .typhoon-effect {
+            background: linear-gradient(135deg, rgba(50, 50, 100, 0.3) 0%, rgba(100, 100, 150, 0.2) 100%);
+            animation: typhoonSpin 2s linear infinite;
+        }
+        
+        .typhoon-effect::before {
+            content: '🌪️';
+            position: absolute;
+            top: 20%;
+            left: 30%;
+            font-size: 3rem;
+            animation: typhoonMove 4s linear infinite;
+            opacity: 0.7;
+        }
+        
+        @keyframes typhoonSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes typhoonMove {
+            0% { transform: translateX(0px) rotate(0deg); }
+            25% { transform: translateX(50px) rotate(90deg); }
+            50% { transform: translateX(0px) rotate(180deg); }
+            75% { transform: translateX(-50px) rotate(270deg); }
+            100% { transform: translateX(0px) rotate(360deg); }
+        }
+        
+        /* 彩虹天效果 */
+        .rainbow-effect {
+            background: linear-gradient(135deg, 
+                rgba(255, 0, 0, 0.1) 0%, 
+                rgba(255, 165, 0, 0.1) 16.66%, 
+                rgba(255, 255, 0, 0.1) 33.33%, 
+                rgba(0, 255, 0, 0.1) 50%, 
+                rgba(0, 0, 255, 0.1) 66.66%, 
+                rgba(75, 0, 130, 0.1) 83.33%, 
+                rgba(238, 130, 238, 0.1) 100%);
+            animation: rainbowShimmer 4s ease-in-out infinite;
+        }
+        
+        @keyframes rainbowShimmer {
+            0%, 100% { opacity: 0.8; filter: brightness(1); }
+            50% { opacity: 1; filter: brightness(1.2); }
+        }
+        
+        /* 沙尘暴效果 */
+        .sandstorm-effect {
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.3) 0%, rgba(160, 82, 45, 0.2) 100%);
+            animation: sandstormBlow 2s ease-in-out infinite;
+        }
+        
+        .sandstorm-effect::before {
+            content: '🌪️';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 2rem;
+            animation: sandSwirl 3s linear infinite;
+            opacity: 0.6;
+            color: #8B4513;
+        }
+        
+        @keyframes sandstormBlow {
+            0%, 100% { filter: blur(0px); }
+            50% { filter: blur(1px); }
+        }
+        
+        @keyframes sandSwirl {
+            0% { transform: translateX(-20px) rotate(0deg); }
+            25% { transform: translateX(20px) rotate(90deg); }
+            50% { transform: translateX(-10px) rotate(180deg); }
+            75% { transform: translateX(10px) rotate(270deg); }
+            100% { transform: translateX(-20px) rotate(360deg); }
+        }
+        
+        /* 暴雨效果增强 */
+        .stormy-effect {
+            background: linear-gradient(135deg, rgba(25, 25, 112, 0.3) 0%, rgba(0, 0, 139, 0.2) 100%);
+            animation: stormyWeather 1s ease-in-out infinite;
+        }
+        
+        .stormy-effect::before {
+            content: '⚡';
+            position: absolute;
+            top: 10%;
+            right: 20%;
+            font-size: 4rem;
+            animation: lightning 2s ease-in-out infinite;
+            opacity: 0;
+        }
+        
+        @keyframes stormyWeather {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(0.7); }
+        }
     </style>
 </head>
 <body class="bg-green-50 min-h-screen" id="main-body">
@@ -715,14 +1120,14 @@
             <div>
               <label class="block text-gray-700 text-sm font-bold mb-1">天气</label>
               <div class="flex items-center gap-2">
-                <select id="admin-weather" class="w-full border rounded px-2 py-1">
-                  <option value="sunny">晴天</option>
-                  <option value="rainy">雨天</option>
-                  <option value="cloudy">阴天</option>
-                  <option value="stormy">暴风雨</option>
+              <select id="admin-weather" class="w-full border rounded px-2 py-1">
+                <option value="sunny">晴天</option>
+                <option value="rainy">雨天</option>
+                <option value="cloudy">阴天</option>
+                <option value="stormy">暴风雨</option>
                   <option value="typhoon">台风</option>
                   <option value="rainbow">彩虹天</option>
-                </select>
+              </select>
                 <span class="text-xs text-gray-500 ml-2">仅本地前端生效</span>
               </div>
             </div>
@@ -794,8 +1199,10 @@
 
         <!-- 游戏内容区域 -->
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- 左侧主区：农田+牧场 -->
+            <div class="lg:col-span-2 flex flex-col gap-6">
             <!-- 农场区域 -->
-            <div class="lg:col-span-2 card-strong p-8">
+                <div class="card-strong p-8">
                 <h2 class="text-3xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                     <i class="fas fa-tractor mr-3"></i> 我的农场
                 </h2>
@@ -805,34 +1212,139 @@
                         <i class="fas fa-plus mr-2"></i> 扩展农田 (200金币)
                     </button>
                 </div>
-
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4" id="farm-grid">
                     <!-- 农田地块将通过JavaScript动态生成 -->
                 </div>
             </div>
-
-            <!-- 侧边栏 -->
-            <div class="space-y-6">
-                <!-- 商店区域 -->
-                <div class="card-strong p-6">
-                    <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
-                        <i class="fas fa-store mr-3"></i> 种子商店
+                <!-- 牧场区域 -->
+                <div class="card-strong p-8">
+                    <h2 class="text-3xl subtitle-strong mb-6 border-b-2 border-green-200 pb-2 flex items-center">
+                        <i class="fas fa-warehouse mr-3"></i> 我的牧场
                     </h2>
-                    <div class="space-y-3" id="shop-items">
-                        <!-- 种子将通过JavaScript动态生成 -->
+                    <!-- 牧场统计和管理 -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div class="text-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
+                            <div class="text-3xl font-bold text-blue-600" id="total-animals">0</div>
+                            <div class="text-sm text-gray-600">总动物数</div>
+                        </div>
+                        <div class="text-center p-4 bg-green-50 rounded-lg border-2 border-green-200">
+                            <div class="text-3xl font-bold text-green-600" id="avg-health">100%</div>
+                            <div class="text-sm text-gray-600">平均健康度</div>
+                        </div>
+                        <div class="text-center p-4 bg-yellow-50 rounded-lg border-2 border-yellow-200">
+                            <div class="text-3xl font-bold text-yellow-600" id="feed-count">0</div>
+                            <div class="text-sm text-gray-600">饲料库存</div>
+                        </div>
+                        <div class="text-center p-4 bg-purple-50 rounded-lg border-2 border-purple-200">
+                            <div class="text-3xl font-bold text-purple-600" id="happiness-value">0</div>
+                            <div class="text-sm text-gray-600">幸福值</div>
+                        </div>
+                    </div>
+                    <!-- 牧场管理按钮 -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <button id="buy-feed-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg font-semibold text-lg transition">
+                            <i class="fas fa-shopping-cart mr-2"></i> 购买饲料 (10金币/包)
+                        </button>
+                        <button id="feed-animals-btn" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold text-lg transition">
+                            <i class="fas fa-apple-alt mr-2"></i> 喂养全部动物
+                        </button>
+                        <button id="sell-all-products-btn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold text-lg transition">
+                            <i class="fas fa-coins mr-2"></i> 一键出售所有副产品
+                        </button>
+                    </div>
+                    <!-- 牧场内容区域 -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- 只保留牧场氛围优化区域 -->
+                        <div class="bg-green-50 rounded-lg p-6 shadow-lg flex flex-col items-center justify-center relative overflow-hidden min-h-[220px] w-full col-span-2">
+                            <div class="absolute inset-0 pointer-events-none select-none" style="background: repeating-linear-gradient(135deg, #d1fae5 0 10px, #bbf7d0 10px 20px);"></div>
+                            
+                            <!-- 牧场控制面板 -->
+                            <div class="absolute top-4 right-4 z-20 flex gap-2">
+                                <button id="ranch-sound-btn" class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center gap-1">
+                                    <span id="sound-icon">🔊</span>
+                                    <span id="sound-text">音效</span>
+                                </button>
+                            </div>
+                            
+                            <!-- 天气效果层 -->
+                            <div id="ranch-weather-effect" class="absolute inset-0 pointer-events-none z-5"></div>
+                            
+                            <!-- 动物活动区域 -->
+                            <div class="relative z-10 w-full flex flex-wrap justify-center gap-6">
+                                <div id="ranch-animal-icons" class="flex flex-wrap gap-4"></div>
+                            </div>
+                            
+                            <!-- 牧场标题和状态 -->
+                            <div class="relative z-10 mt-4 text-center">
+                                <div class="text-green-700 font-bold text-lg flex items-center justify-center">
+                                    <span class="mr-2">🐾</span>
+                                    <span id="ranch-title">牧场悠闲时光</span>
+                                </div>
+                                <div class="text-sm text-green-600 mt-1 flex items-center justify-center gap-4">
+                                    <span id="ranch-time">🕐 现在是白天</span>
+                                    <span id="ranch-season">🌸 春季</span>
+                                    <span id="ranch-mood">😊 动物们很开心</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
+            </div>
+            <!-- 右侧侧边栏 -->
+            <div class="space-y-6">
+                <!-- 统一商店 -->
+                <div class="card-strong p-6">
+                    <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                        <i class="fas fa-store mr-3"></i> 综合商店
+                    </h2>
+                    <!-- 商店分类选择 -->
+                    <div class="flex space-x-2 mb-4">
+                        <button class="shop-tab-btn btn-strong px-4 py-2 text-sm active" data-category="seeds">
+                            <i class="fas fa-seedling mr-2"></i> 种子
+                        </button>
+                        <button class="shop-tab-btn btn-strong px-4 py-2 text-sm" data-category="items">
+                            <i class="fas fa-toolbox mr-2"></i> 道具
+                        </button>
+                        <button class="shop-tab-btn btn-strong px-4 py-2 text-sm" data-category="decor">
+                            <i class="fas fa-tree mr-2"></i> 装饰
+                        </button>
+                        <button class="shop-tab-btn btn-strong px-4 py-2 text-sm" data-category="animals">
+                            <i class="fas fa-dog mr-2"></i> 动物
+                        </button>
+                    </div>
+                    <!-- 种子商店内容 -->
+                    <div id="shop-items" class="shop-content active">
+                        <!-- 种子将通过JavaScript动态生成 -->
+                    </div>
+                    <!-- 道具商店内容 -->
+                    <div id="item-shop" class="shop-content space-y-3" style="display: none;">
+                        <!-- 道具将通过JavaScript动态生成 -->
+                </div>
+                    <!-- 装饰商店内容 -->
+                    <div id="decor-shop" class="shop-content space-y-3" style="display: none;">
+                        <!-- 装饰将通过JavaScript动态生成 -->
+                    </div>
+                    <!-- 动物商店内容 -->
+                    <div id="animal-shop" class="shop-content space-y-3" style="display: none;">
+                        <!-- 动物将通过JavaScript动态生成 -->
+                    </div>
+                </div>
                 <!-- 库存区域 -->
                 <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-box-open mr-3"></i> 我的库存
                     </h2>
                     <div id="inventory-items">
-                        <p class="text-gray-500 italic">这里会显示你收获的作物</p>
+                        <!-- 作物/水果列表 -->
+                        <div id="crop-inventory-list">
+                            <!-- 由JS渲染作物/水果库存 -->
+                    </div>
+                        <!-- 动物产品列表 -->
+                        <div id="animal-inventory-list" class="mt-6">
+                            <!-- 由JS渲染动物产品库存 -->
+                </div>
                     </div>
                 </div>
-
                 <!-- 任务区域 -->
                 <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
@@ -842,7 +1354,6 @@
                         <p class="text-gray-500 italic">今日任务将在这里显示</p>
                     </div>
                 </div>
-
                 <!-- 升级区域 -->
                 <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
@@ -852,66 +1363,19 @@
                         <!-- 升级项将通过JavaScript动态生成 -->
                     </div>
                 </div>
-
-                <!-- 道具商店 -->
-                <div class="card-strong p-6">
-                    <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
-                        <i class="fas fa-toolbox mr-3"></i> 道具商店
-                    </h2>
-                    <div id="item-shop" class="space-y-3"></div>
-                </div>
-
-                <!-- 装饰商店 -->
-                <div class="card-strong p-6">
-                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
-                    <i class="fas fa-tree mr-3"></i> 装饰商店
-                  </h2>
-                  <div id="decor-shop" class="space-y-3"></div>
-                </div>
-
                 <!-- 我的装饰 -->
                 <div class="card-strong p-6">
-                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
-                    <i class="fas fa-gift mr-3"></i> 我的装饰
-                  </h2>
-                  <div id="my-decors" class="space-y-3"></div>
+                    <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                        <i class="fas fa-gift mr-3"></i> 我的装饰
+                    </h2>
+                    <div id="my-decors" class="space-y-3"></div>
                 </div>
-
-                <!-- 动物商店 -->
-                <div class="card-strong p-6">
-                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
-                    <i class="fas fa-dog mr-3"></i> 动物商店
-                  </h2>
-                  <div id="animal-shop" class="space-y-3"></div>
-                </div>
-
                 <!-- 我的动物 -->
                 <div class="card-strong p-6">
-                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
-                    <i class="fas fa-paw mr-3"></i> 我的动物
-                  </h2>
-                  <div id="my-animals" class="space-y-3"></div>
-                </div>
-
-                <!-- 幸福值、动物健康、动物副产品 -->
-                <div class="card-strong p-6">
-                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
-                    <i class="fas fa-smile mr-3"></i> 幸福值
-                  </h2>
-                  <div id="happiness-bar" class="mb-2">幸福值: <span id="happiness-value">0</span></div>
-                </div>
-                <div class="card-strong p-6">
-                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
-                    <i class="fas fa-apple-alt mr-3"></i> 动物健康与喂养
-                  </h2>
-                  <div id="animal-health-list"></div>
-                  <div class="mt-2">饲料库存: <span id="feed-count">0</span> <button id="feed-animals-btn" class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded ml-2">喂养全部动物</button></div>
-                </div>
-                <div class="card-strong p-6">
-                  <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
-                    <i class="fas fa-gift mr-3"></i> 动物副产品
-                  </h2>
-                  <div id="animal-products-list"></div>
+                    <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
+                        <i class="fas fa-paw mr-3"></i> 我的动物
+                    </h2>
+                    <div id="my-animals" class="space-y-3"></div>
                 </div>
             </div>
         </main>
@@ -935,7 +1399,8 @@
             plots: 4, // 当前区域农田数量
             maxPlots: 12,
             regionPlots: {}, // 各区域独立农田数量
-            inventory: {},
+            inventory: {}, // 改为按品质存储: {seedId: {quality0: count, quality1: count, ...}}
+            qualityInventory: {}, // 新的品质库存系统 {seedId: {0: count, 1: count, 2: count, 3: count}}
             upgrades: {
                 watering: 0,
                 quality: 0,
@@ -959,11 +1424,14 @@
             eventChance: 0.1, // 每秒触发事件的概率（10%）
             items: { pesticide: 0, medicine: 0, weedkiller: 0, insulation: 0 }, // 新增道具背包，直接默认值
             decors: { fence: 0, fountain: 0, scarecrow: 0, flowerbed: 0 },
-            animals: { chicken: 0, cow: 0, sheep: 0 }, // 新增动物库存
-            animalHealth: { chicken: 100, cow: 100, sheep: 100 }, // 健康度
+            animals: { chicken: 0, cow: 0, sheep: 0, pig: 0, duck: 0, goat: 0, rabbit: 0, horse: 0 }, // 扩展动物库存
+            animalHealth: { chicken: 100, cow: 100, sheep: 100, pig: 100, duck: 100, goat: 100, rabbit: 100, horse: 100 }, // 健康度
             animalFeed: 5, // 饲料库存
-            animalProducts: { egg: 0, milk: 0, wool: 0 }, // 副产品库存
-            happiness: 0 // 幸福值
+            animalProducts: { egg: 0, milk: 0, wool: 0, pork: 0, duck_egg: 0, goat_milk: 0, rabbit_fur: 0, horse_manure: 0 }, // 副产品库存
+            happiness: 0, // 幸福值
+            // 土地改良系统
+            landImprovements: {}, // 各区域土地改良等级 {regionId: {plotIndex: level}}
+            regionLandImprovements: {} // 各区域独立土地改良数据
         };
 
         // 地区数据（更细分且不重复）
@@ -1027,6 +1495,54 @@
             { id: 'watering', name: '浇水效率', description: '减少作物生长时间10%', cost: 150, maxLevel: 3 },
             { id: 'quality', name: '作物品质', description: '提高作物售价15%', cost: 250, maxLevel: 3 },
             { id: 'greenhouse', name: '温室大棚', description: '减少天气影响50%', cost: 400, maxLevel: 1 }
+        ];
+
+        // 土地改良等级定义
+        const landImprovementLevels = [
+            { level: 0, name: '普通土地', icon: '🟫', color: 'bg-amber-100', growthBonus: 1.0, yieldBonus: 1.0, description: '基础土地，无特殊效果' },
+            { level: 1, name: '肥沃土地', icon: '🟤', color: 'bg-yellow-200', growthBonus: 1.15, yieldBonus: 1.1, cost: 100, description: '施肥改良，生长速度+15%，产量+10%' },
+            { level: 2, name: '优质土地', icon: '🟢', color: 'bg-green-200', growthBonus: 1.3, yieldBonus: 1.25, cost: 200, description: '深度改良，生长速度+30%，产量+25%' },
+            { level: 3, name: '完美土地', icon: '✨', color: 'bg-purple-200', growthBonus: 1.5, yieldBonus: 1.5, cost: 400, description: '极致改良，生长速度+50%，产量+50%' }
+        ];
+
+        // 水果品质系统
+        const fruitQualities = [
+            { 
+                level: 0, 
+                name: '普通', 
+                icon: '🟫', 
+                color: 'bg-gray-100 border-gray-300', 
+                priceMultiplier: 1.0, 
+                description: '普通品质的水果',
+                landRequirement: 0 // 对应土地等级
+            },
+            { 
+                level: 1, 
+                name: '优良', 
+                icon: '🟤', 
+                color: 'bg-green-100 border-green-300', 
+                priceMultiplier: 1.3, 
+                description: '优良品质的水果，售价+30%',
+                landRequirement: 1
+            },
+            { 
+                level: 2, 
+                name: '精品', 
+                icon: '🟢', 
+                color: 'bg-blue-100 border-blue-300', 
+                priceMultiplier: 1.6, 
+                description: '精品品质的水果，售价+60%',
+                landRequirement: 2
+            },
+            { 
+                level: 3, 
+                name: '完美', 
+                icon: '✨', 
+                color: 'bg-purple-100 border-purple-300', 
+                priceMultiplier: 2.0, 
+                description: '完美品质的水果，售价+100%',
+                landRequirement: 3
+            }
         ];
 
         // 任务数据
@@ -1314,6 +1830,12 @@
             // 初始化regionFarmData结构
             if (!gameState.regionFarmData) gameState.regionFarmData = {};
             if (!gameState.regionPlots) gameState.regionPlots = {};
+            
+            // 初始化品质库存系统
+            if (!gameState.qualityInventory) {
+                gameState.qualityInventory = {};
+            }
+            
             // 初始化当前区域农田
             if (!gameState.regionFarmData[gameState.currentRegion]) {
                 if (typeof gameState.regionPlots[gameState.currentRegion] !== 'number') {
@@ -1364,6 +1886,9 @@
             renderTasks();
             updateUI();
             renderItemShop(); // 确保道具商店渲染
+            renderDecorShop(); // 确保装饰商店渲染
+            renderAnimalShop(); // 确保动物商店渲染
+            renderInventory(); // 确保库存显示正确渲染
 
             // 确保天气效果在初始化时应用
             applyWeatherEffect(gameState.weather);
@@ -1386,21 +1911,20 @@
             // 2. 新增"花费金币刷新天气"按钮
             setupWeatherRefreshBtn();
 
-            // 渲染道具商店和道具数量
-            renderItemShop();
-
-            // 渲染装饰商店和我的装饰
-            renderDecorShop();
+            // 渲染我的装饰和我的动物
             renderMyDecors();
-
-            // 渲染动物商店和我的动物
-            renderAnimalShop();
             renderMyAnimals();
 
             // 渲染幸福值、动物健康、动物副产品
             renderHappiness();
             renderAnimalHealth();
             renderAnimalProducts();
+
+            // 设置商店标签切换事件
+            setupShopTabSwitching();
+            
+            // 设置牧场管理功能
+            setupRanchManagement();
         }
 
         // 切换地区背景
@@ -1460,6 +1984,9 @@
                 switchRegionFarmData(this.value);
                 saveGameData();
                 renderShop();
+                renderItemShop();
+                renderDecorShop();
+                renderAnimalShop();
                 renderFarm();
                 renderInventory();
                 updateRegionBackground();
@@ -1579,21 +2106,49 @@
             for (let i = 0; i < gameState.plots; i++) {
                 const plotData = gameState.farmData[i];
                 const plot = document.createElement('div');
-                plot.className = 'crop-plot bg-yellow-50 border-2 border-yellow-200 rounded-2xl aspect-square flex flex-col items-center justify-center p-4 cursor-pointer shadow-md hover:shadow-xl transition';
+                
+                // 获取土地改良等级和数据
+                const landLevel = getLandImprovementLevel(i);
+                const landData = getLandImprovementData(landLevel);
+                
+                // 根据土地等级设置背景色
+                plot.className = `crop-plot ${landData.color} border-2 border-yellow-200 rounded-2xl aspect-square flex flex-col items-center justify-center p-4 cursor-pointer shadow-md hover:shadow-xl transition`;
+                
+                // 添加土地改良等级指示器
+                const landIndicator = document.createElement('div');
+                landIndicator.className = 'absolute top-1 left-1 text-xs px-1 py-0.5 bg-black bg-opacity-50 text-white rounded';
+                landIndicator.innerHTML = `${landData.icon} ${landData.name}`;
+                landIndicator.style.fontSize = '10px';
+                plot.style.position = 'relative';
+                plot.appendChild(landIndicator);
                 
                 // 根据地块状态设置不同的显示
                 if (plotData.state === 'empty') {
                     // 空闲农田
-                    plot.innerHTML = `
+                    plot.innerHTML += `
                         <div class="text-5xl mb-2">🌱</div>
                         <p class="text-base text-center text-gray-600 font-semibold">空闲农田</p>
                         <div class="w-full bg-gray-200 rounded-full h-2 hidden">
                             <div class="progress-bar bg-green-600 h-2 rounded-full" style="width: 0%"></div>
                         </div>
                     `;
+                    
+                    // 添加土地改良按钮
+                    if (landLevel < landImprovementLevels.length - 1) {
+                        const nextLevelData = getLandImprovementData(landLevel + 1);
+                        const upgradeBtn = document.createElement('button');
+                        upgradeBtn.className = 'land-upgrade-btn bg-purple-500 hover:bg-purple-600 text-white px-2 py-1 rounded text-xs mt-1';
+                        upgradeBtn.textContent = `升级土地 (${nextLevelData.cost}金币)`;
+                        upgradeBtn.setAttribute('data-plot-index', i);
+                        upgradeBtn.onclick = function(e) {
+                            e.stopPropagation();
+                            upgradeLandImprovement(i);
+                        };
+                        plot.appendChild(upgradeBtn);
+                    }
                 } else if (plotData.state === 'wasteland') {
                     // 荒地
-                    plot.innerHTML = `
+                    plot.innerHTML += `
                         <div class="text-5xl mb-2">🌵</div>
                         <p class="text-base text-center font-semibold text-red-800">荒地(需修复)</p>
                         <button class="repair-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm mt-1" data-plot-index="${i}">
@@ -1608,12 +2163,13 @@
                     const seed = getSeedById(plotData.seedId);
                     if (seed) {
                         plot.setAttribute('data-planted', seed.id);
-                        // 计算生长进度和成熟状态
+                        // 计算生长进度和成熟状态，应用土地改良加成
                         if (plotData.plantedAt && plotData.growthTime) {
                             const now = Date.now();
                             const elapsed = (now - plotData.plantedAt) / 1000; // 秒
                             if (plotData.growthTime) {
-                                const totalSeconds = plotData.growthTime * 60; // growTime 单位变为分钟
+                                // 应用土地改良的生长速度加成
+                                const totalSeconds = (plotData.growthTime * 60) / landData.growthBonus;
                                 plotData.progress = elapsed;
                                 if (plotData.progress >= totalSeconds) {
                                     plotData.growth = 'completed';
@@ -1626,7 +2182,7 @@
                         plot.setAttribute('data-growth', plotData.growth);
                         if (plotData.growth === 'completed') {
                             // 成熟的作物
-                            plot.innerHTML = `
+                            plot.innerHTML += `
                                 <div class="text-5xl mb-2">${seed.icon}</div>
                                 <p class="text-base text-center font-semibold text-green-800">${seed.name}</p>
                                 <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
@@ -1637,12 +2193,13 @@
                             plot.classList.add('animate-pulse');
                         } else {
                             // 生长中的作物
-                            let percent = plotData.progress / (plotData.growthTime * 60) * 100;
+                            const totalSeconds = (plotData.growthTime * 60) / landData.growthBonus;
+                            let percent = plotData.progress / totalSeconds * 100;
                             if (percent >= 100) {
                                 // 没成熟时进度条满了也循环动画
                                 percent = (Date.now() % 2000) / 2000 * 100;
                             }
-                            plot.innerHTML = `
+                            plot.innerHTML += `
                                 <div class="text-5xl mb-2">${seed.icon}</div>
                                 <p class="text-base text-center font-semibold text-green-800">${seed.name}</p>
                                 <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
@@ -1681,7 +2238,7 @@
                         plotData.state = 'empty';
                         plotData.seedId = null;
                         plotData.growth = null;
-                        plot.innerHTML = `
+                        plot.innerHTML += `
                             <div class="text-5xl mb-2">🌱</div>
                             <p class="text-base text-center text-gray-600 font-semibold">空闲农田</p>
                             <div class="w-full bg-gray-200 rounded-full h-2 hidden">
@@ -1909,8 +2466,13 @@
             }
             // 获取当前天气
             const weather = weatherTypes.find(w => w.id === gameState.weather);
-            // 应用质量升级和天气影响
-            let sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
+            
+            // 获取土地改良等级和加成
+            const landLevel = getLandImprovementLevel(plotIndex);
+            const landData = getLandImprovementData(landLevel);
+            
+            // 应用质量升级、土地改良和天气影响
+            let sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)) * landData.yieldBonus);
 
             // 根据天气类型应用不同的价格影响
             if (weather) {
@@ -1959,11 +2521,18 @@
             gameState.xp += seed.xp;
             // 更新任务进度
             updateTaskProgress('harvest');
-            // 更新库存
+            
+            // 根据土地品质确定水果品质并更新库存
+            const fruitQuality = determineFruitQuality(plotIndex);
+            const qualityData = getFruitQualityData(fruitQuality);
+            addQualityFruitToInventory(seedId, fruitQuality, 1);
+            
+            // 同时保持旧库存系统兼容性（暂时）
             if (!gameState.inventory[seedId]) {
                 gameState.inventory[seedId] = 0;
             }
             gameState.inventory[seedId]++;
+            
             // 清除病虫害
             plotData.pest = false;
             // 重置地块数据
@@ -1992,7 +2561,7 @@
             renderInventory();
             // 保存游戏数据
             saveGameData();
-            showNotification(`收获 ${seed.name}! +${seed.xp}经验，仓库+1`, 'success');
+            showNotification(`收获 ${qualityData.name}${seed.name}! +${seed.xp}经验，仓库+1`, 'success');
         }
 
         // 修复荒地
@@ -2030,72 +2599,147 @@
             }
         }
 
-        // 渲染库存（显示所有作物，不分区域）
+        // 渲染库存（显示所有作物，按品质分类）
         function renderInventory() {
-            const allInventory = Object.entries(gameState.inventory);
-            if (allInventory.length === 0) {
-                elements.inventoryItems.innerHTML = '<p class="text-gray-500 italic">这里会显示你收获的作物</p>';
-                return;
+            // 作物/水果列表
+            const cropBox = document.getElementById('crop-inventory-list');
+            // 动物产品列表
+            const animalBox = document.getElementById('animal-inventory-list');
+
+            // 渲染按品质分类的作物/水果
+            const qualityInventory = gameState.qualityInventory || {};
+            const hasQualityInventory = Object.keys(qualityInventory).length > 0;
+            
+            if (!hasQualityInventory) {
+                cropBox.innerHTML = '<div class="text-gray-500 italic">这里会显示你收获的作物</div>';
+            } else {
+                let inventoryHtml = '<div class="font-bold text-lg mb-4 flex items-center"><i class="fas fa-apple-alt mr-2 text-green-500"></i>作物/水果 (按品质分类)</div>';
+                
+                // 遍历每种作物
+                Object.entries(qualityInventory).forEach(([seedId, qualityData]) => {
+                    const seed = getSeedById(seedId);
+                    if (!seed) return;
+                    
+                    // 为每种品质创建单独的条目
+                    fruitQualities.forEach(quality => {
+                        const count = qualityData[quality.level] || 0;
+                        if (count > 0) {
+                            const baseSellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
+                            const qualityPrice = Math.floor(baseSellPrice * quality.priceMultiplier);
+                            
+                            // 应用天气影响
+                            const weather = weatherTypes.find(w => w.id === gameState.weather);
+                            let adjustedPrice = qualityPrice;
+                            if (weather) {
+                                if (weather.id === 'rainbow') adjustedPrice = Math.floor(qualityPrice * 1.5);
+                                else if (weather.id === 'stormy') adjustedPrice = Math.floor(qualityPrice * 0.8);
+                                else if (weather.id === 'drought') adjustedPrice = Math.floor(qualityPrice * 0.7);
+                                else if (weather.id === 'typhoon') adjustedPrice = Math.floor(qualityPrice * 0.75);
+                                else if (weather.id === 'sandstorm') adjustedPrice = Math.floor(qualityPrice * 0.6);
+                            }
+                            
+                            inventoryHtml += `
+                                <div class="flex justify-between items-center p-3 border rounded-lg mb-2 ${quality.color}">
+                                    <div class="flex items-center">
+                                        <span class="text-2xl mr-3">${seed.icon}</span>
+                                        <div>
+                                            <div class="font-semibold text-lg flex items-center">
+                                                <span class="mr-2">${quality.icon}</span>
+                                                <span>${quality.name}${seed.name}</span>
+                                                <span class="ml-2 text-sm text-gray-600">× ${count}</span>
+                                            </div>
+                                            <div class="text-xs text-gray-500">${quality.description}</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="number" min="1" max="${count}" value="1" class="quality-sell-qty-input w-14 px-1 py-0.5 border rounded text-center mr-1" data-seed-id="${seedId}" data-quality="${quality.level}" />
+                                        <button class="quality-sell-btn btn-strong px-4 py-2 text-base" data-seed-id="${seedId}" data-quality="${quality.level}" data-price="${adjustedPrice}">
+                                            出售 (${adjustedPrice}金币)
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                });
+                
+                cropBox.innerHTML = inventoryHtml;
             }
-            elements.inventoryItems.innerHTML = allInventory.map(([seedId, count]) => {
-                const seed = getSeedById(seedId);
-                const sellPrice = Math.floor(seed.sellPrice * (1 + (gameState.upgrades.quality * 0.15)));
-                const weather = weatherTypes.find(w => w.id === gameState.weather);
-                let adjustedPrice = sellPrice;
-                
-                // 根据天气类型应用不同的价格影响
-                if (weather) {
-                    if (weather.id === 'rainbow') {
-                        // 彩虹天：产量加成50%
-                        adjustedPrice = Math.floor(sellPrice * 1.5);
-                    } else if (weather.id === 'sunny') {
-                        // 晴天：正常价格
-                        adjustedPrice = sellPrice;
-                    } else if (weather.id === 'rainy') {
-                        // 雨天：正常价格
-                        adjustedPrice = sellPrice;
-                    } else if (weather.id === 'stormy') {
-                        // 暴雨：价格降低20%
-                        adjustedPrice = Math.floor(sellPrice * 0.8);
-                    } else if (weather.id === 'drought') {
-                        // 干旱：价格降低30%
-                        adjustedPrice = Math.floor(sellPrice * 0.7);
-                    } else if (weather.id === 'typhoon') {
-                        // 台风：价格降低25%
-                        adjustedPrice = Math.floor(sellPrice * 0.75);
-                    } else if (weather.id === 'sandstorm') {
-                        // 沙尘暴：价格降低40%
-                        adjustedPrice = Math.floor(sellPrice * 0.6);
-                } else {
-                        // 默认正常价格
-                        adjustedPrice = sellPrice;
-                }
-                }
-                
-                return `
-                    <div class="flex justify-between items-center p-3 border-b card-strong mb-2">
-                        <div class="flex items-center">
-                            <span class="text-2xl mr-3">${seed.icon}</span>
-                            <span class="font-semibold text-lg">${seed.name} × ${count}</span>
+            // 渲染动物产品
+            const animalProducts = [
+                { id: 'egg', name: '鸡蛋', icon: '🥚', price: 8, card: 'border-l-4 border-gray-200 bg-gray-50' },
+                { id: 'milk', name: '牛奶', icon: '🥛', price: 20, card: 'border-l-4 border-blue-200 bg-blue-50' },
+                { id: 'wool', name: '羊毛', icon: '🧶', price: 15, card: 'border-l-4 border-gray-200 bg-gray-50' },
+                { id: 'pork', name: '猪肉', icon: '🥩', price: 25, card: 'border-l-4 border-green-200 bg-green-50' },
+                { id: 'duck_egg', name: '鸭蛋', icon: '🥚', price: 12, card: 'border-l-4 border-gray-200 bg-gray-50' },
+                { id: 'goat_milk', name: '羊奶', icon: '🥛', price: 30, card: 'border-l-4 border-green-200 bg-green-50' },
+                { id: 'rabbit_fur', name: '兔毛', icon: '🧶', price: 40, card: 'border-l-4 border-blue-200 bg-blue-50' },
+                { id: 'horse_manure', name: '马粪', icon: '💩', price: 5, card: 'border-l-4 border-gray-200 bg-gray-50' }
+            ];
+            let hasAnimalProduct = false;
+            animalBox.innerHTML = '<div class="font-bold text-xl mb-4 flex items-center"><i class="fas fa-gift mr-2 text-green-600"></i>动物副产品</div>' +
+                animalProducts.map(p => {
+                    const count = gameState.animalProducts[p.id] || 0;
+                    if (count > 0) hasAnimalProduct = true;
+                    return `
+                        <div class="flex justify-between items-center rounded-xl shadow-sm px-5 py-4 mb-4 ${p.card}">
+                            <div class="flex items-center">
+                                <span class="text-4xl mr-4">${p.icon}</span>
+                                <div>
+                                    <div class="font-bold text-xl">${p.name}</div>
+                                    <div class="text-gray-500 text-base">售价: ${p.price}金币</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <div class="font-bold text-green-700 text-lg mb-2">数量: <span>${count}</span></div>
+                                <button class="sell-animal-btn bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-6 py-2 rounded-lg text-lg" data-product-id="${p.id}" data-price="${p.price}" ${count === 0 ? 'disabled style=\'opacity:0.5;cursor:not-allowed;\'' : ''}>出售</button>
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <input type="number" min="1" max="${count}" value="1" class="sell-qty-input w-14 px-1 py-0.5 border rounded text-center mr-1" data-seed-id="${seedId}" />
-                        <button class="sell-btn btn-strong px-4 py-2 text-base" data-seed-id="${seedId}">
-                            出售 (${adjustedPrice}金币)
-                        </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+                    `;
+                }).join('');
+            if (!hasAnimalProduct) {
+                animalBox.innerHTML += '<div class="text-gray-500 italic">这里会显示你获得的动物产品</div>';
+            }
+            // 绑定动物产品出售按钮
+            document.querySelectorAll('.sell-animal-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-product-id');
+                    const price = parseInt(this.getAttribute('data-price'));
+                    if ((gameState.animalProducts[id]||0) < 1) return;
+                    gameState.animalProducts[id] -= 1;
+                    gameState.money += price;
+                    renderInventory();
+                    updateUI();
+                    saveGameData();
+                    const productNames = {
+                        'egg': '鸡蛋', 'milk': '牛奶', 'wool': '羊毛', 'pork': '猪肉',
+                        'duck_egg': '鸭蛋', 'goat_milk': '羊奶', 'rabbit_fur': '兔毛', 'horse_manure': '马粪'
+                    };
+                    showNotification(`出售${productNames[id]} ×1成功！+${price}金币`,'success');
+                });
+            });
+            
+            // 绑定品质作物出售按钮
+            document.querySelectorAll('.quality-sell-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const seedId = this.getAttribute('data-seed-id');
+                    const quality = parseInt(this.getAttribute('data-quality'));
+                    const price = parseInt(this.getAttribute('data-price'));
+                    const qtyInput = document.querySelector(`.quality-sell-qty-input[data-seed-id="${seedId}"][data-quality="${quality}"]`);
+                    const qty = parseInt(qtyInput.value) || 1;
+                    sellQualityFruit(seedId, quality, qty, price);
+                });
+            });
+            
+            // 绑定作物出售按钮（旧系统兼容）
             document.querySelectorAll('.sell-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const seedId = this.getAttribute('data-seed-id');
-                    const qtyInput = document.querySelector(`.sell-qty-input[data-seed-id='${seedId}']`);
-                    let qty = parseInt(qtyInput.value) || 1;
+                    const qtyInput = document.querySelector(`.sell-qty-input[data-seed-id="${seedId}"]`);
+                    const qty = parseInt(qtyInput.value) || 1;
                     sellCrops(seedId, qty);
                 });
             });
-            renderItemShop(); // 确保道具商店渲染
         }
 
         // 出售作物，支持数量
@@ -2133,7 +2777,7 @@
                 } else {
                         // 默认正常价格
                         adjustedPrice = sellPrice;
-                    }
+                }
                 }
                 
                 gameState.money += adjustedPrice * qty;
@@ -2307,6 +2951,52 @@
             return seeds.find(seed => seed.id === id);
         }
 
+        // 获取土地改良等级
+        function getLandImprovementLevel(plotIndex) {
+            if (!gameState.regionLandImprovements[gameState.currentRegion]) {
+                return 0;
+            }
+            return gameState.regionLandImprovements[gameState.currentRegion][plotIndex] || 0;
+        }
+
+        // 设置土地改良等级
+        function setLandImprovementLevel(plotIndex, level) {
+            if (!gameState.regionLandImprovements[gameState.currentRegion]) {
+                gameState.regionLandImprovements[gameState.currentRegion] = {};
+            }
+            gameState.regionLandImprovements[gameState.currentRegion][plotIndex] = level;
+        }
+
+        // 获取土地改良数据
+        function getLandImprovementData(level) {
+            return landImprovementLevels.find(l => l.level === level) || landImprovementLevels[0];
+        }
+
+        // 升级土地改良
+        function upgradeLandImprovement(plotIndex) {
+            const currentLevel = getLandImprovementLevel(plotIndex);
+            const nextLevel = currentLevel + 1;
+            
+            if (nextLevel >= landImprovementLevels.length) {
+                showNotification('土地已达到最高等级！', 'info');
+                return;
+            }
+            
+            const nextLevelData = getLandImprovementData(nextLevel);
+            if (gameState.money < nextLevelData.cost) {
+                showNotification(`金币不足！需要 ${nextLevelData.cost} 金币`, 'error');
+                return;
+            }
+            
+            gameState.money -= nextLevelData.cost;
+            setLandImprovementLevel(plotIndex, nextLevel);
+            
+            showNotification(`土地改良成功！升级到 ${nextLevelData.name}`, 'success');
+            updateUI();
+            renderFarm();
+            saveGameData();
+        }
+
         // 生成每日天气
         function generateWeather() {
             const weatherWeights = [0.5, 0.25, 0.15, 0.1]; // 晴天、雨天、阴天、暴风雨的概率权重
@@ -2348,6 +3038,9 @@
             weatherIcon.textContent = icon;
             weatherName.textContent = name;
             weatherEffects.textContent = effects;
+            
+            // 同时更新牧场天气显示
+            updateRanchWeather();
         }
         
         // 更新天气详情面板
@@ -2441,6 +3134,26 @@
             
             // 添加当前天气效果类
             body.classList.add(`weather-${weatherId}`);
+            
+            // 更新牧场天气显示
+            updateRanchWeather();
+            
+            // 显示天气对动物的影响提示
+            const currentWeatherEffect = ranchEnvironment.weatherEffects[weatherId];
+            if (currentWeatherEffect) {
+                const effects = currentWeatherEffect.animalEffects;
+                let message = `天气变为${currentWeatherEffect.title}！`;
+                
+                if (effects.benefits.length > 0) {
+                    message += `\n动物好处：${effects.benefits.join('、')}`;
+                }
+                if (effects.drawbacks.length > 0) {
+                    message += `\n动物坏处：${effects.drawbacks.join('、')}`;
+                }
+                
+                const notificationType = effects.drawbacks.length > effects.benefits.length ? 'warning' : 'info';
+                showNotification(message, notificationType);
+            }
         }
 
         // 生成每日任务
@@ -2655,10 +3368,10 @@
         // 退出登录处理函数
         function handleLogout() {
             console.log('退出登录按钮被点击');
-            localStorage.removeItem('happyFarmLoggedIn');
+                localStorage.removeItem('happyFarmLoggedIn');
             localStorage.removeItem('happyFarmUserInfo');
             currentUserAccount = null;
-            location.reload();
+                location.reload();
         }
         // DOM加载完成后立即设置退出登录按钮
         document.addEventListener('DOMContentLoaded', function() {
@@ -3003,6 +3716,7 @@
                 maxPlots: 12,
                 regionPlots: {},
                 inventory: {},
+                qualityInventory: {},
                 upgrades: { watering: 0, quality: 0, greenhouse: 0 },
                 currentSelectedSeed: null,
                 purchasedSeeds: {},
@@ -3150,6 +3864,9 @@
             renderWeather();
             dailyWeatherAffect();
             renderFarm();
+            
+            // 同时更新牧场天气显示
+            updateRanchWeather();
         }
         
         // 显示天气变化动画
@@ -3361,7 +4078,31 @@
             { id: 'scarecrow', name: '稻草人', icon: '🪆' },
             { id: 'flowerbed', name: '花坛', icon: '🌸' }
           ];
-          box.innerHTML = decors.map(decor => `
+          
+          // 添加土地改良状态显示
+          let landImprovementHtml = '<div class="mb-4"><h3 class="font-bold text-lg mb-2 flex items-center"><i class="fas fa-seedling mr-2 text-green-500"></i>土地改良状态</h3>';
+          
+          // 统计各等级土地数量
+          const landStats = { 0: 0, 1: 0, 2: 0, 3: 0 };
+          for (let i = 0; i < gameState.plots; i++) {
+            const level = getLandImprovementLevel(i);
+            landStats[level]++;
+          }
+          
+          // 显示土地改良统计
+          landImprovementHtml += '<div class="grid grid-cols-2 gap-2 text-sm">';
+          landImprovementLevels.forEach(levelData => {
+            const count = landStats[levelData.level];
+            landImprovementHtml += `
+              <div class="flex items-center gap-1 p-2 ${levelData.color} rounded">
+                <span class="text-lg">${levelData.icon}</span>
+                <span class="font-semibold">${levelData.name}: ${count}块</span>
+              </div>
+            `;
+          });
+          landImprovementHtml += '</div></div>';
+          
+          box.innerHTML = landImprovementHtml + decors.map(decor => `
             <div class="flex items-center gap-2">
               <span class="text-2xl">${decor.icon}</span>
               <span class="font-bold">${decor.name}</span>
@@ -3375,19 +4116,38 @@
           const shop = document.getElementById('animal-shop');
           if (!shop) return;
           const animals = [
-            { id: 'chicken', name: '鸡', price: 60, desc: '产蛋', icon: '🐔' },
-            { id: 'cow', name: '牛', price: 200, desc: '产奶', icon: '🐄' },
-            { id: 'sheep', name: '羊', price: 120, desc: '产羊毛', icon: '🐑' }
+            { id: 'chicken', name: '鸡', price: 60, desc: '产蛋', icon: '🐔', rarity: 'common' },
+            { id: 'cow', name: '牛', price: 200, desc: '产奶', icon: '🐄', rarity: 'common' },
+            { id: 'sheep', name: '羊', price: 120, desc: '产羊毛', icon: '🐑', rarity: 'common' },
+            { id: 'pig', name: '猪', price: 150, desc: '产猪肉', icon: '🐷', rarity: 'uncommon' },
+            { id: 'duck', name: '鸭子', price: 80, desc: '产鸭蛋', icon: '🦆', rarity: 'common' },
+            { id: 'goat', name: '山羊', price: 180, desc: '产羊奶', icon: '🐐', rarity: 'uncommon' },
+            { id: 'rabbit', name: '兔子', price: 100, desc: '产兔毛', icon: '🐰', rarity: 'rare' },
+            { id: 'horse', name: '马', price: 500, desc: '产肥料', icon: '🐎', rarity: 'epic' }
           ];
+          
+          // 根据稀有度添加颜色
+          const rarityColors = {
+            common: 'bg-gray-100',
+            uncommon: 'bg-green-100', 
+            rare: 'bg-blue-100',
+            epic: 'bg-purple-100'
+          };
+          
           shop.innerHTML = animals.map(animal => `
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 p-2 rounded ${rarityColors[animal.rarity]} border-l-4 ${animal.rarity === 'epic' ? 'border-purple-500' : animal.rarity === 'rare' ? 'border-blue-500' : animal.rarity === 'uncommon' ? 'border-green-500' : 'border-gray-500'}">
               <span class="text-2xl">${animal.icon}</span>
-              <span class="font-bold">${animal.name}</span>
-              <span class="text-xs text-gray-500">${animal.desc}</span>
-              <span class="ml-auto text-green-700">库存: ${gameState.animals[animal.id]||0}</span>
-              <button class="buy-animal bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded" data-animal-id="${animal.id}">购买(${animal.price}金币)</button>
+              <div class="flex-1">
+                <div class="font-bold">${animal.name}</div>
+                <div class="text-xs text-gray-500">${animal.desc}</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-green-700">库存: ${gameState.animals[animal.id]||0}</div>
+                <button class="buy-animal bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm" data-animal-id="${animal.id}">购买(${animal.price}金币)</button>
+              </div>
             </div>
           `).join('');
+          
           shop.querySelectorAll('.buy-animal').forEach(btn => {
             btn.onclick = function() {
               const id = this.getAttribute('data-animal-id');
@@ -3399,6 +4159,7 @@
               gameState.animals[id] = (gameState.animals[id]||0)+1;
               renderAnimalShop();
               renderMyAnimals();
+              updateRanchStats();
               updateUI();
               saveGameData();
               showNotification(`购买${animal.name}成功！`,'success');
@@ -3409,17 +4170,88 @@
           const box = document.getElementById('my-animals');
           if (!box) return;
           const animals = [
-            { id: 'chicken', name: '鸡', icon: '🐔' },
-            { id: 'cow', name: '牛', icon: '🐄' },
-            { id: 'sheep', name: '羊', icon: '🐑' }
+            { id: 'chicken', name: '鸡', icon: '🐔', rarity: 'common' },
+            { id: 'cow', name: '牛', icon: '🐄', rarity: 'common' },
+            { id: 'sheep', name: '羊', icon: '🐑', rarity: 'common' },
+            { id: 'pig', name: '猪', icon: '🐷', rarity: 'uncommon' },
+            { id: 'duck', name: '鸭子', icon: '🦆', rarity: 'common' },
+            { id: 'goat', name: '山羊', icon: '🐐', rarity: 'uncommon' },
+            { id: 'rabbit', name: '兔子', icon: '🐰', rarity: 'rare' },
+            { id: 'horse', name: '马', icon: '🐎', rarity: 'epic' }
           ];
-          box.innerHTML = animals.map(animal => `
-            <div class="flex items-center gap-2">
-              <span class="text-2xl">${animal.icon}</span>
-              <span class="font-bold">${animal.name}</span>
-              <span class="ml-auto text-green-700">数量: ${gameState.animals[animal.id]||0}</span>
-            </div>
-          `).join('');
+          const rarityColors = {
+            common: 'bg-gray-50',
+            uncommon: 'bg-green-50', 
+            rare: 'bg-blue-50',
+            epic: 'bg-purple-50'
+          };
+          box.innerHTML = animals.map(animal => {
+            const health = gameState.animalHealth[animal.id]||0;
+            const count = gameState.animals[animal.id]||0;
+            const needsFeeding = count > 0 && health < 100;
+            const feedCost = Math.ceil(count * 0.1); // 每只动物消耗0.1个饲料，向上取整
+            
+            return `<div class="flex items-center gap-3 p-3 rounded-lg ${rarityColors[animal.rarity]} border-l-4 ${animal.rarity === 'epic' ? 'border-purple-500' : animal.rarity === 'rare' ? 'border-blue-500' : animal.rarity === 'uncommon' ? 'border-green-500' : 'border-gray-500'} shadow-sm">
+              <span class="text-3xl">${animal.icon}</span>
+              <div class="flex-1">
+                <div class="font-bold text-lg">${animal.name}</div>
+                <div class="text-sm text-gray-500">数量: ${count}</div>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-xs text-gray-400">健康度</span>
+                  <div class="w-24 bg-gray-200 rounded-full h-3">
+                    <div class="${health > 50 ? 'bg-green-500' : health > 20 ? 'bg-yellow-500' : 'bg-red-500'} h-3 rounded-full transition-all duration-300" style="width: ${health}%"></div>
+                  </div>
+                  <span class="text-xs font-semibold ${health > 50 ? 'text-green-700' : health > 20 ? 'text-yellow-600' : 'text-red-600'}">${health}%</span>
+                </div>
+              </div>
+              <div class="flex flex-col gap-1">
+                ${count > 0 ? `
+                  <button class="feed-individual-btn px-3 py-1 rounded text-xs font-semibold transition-all duration-200 ${needsFeeding ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}" 
+                    data-animal-id="${animal.id}" 
+                    data-feed-cost="${feedCost}"
+                    ${!needsFeeding ? 'disabled' : ''}>
+                    ${needsFeeding ? `喂养 (${feedCost}饲料)` : '健康满值'}
+                  </button>
+                ` : `
+                  <div class="px-3 py-1 text-xs text-gray-400">暂无动物</div>
+                `}
+              </div>
+            </div>`;
+          }).join('');
+          
+          // 为每个动物的喂养按钮添加点击事件
+          box.querySelectorAll('.feed-individual-btn').forEach(btn => {
+            btn.onclick = function() {
+              const animalId = this.getAttribute('data-animal-id');
+              const feedCost = parseInt(this.getAttribute('data-feed-cost'));
+              
+              if ((gameState.animalFeed || 0) < feedCost) {
+                showNotification(`饲料不足！需要 ${feedCost} 个饲料`, 'error');
+                return;
+              }
+              
+              const animalName = animals.find(a => a.id === animalId)?.name;
+              const currentHealth = gameState.animalHealth[animalId] || 0;
+              
+              if (currentHealth >= 100) {
+                showNotification(`${animalName}健康度已满，无需喂养`, 'info');
+                return;
+              }
+              
+              // 执行喂养
+              gameState.animalFeed -= feedCost;
+              gameState.animalHealth[animalId] = 100;
+              
+              // 更新UI
+              renderMyAnimals();
+              updateRanchStats();
+              saveGameData();
+              
+              showNotification(`${animalName}喂养成功！健康度恢复到100%`, 'success');
+            };
+          });
+          
+          renderRanchAnimals(); // 保持牧场动物展示同步
         }
 
         // 渲染幸福值、动物健康、动物副产品
@@ -3432,15 +4264,38 @@
           const list = document.getElementById('animal-health-list');
           if (!list) return;
           const animals = [
-            { id: 'chicken', name: '鸡', icon: '🐔' },
-            { id: 'cow', name: '牛', icon: '🐄' },
-            { id: 'sheep', name: '羊', icon: '🐑' }
+            { id: 'chicken', name: '鸡', icon: '🐔', rarity: 'common' },
+            { id: 'cow', name: '牛', icon: '🐄', rarity: 'common' },
+            { id: 'sheep', name: '羊', icon: '🐑', rarity: 'common' },
+            { id: 'pig', name: '猪', icon: '🐷', rarity: 'uncommon' },
+            { id: 'duck', name: '鸭子', icon: '🦆', rarity: 'common' },
+            { id: 'goat', name: '山羊', icon: '🐐', rarity: 'uncommon' },
+            { id: 'rabbit', name: '兔子', icon: '🐰', rarity: 'rare' },
+            { id: 'horse', name: '马', icon: '🐎', rarity: 'epic' }
           ];
+          
+          const rarityColors = {
+            common: 'bg-gray-50',
+            uncommon: 'bg-green-50', 
+            rare: 'bg-blue-50',
+            epic: 'bg-purple-50'
+          };
+          
           list.innerHTML = animals.map(a => `
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-2xl">${a.icon}</span>
-              <span>${a.name}</span>
-              <span class="ml-auto text-green-700">健康度: ${gameState.animalHealth[a.id]||0}</span>
+            <div class="flex items-center gap-3 p-3 rounded-lg ${rarityColors[a.rarity]} border-l-4 ${a.rarity === 'epic' ? 'border-purple-500' : a.rarity === 'rare' ? 'border-blue-500' : a.rarity === 'uncommon' ? 'border-green-500' : 'border-gray-500'} shadow-sm">
+              <span class="text-3xl">${a.icon}</span>
+              <div class="flex-1">
+                <div class="font-bold text-lg">${a.name}</div>
+                <div class="text-sm text-gray-500">数量: ${gameState.animals[a.id]||0}</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm font-semibold ${(gameState.animalHealth[a.id]||0) > 50 ? 'text-green-700' : (gameState.animalHealth[a.id]||0) > 20 ? 'text-yellow-600' : 'text-red-600'}">
+                  健康度: ${gameState.animalHealth[a.id]||0}%
+                </div>
+                <div class="w-24 bg-gray-200 rounded-full h-3 mt-2">
+                  <div class="bg-green-500 h-3 rounded-full transition-all duration-300" style="width: ${gameState.animalHealth[a.id]||0}%"></div>
+                </div>
+              </div>
             </div>
           `).join('');
           document.getElementById('feed-count').textContent = gameState.animalFeed||0;
@@ -3449,18 +4304,37 @@
           const box = document.getElementById('animal-products-list');
           if (!box) return;
           const products = [
-            { id: 'egg', name: '鸡蛋', icon: '🥚', price: 8 },
-            { id: 'milk', name: '牛奶', icon: '🥛', price: 20 },
-            { id: 'wool', name: '羊毛', icon: '🧶', price: 15 }
+            { id: 'egg', name: '鸡蛋', icon: '🥚', price: 8, rarity: 'common' },
+            { id: 'milk', name: '牛奶', icon: '🥛', price: 20, rarity: 'common' },
+            { id: 'wool', name: '羊毛', icon: '🧶', price: 15, rarity: 'common' },
+            { id: 'pork', name: '猪肉', icon: '🥩', price: 25, rarity: 'uncommon' },
+            { id: 'duck_egg', name: '鸭蛋', icon: '🥚', price: 12, rarity: 'common' },
+            { id: 'goat_milk', name: '羊奶', icon: '🥛', price: 30, rarity: 'uncommon' },
+            { id: 'rabbit_fur', name: '兔毛', icon: '🧶', price: 40, rarity: 'rare' },
+            { id: 'horse_manure', name: '马粪', icon: '💩', price: 5, rarity: 'common' }
           ];
+          
+          const rarityColors = {
+            common: 'bg-gray-50',
+            uncommon: 'bg-green-50', 
+            rare: 'bg-blue-50',
+            epic: 'bg-purple-50'
+          };
+          
           box.innerHTML = products.map(p => `
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-2xl">${p.icon}</span>
-              <span>${p.name}</span>
-              <span class="ml-auto text-green-700">数量: ${gameState.animalProducts[p.id]||0}</span>
-              <button class="sell-product bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded" data-product-id="${p.id}" data-price="${p.price}">出售</button>
+            <div class="flex items-center gap-3 p-3 rounded-lg ${rarityColors[p.rarity]} border-l-4 ${p.rarity === 'rare' ? 'border-blue-500' : p.rarity === 'uncommon' ? 'border-green-500' : 'border-gray-500'} shadow-sm">
+              <span class="text-3xl">${p.icon}</span>
+              <div class="flex-1">
+                <div class="font-bold text-lg">${p.name}</div>
+                <div class="text-sm text-gray-500">售价: ${p.price}金币</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm font-semibold text-green-700">数量: ${gameState.animalProducts[p.id]||0}</div>
+                <button class="sell-product bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition" data-product-id="${p.id}" data-price="${p.price}">出售</button>
+              </div>
             </div>
           `).join('');
+          
           box.querySelectorAll('.sell-product').forEach(btn => {
             btn.onclick = function() {
               const id = this.getAttribute('data-product-id');
@@ -3473,7 +4347,13 @@
               renderAnimalProducts();
               updateUI();
               saveGameData();
-              showNotification(`出售${id==='egg'?'鸡蛋':id==='milk'?'牛奶':'羊毛'}成功！+${price}金币`,'success');
+              
+              // 根据产品类型显示不同的出售消息
+              const productNames = {
+                'egg': '鸡蛋', 'milk': '牛奶', 'wool': '羊毛', 'pork': '猪肉',
+                'duck_egg': '鸭蛋', 'goat_milk': '羊奶', 'rabbit_fur': '兔毛', 'horse_manure': '马粪'
+              };
+              showNotification(`出售${productNames[id]}成功！+${price}金币`,'success');
             };
           });
         }
@@ -3486,40 +4366,819 @@
               if((gameState.animalFeed||0)<=0){
                 showNotification('饲料不足','error');return;
               }
-              ['chicken','cow','sheep'].forEach(id=>{
-                if(gameState.animals[id]>0){
-                  gameState.animalHealth[id]=100;
+              
+              // 检查是否有动物需要喂养（健康度不满100%）
+              const animalIds = ['chicken','cow','sheep','pig','duck','goat','rabbit','horse'];
+              let totalAnimalsNeedingFeed = 0;
+              let animalsToFeed = [];
+              
+              animalIds.forEach(id => {
+                const animalCount = gameState.animals[id] || 0;
+                const health = gameState.animalHealth[id] || 0;
+                if(animalCount > 0 && health < 100) {
+                  totalAnimalsNeedingFeed += animalCount;
+                  animalsToFeed.push({id, count: animalCount, name: getAnimalName(id)});
                 }
               });
-              gameState.animalFeed--;
+              
+              if(totalAnimalsNeedingFeed === 0) {
+                showNotification('所有动物健康度都是满的，无需喂养！','info');
+                return;
+              }
+              
+              // 计算需要的饲料数量（每只动物0.1个饲料，向上取整）
+              const feedNeeded = Math.ceil(totalAnimalsNeedingFeed * 0.1);
+              
+              if((gameState.animalFeed||0) < feedNeeded) {
+                showNotification(`饲料不足！需要 ${feedNeeded} 个饲料，当前只有 ${gameState.animalFeed||0} 个`, 'error');
+                return;
+              }
+              
+              // 执行喂养
+              animalsToFeed.forEach(animal => {
+                gameState.animalHealth[animal.id] = 100;
+              });
+              
+              gameState.animalFeed -= feedNeeded;
               renderAnimalHealth();
+              renderMyAnimals(); // 新增：喂完动物后刷新我的动物卡片
+              updateRanchStats();
               saveGameData();
-              showNotification('动物已全部喂养，健康恢复！','success');
+              showNotification(`全部动物喂养完成！共喂养 ${totalAnimalsNeedingFeed} 只动物，消耗 ${feedNeeded} 个饲料`, 'success');
             };
           }
         },0);
+        
+        // 获取动物名称的辅助函数
+        function getAnimalName(id) {
+          const animalNames = {
+            'chicken': '鸡', 'cow': '牛', 'sheep': '羊', 'pig': '猪',
+            'duck': '鸭子', 'goat': '山羊', 'rabbit': '兔子', 'horse': '马'
+          };
+          return animalNames[id] || id;
+        }
 
         // 定时器：动物产出与健康度变化
         setInterval(()=>{
           // 幸福值影响产出效率
           const happinessBonus = 1 + (gameState.happiness||0)/100;
-          // 动物产出
-          if(gameState.animals.chicken>0 && (gameState.animalHealth.chicken||0)>0){
-            if(Math.random()<0.2*happinessBonus) gameState.animalProducts.egg += gameState.animals.chicken;
-            gameState.animalHealth.chicken = Math.max(0, gameState.animalHealth.chicken-2);
+          
+          // 获取当前天气对动物的影响
+          const currentWeatherEffect = ranchEnvironment.weatherEffects[gameState.weather];
+          const weatherBonus = currentWeatherEffect ? currentWeatherEffect.animalEffects.productionBonus : 1.0;
+          const healthDecayModifier = currentWeatherEffect ? currentWeatherEffect.animalEffects.healthDecayModifier : 1.0;
+          
+          // 动物产出配置
+          const animalProduction = {
+            chicken: { product: 'egg', chance: 0.2, healthDecay: 2 },
+            cow: { product: 'milk', chance: 0.1, healthDecay: 1 },
+            sheep: { product: 'wool', chance: 0.12, healthDecay: 1 },
+            pig: { product: 'pork', chance: 0.08, healthDecay: 1.5 },
+            duck: { product: 'duck_egg', chance: 0.15, healthDecay: 1.5 },
+            goat: { product: 'goat_milk', chance: 0.09, healthDecay: 1 },
+            rabbit: { product: 'rabbit_fur', chance: 0.06, healthDecay: 0.5 },
+            horse: { product: 'horse_manure', chance: 0.25, healthDecay: 0.5 }
+          };
+          
+          // 动物产出和健康度变化
+          Object.keys(animalProduction).forEach(animalId => {
+            if(gameState.animals[animalId] > 0 && (gameState.animalHealth[animalId]||0) > 0){
+              const config = animalProduction[animalId];
+              
+              // 计算最终产出概率（幸福值 × 天气影响）
+              const finalChance = config.chance * happinessBonus * weatherBonus;
+              
+              // 动物产出
+              if(Math.random() < finalChance) {
+                let productAmount = gameState.animals[animalId];
+                
+                // 彩虹天气的品质加成
+                if (currentWeatherEffect && currentWeatherEffect.animalEffects.qualityBonus) {
+                  productAmount = Math.floor(productAmount * currentWeatherEffect.animalEffects.qualityBonus);
+                }
+                
+                gameState.animalProducts[config.product] += productAmount;
+              }
+              
+              // 健康度衰减（受天气影响）
+              const finalHealthDecay = config.healthDecay * healthDecayModifier;
+              gameState.animalHealth[animalId] = Math.max(0, gameState.animalHealth[animalId] - finalHealthDecay);
+              
+              // 特殊天气效果
+              if (currentWeatherEffect) {
+                const effects = currentWeatherEffect.animalEffects;
+                
+                // 台风可能造成动物受伤
+                if (effects.injuryRisk && Math.random() < effects.injuryRisk) {
+                  gameState.animalHealth[animalId] = Math.max(0, gameState.animalHealth[animalId] - 20);
+                  showNotification(`台风中${getAnimalName(animalId)}受伤了！健康度下降`, 'error');
+                }
+                
+                // 彩虹天气的健康恢复效果
+                if (gameState.weather === 'rainbow' && Math.random() < 0.3) {
+                  gameState.animalHealth[animalId] = Math.min(100, gameState.animalHealth[animalId] + 5);
+                }
+                
+                // 干旱天气的额外水分需求
+                if (effects.waterNeed && effects.waterNeed > 1) {
+                  if (Math.random() < 0.2) {
+                    gameState.animalHealth[animalId] = Math.max(0, gameState.animalHealth[animalId] - 3);
+                  }
+                }
+              }
+            }
+          });
+          
+          // 显示天气对动物的影响提示
+          if (currentWeatherEffect && Math.random() < 0.1) {
+            const effects = currentWeatherEffect.animalEffects;
+            if (effects.benefits.length > 0) {
+              const randomBenefit = effects.benefits[Math.floor(Math.random() * effects.benefits.length)];
+              showNotification(`${currentWeatherEffect.title}：${randomBenefit}`, 'success');
+            }
+            if (effects.drawbacks.length > 0 && Math.random() < 0.5) {
+              const randomDrawback = effects.drawbacks[Math.floor(Math.random() * effects.drawbacks.length)];
+              showNotification(`${currentWeatherEffect.title}：${randomDrawback}`, 'warning');
+            }
           }
-          if(gameState.animals.cow>0 && (gameState.animalHealth.cow||0)>0){
-            if(Math.random()<0.1*happinessBonus) gameState.animalProducts.milk += gameState.animals.cow;
-            gameState.animalHealth.cow = Math.max(0, gameState.animalHealth.cow-1);
-          }
-          if(gameState.animals.sheep>0 && (gameState.animalHealth.sheep||0)>0){
-            if(Math.random()<0.12*happinessBonus) gameState.animalProducts.wool += gameState.animals.sheep;
-            gameState.animalHealth.sheep = Math.max(0, gameState.animalHealth.sheep-1);
-          }
+          
           renderAnimalProducts();
           renderAnimalHealth();
+          updateRanchStats();
+          updateRanchWeather(); // 更新牧场天气显示
           saveGameData();
         },60000); // 每分钟产出一次
+
+        // 商店标签切换功能
+        function setupShopTabSwitching() {
+            const tabButtons = document.querySelectorAll('.shop-tab-btn');
+            const shopContents = document.querySelectorAll('.shop-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    // 移除所有按钮的active类
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    // 隐藏所有内容区域
+                    shopContents.forEach(content => {
+                        content.classList.remove('active');
+                        content.style.display = 'none';
+                    });
+                    
+                    // 激活当前按钮
+                    this.classList.add('active');
+                    
+                    // 显示对应的内容区域
+                    const targetContent = document.querySelector(`[id="${category === 'seeds' ? 'shop-items' : category === 'items' ? 'item-shop' : category === 'decor' ? 'decor-shop' : 'animal-shop'}"]`);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                        targetContent.style.display = 'block';
+                    }
+                    
+                    // 根据类别重新渲染对应的商店内容
+                    switch(category) {
+                        case 'seeds':
+                            renderShop();
+                            break;
+                        case 'items':
+                            renderItemShop();
+                            break;
+                        case 'decor':
+                            renderDecorShop();
+                            break;
+                        case 'animals':
+                            renderAnimalShop();
+                            break;
+                    }
+                });
+            });
+        }
+
+        // 牧场管理功能
+        function setupRanchManagement() {
+            // 购买饲料按钮
+            const buyFeedBtn = document.getElementById('buy-feed-btn');
+            if (buyFeedBtn) {
+                buyFeedBtn.onclick = function() {
+                    if (gameState.money < 10) {
+                        showNotification('金币不足，无法购买饲料','error');
+                        return;
+                    }
+                    gameState.money -= 10;
+                    gameState.animalFeed = (gameState.animalFeed || 0) + 1;
+                    updateRanchStats();
+                    updateUI();
+                    saveGameData();
+                    showNotification('购买饲料成功！','success');
+                };
+            }
+
+            // 一键出售所有副产品按钮
+            const sellAllProductsBtn = document.getElementById('sell-all-products-btn');
+            if (sellAllProductsBtn) {
+                sellAllProductsBtn.onclick = function() {
+                    let totalEarnings = 0;
+                    const products = [
+                        { id: 'egg', name: '鸡蛋', price: 8 },
+                        { id: 'milk', name: '牛奶', price: 20 },
+                        { id: 'wool', name: '羊毛', price: 15 },
+                        { id: 'pork', name: '猪肉', price: 25 },
+                        { id: 'duck_egg', name: '鸭蛋', price: 12 },
+                        { id: 'goat_milk', name: '羊奶', price: 30 },
+                        { id: 'rabbit_fur', name: '兔毛', price: 40 },
+                        { id: 'horse_manure', name: '马粪', price: 5 }
+                    ];
+                    
+                    products.forEach(product => {
+                        const quantity = gameState.animalProducts[product.id] || 0;
+                        if (quantity > 0) {
+                            totalEarnings += quantity * product.price;
+                            gameState.animalProducts[product.id] = 0;
+                        }
+                    });
+                    
+                    if (totalEarnings > 0) {
+                        gameState.money += totalEarnings;
+                        renderAnimalProducts();
+                        updateUI();
+                        saveGameData();
+                        showNotification(`一键出售成功！获得 ${totalEarnings} 金币`,'success');
+                    } else {
+                        showNotification('没有可出售的副产品','info');
+                    }
+                };
+            }
+
+            // 初始化牧场统计
+            updateRanchStats();
+        }
+
+        // 更新牧场统计
+        function updateRanchStats() {
+            const totalAnimalsElement = document.getElementById('total-animals');
+            const avgHealthElement = document.getElementById('avg-health');
+            const feedCountElement = document.getElementById('feed-count');
+            
+            if (totalAnimalsElement && avgHealthElement) {
+                // 计算总动物数
+                const totalAnimals = Object.values(gameState.animals).reduce((sum, count) => sum + (count || 0), 0);
+                totalAnimalsElement.textContent = totalAnimals;
+                
+                // 计算平均健康度
+                const animalIds = ['chicken', 'cow', 'sheep', 'pig', 'duck', 'goat', 'rabbit', 'horse'];
+                let totalHealth = 0;
+                let animalCount = 0;
+                
+                animalIds.forEach(id => {
+                    const count = gameState.animals[id] || 0;
+                    if (count > 0) {
+                        totalHealth += (gameState.animalHealth[id] || 0) * count;
+                        animalCount += count;
+                    }
+                });
+                
+                const avgHealth = animalCount > 0 ? Math.round(totalHealth / animalCount) : 100;
+                avgHealthElement.textContent = avgHealth + '%';
+                
+                // 根据健康度设置颜色
+                if (avgHealth > 70) {
+                    avgHealthElement.className = 'text-2xl font-bold text-green-600';
+                } else if (avgHealth > 40) {
+                    avgHealthElement.className = 'text-2xl font-bold text-yellow-600';
+                } else {
+                    avgHealthElement.className = 'text-2xl font-bold text-red-600';
+                }
+            }
+            
+            // 更新饲料库存显示
+            if (feedCountElement) {
+                feedCountElement.textContent = gameState.animalFeed || 0;
+            }
+        }
+
+        // 渲染牧场动物图标
+        function renderRanchAnimals() {
+            const box = document.getElementById('ranch-animal-icons');
+            if (!box) return;
+            
+            // 为牧场容器添加大气效果
+            box.className = 'ranch-atmosphere grid grid-cols-4 gap-6 p-8 bg-gradient-to-br from-green-100 to-green-200 rounded-lg border-2 border-green-300 shadow-lg relative overflow-hidden';
+            
+            const animals = [
+                { id: 'chicken', name: '鸡', icon: '🐔', animations: ['animal-walk', 'animal-bounce'] },
+                { id: 'cow', name: '牛', icon: '🐄', animations: ['animal-sway', 'animal-breathe'] },
+                { id: 'sheep', name: '羊', icon: '🐑', animations: ['animal-bounce', 'animal-sway'] },
+                { id: 'pig', name: '猪', icon: '🐷', animations: ['animal-walk', 'animal-breathe'] },
+                { id: 'duck', name: '鸭子', icon: '🦆', animations: ['animal-walk', 'animal-bounce'] },
+                { id: 'goat', name: '山羊', icon: '🐐', animations: ['animal-bounce', 'animal-sway'] },
+                { id: 'rabbit', name: '兔子', icon: '🐰', animations: ['animal-bounce', 'animal-walk'] },
+                { id: 'horse', name: '马', icon: '🐎', animations: ['animal-walk', 'animal-sway'] }
+            ];
+            
+            let animalElements = [];
+            
+            animals.forEach(animal => {
+                const count = gameState.animals[animal.id] || 0;
+                const health = gameState.animalHealth[animal.id] || 0;
+                
+                if (count > 0) {
+                    // 为每种动物创建多个个体（最多显示6个）
+                    const displayCount = Math.min(count, 6);
+                    
+                    for (let i = 0; i < displayCount; i++) {
+                        // 随机选择动画效果
+                        const randomAnimation = animal.animations[Math.floor(Math.random() * animal.animations.length)];
+                        
+                        // 根据健康度决定动画和样式
+                        let healthClass = '';
+                        if (health > 70) {
+                            healthClass = 'animal-healthy';
+                        } else if (health < 30) {
+                            healthClass = 'animal-sick';
+                        }
+                        
+                        // 随机延迟动画，让动物们不同步
+                        const animationDelay = Math.random() * 3;
+                        
+                        animalElements.push(`
+                            <div class="ranch-animal ${randomAnimation} ${healthClass} flex flex-col items-center justify-center p-2 rounded-lg bg-white bg-opacity-50 backdrop-blur-sm hover:bg-opacity-80 transition-all duration-300" 
+                                 style="animation-delay: ${animationDelay}s;" 
+                                 title="${animal.name} - 健康度: ${health}%">
+                                <span class="text-3xl mb-1 animal-blink" style="animation-delay: ${animationDelay + 1}s;">${animal.icon}</span>
+                                <span class="text-xs font-bold text-green-800">${animal.name}</span>
+                                ${i === 0 && count > displayCount ? `<span class="text-xs text-gray-600">+${count - displayCount}只</span>` : ''}
+                            </div>
+                        `);
+                    }
+                }
+            });
+            
+            if (animalElements.length === 0) {
+                box.innerHTML = `
+                    <div class="col-span-4 text-center py-12">
+                        <div class="text-6xl mb-4 opacity-50">🌾</div>
+                        <div class="text-gray-500 italic text-lg">空旷的牧场等待着动物们的到来...</div>
+                        <div class="text-sm text-gray-400 mt-2">去商店购买一些动物吧！</div>
+                    </div>
+                `;
+            } else {
+                // 添加环境装饰
+                const environmentElements = [
+                    '<div class="ranch-decoration absolute top-2 left-2 text-2xl opacity-60 grass-sway">🌾</div>',
+                    '<div class="ranch-decoration absolute top-2 right-2 text-2xl opacity-60 cloud-float">☁️</div>',
+                    '<div class="ranch-decoration absolute bottom-2 left-2 text-xl opacity-50 grass-sway" style="animation-delay: 2s;">🌻</div>',
+                    '<div class="ranch-decoration absolute bottom-2 right-2 text-xl opacity-50 grass-sway" style="animation-delay: 1s;">🦋</div>'
+                ];
+                
+                box.innerHTML = animalElements.join('') + environmentElements.join('');
+            }
+        }
+        
+        // 定期更新动物动画（每10秒随机改变动物的动画）
+        setInterval(() => {
+            const animalElements = document.querySelectorAll('.ranch-animal');
+            animalElements.forEach(element => {
+                const animations = ['animal-walk', 'animal-bounce', 'animal-sway', 'animal-breathe'];
+                const currentClasses = element.className.split(' ');
+                
+                // 移除旧的动画类
+                animations.forEach(anim => {
+                    element.classList.remove(anim);
+                });
+                
+                // 添加新的随机动画
+                const newAnimation = animations[Math.floor(Math.random() * animations.length)];
+                element.classList.add(newAnimation);
+                
+                // 随机改变动画延迟
+                element.style.animationDelay = Math.random() * 3 + 's';
+            });
+        }, 10000); // 每10秒更新一次动画
+        
+        // 牧场环境系统
+        const ranchEnvironment = {
+            soundEnabled: false,
+            timeOfDay: 'day',
+            season: 'spring',
+            
+            // 时间系统
+            timeSystem: {
+                day: { icon: '🕐', title: '白天', mood: '😊 动物们很活跃' },
+                evening: { icon: '🌅', title: '傍晚', mood: '😌 动物们在休息' },
+                night: { icon: '🌙', title: '夜晚', mood: '😴 动物们在睡觉' }
+            },
+            
+            // 季节系统
+            seasons: {
+                spring: { icon: '🌸', title: '春季' },
+                summer: { icon: '☀️', title: '夏季' },
+                autumn: { icon: '🍂', title: '秋季' },
+                winter: { icon: '❄️', title: '冬季' }
+            },
+            
+            // 动物叫声
+            animalSounds: {
+                chicken: ['咯咯', '咯咯咯'],
+                cow: ['哞~', '哞哞'],
+                sheep: ['咩~', '咩咩'],
+                pig: ['哼哼', '哼哼哼'],
+                duck: ['嘎嘎', '嘎嘎嘎'],
+                goat: ['咩咩', '咩~'],
+                rabbit: ['...', '(无声)'],
+                horse: ['嘶~', '嘶嘶']
+            },
+            
+            // 天气对动物的影响（与主天气系统统一）
+            weatherEffects: {
+                sunny: {
+                    icon: '☀️',
+                    title: '晴天',
+                    effect: 'sunny-effect',
+                    animalEffects: {
+                        benefits: ['产出效率+20%', '健康度缓慢恢复', '动物心情愉悦'],
+                        drawbacks: ['水分消耗增加', '需要更多饮水', '中暑风险'],
+                        productionBonus: 1.2,
+                        healthDecayModifier: 0.8, // 健康度衰减减少
+                        waterNeed: 1.5 // 需要更多水分
+                    }
+                },
+                rainy: {
+                    icon: '🌧️',
+                    title: '雨天',
+                    effect: 'rainy-effect',
+                    animalEffects: {
+                        benefits: ['自动补充水分', '清洁环境', '降低疾病风险'],
+                        drawbacks: ['产出效率-10%', '容易感冒', '泥泞环境'],
+                        productionBonus: 0.9,
+                        healthDecayModifier: 1.1, // 健康度衰减增加
+                        diseaseResistance: 1.2 // 疾病抗性提高
+                    }
+                },
+                stormy: {
+                    icon: '⛈️',
+                    title: '暴雨',
+                    effect: 'stormy-effect',
+                    animalEffects: {
+                        benefits: ['充足水源', '环境清洁'],
+                        drawbacks: ['产出停止', '健康度快速下降', '动物恐慌'],
+                        productionBonus: 0,
+                        healthDecayModifier: 2.0, // 健康度衰减翻倍
+                        stressLevel: 'high'
+                    }
+                },
+                drought: {
+                    icon: '🔥',
+                    title: '干旱',
+                    effect: 'drought-effect',
+                    animalEffects: {
+                        benefits: ['干燥环境减少细菌'],
+                        drawbacks: ['严重缺水', '产出减半', '健康度快速下降'],
+                        productionBonus: 0.5,
+                        healthDecayModifier: 2.5, // 健康度衰减大幅增加
+                        waterNeed: 3.0 // 需要大量水分
+                    }
+                },
+                typhoon: {
+                    icon: '🌀',
+                    title: '台风',
+                    effect: 'typhoon-effect',
+                    animalEffects: {
+                        benefits: ['台风过后空气清新'],
+                        drawbacks: ['动物受惊', '产出停止', '可能受伤'],
+                        productionBonus: 0,
+                        healthDecayModifier: 1.8,
+                        injuryRisk: 0.1 // 10%受伤风险
+                    }
+                },
+                rainbow: {
+                    icon: '🌈',
+                    title: '彩虹天',
+                    effect: 'rainbow-effect',
+                    animalEffects: {
+                        benefits: ['动物心情极佳', '产出品质提升', '健康度恢复'],
+                        drawbacks: [],
+                        productionBonus: 1.5,
+                        healthDecayModifier: 0.5, // 健康度衰减大幅减少
+                        qualityBonus: 1.5 // 产品品质提升
+                    }
+                },
+                sandstorm: {
+                    icon: '🌪️',
+                    title: '沙尘暴',
+                    effect: 'sandstorm-effect',
+                    animalEffects: {
+                        benefits: [],
+                        drawbacks: ['呼吸困难', '产出停止', '健康度下降', '视野受阻'],
+                        productionBonus: 0,
+                        healthDecayModifier: 2.2,
+                        respiratoryIssues: true
+                    }
+                }
+            }
+        };
+        
+        // 初始化牧场环境控制
+        function initRanchEnvironment() {
+            const soundBtn = document.getElementById('ranch-sound-btn');
+            
+            if (soundBtn) {
+                soundBtn.onclick = function() {
+                    ranchEnvironment.soundEnabled = !ranchEnvironment.soundEnabled;
+                    const soundIcon = document.getElementById('sound-icon');
+                    const soundText = document.getElementById('sound-text');
+                    
+                    if (ranchEnvironment.soundEnabled) {
+                        soundIcon.textContent = '🔊';
+                        soundText.textContent = '音效开';
+                        soundBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                        soundBtn.classList.add('bg-blue-500', 'hover:bg-blue-600');
+                        showNotification('牧场音效已开启！', 'success');
+                        playRanchSound();
+                    } else {
+                        soundIcon.textContent = '🔇';
+                        soundText.textContent = '音效关';
+                        soundBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                        soundBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+                        showNotification('牧场音效已关闭', 'info');
+                    }
+                };
+            }
+            
+            // 启动时间循环
+            startTimeSystem();
+            
+            // 初始化天气显示
+            updateRanchWeather();
+        }
+        
+        // 更新牧场天气显示（与主天气系统同步）
+        function updateRanchWeather() {
+            const weatherEffect = document.getElementById('ranch-weather-effect');
+            
+            const currentWeather = ranchEnvironment.weatherEffects[gameState.weather];
+            if (currentWeather) {
+                if (weatherEffect) {
+                    weatherEffect.className = `absolute inset-0 pointer-events-none z-5 ${currentWeather.effect}`;
+                }
+            }
+        }
+        
+        // 播放牧场音效
+        function playRanchSound() {
+            if (!ranchEnvironment.soundEnabled) return;
+            
+            const animals = ['chicken', 'cow', 'sheep', 'pig', 'duck', 'goat', 'rabbit', 'horse'];
+            const availableAnimals = animals.filter(animal => (gameState.animals[animal] || 0) > 0);
+            
+            if (availableAnimals.length > 0) {
+                const randomAnimal = availableAnimals[Math.floor(Math.random() * availableAnimals.length)];
+                const sounds = ranchEnvironment.animalSounds[randomAnimal];
+                const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+                
+                // 显示音效提示
+                const soundNotification = document.createElement('div');
+                soundNotification.className = 'fixed top-20 right-4 bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-semibold z-50 animate-pulse';
+                soundNotification.innerHTML = `🔊 ${getAnimalName(randomAnimal)}: ${randomSound}`;
+                document.body.appendChild(soundNotification);
+                
+                setTimeout(() => {
+                    soundNotification.remove();
+                }, 2000);
+            }
+        }
+        
+        // 时间系统
+        function startTimeSystem() {
+            // 每30秒更新一次时间
+            setInterval(() => {
+                updateTimeOfDay();
+                updateSeason();
+                updateRanchStatus();
+                
+                // 随机播放动物音效
+                if (Math.random() < 0.3) {
+                    playRanchSound();
+                }
+            }, 30000);
+        }
+        
+        function updateTimeOfDay() {
+            const times = Object.keys(ranchEnvironment.timeSystem);
+            const currentIndex = times.indexOf(ranchEnvironment.timeOfDay);
+            const nextIndex = (currentIndex + 1) % times.length;
+            
+            ranchEnvironment.timeOfDay = times[nextIndex];
+            
+            const timeElement = document.getElementById('ranch-time');
+            const moodElement = document.getElementById('ranch-mood');
+            
+            if (timeElement && moodElement) {
+                const timeData = ranchEnvironment.timeSystem[ranchEnvironment.timeOfDay];
+                timeElement.innerHTML = `${timeData.icon} 现在是${timeData.title}`;
+                moodElement.textContent = timeData.mood;
+            }
+        }
+        
+        function updateSeason() {
+            // 每2分钟换一次季节（演示用）
+            if (Math.random() < 0.1) {
+                const seasons = Object.keys(ranchEnvironment.seasons);
+                const currentIndex = seasons.indexOf(ranchEnvironment.season);
+                const nextIndex = (currentIndex + 1) % seasons.length;
+                
+                ranchEnvironment.season = seasons[nextIndex];
+                
+                const seasonElement = document.getElementById('ranch-season');
+                if (seasonElement) {
+                    const seasonData = ranchEnvironment.seasons[ranchEnvironment.season];
+                    seasonElement.innerHTML = `${seasonData.icon} ${seasonData.title}`;
+                }
+            }
+        }
+        
+        function updateRanchStatus() {
+            const titleElement = document.getElementById('ranch-title');
+            if (titleElement) {
+                const totalAnimals = Object.values(gameState.animals).reduce((sum, count) => sum + (count || 0), 0);
+                const avgHealth = calculateAverageHealth();
+                const currentWeather = ranchEnvironment.weatherEffects[gameState.weather];
+                
+                let title = '牧场悠闲时光';
+                if (totalAnimals === 0) {
+                    title = '空旷的牧场';
+                } else if (currentWeather && currentWeather.animalEffects.drawbacks.length > 0) {
+                    title = `${currentWeather.title}中的牧场`;
+                } else if (avgHealth > 80) {
+                    title = '繁荣的牧场';
+                } else if (avgHealth < 40) {
+                    title = '需要关爱的牧场';
+                }
+                
+                titleElement.textContent = title;
+            }
+        }
+        
+        function calculateAverageHealth() {
+            const animalIds = ['chicken', 'cow', 'sheep', 'pig', 'duck', 'goat', 'rabbit', 'horse'];
+            let totalHealth = 0;
+            let animalCount = 0;
+            
+            animalIds.forEach(id => {
+                const count = gameState.animals[id] || 0;
+                if (count > 0) {
+                    totalHealth += (gameState.animalHealth[id] || 0) * count;
+                    animalCount += count;
+                }
+            });
+            
+            return animalCount > 0 ? Math.round(totalHealth / animalCount) : 100;
+        }
+        
+        // 页面加载完成后初始化牧场环境
+        setTimeout(() => {
+            initRanchEnvironment();
+        }, 1000);
+
+        // 通过ID获取种子
+        function getSeedById(id) {
+            return seeds.find(seed => seed.id === id);
+        }
+
+        // 获取土地改良等级
+        function getLandImprovementLevel(plotIndex) {
+            if (!gameState.regionLandImprovements[gameState.currentRegion]) {
+                return 0;
+            }
+            return gameState.regionLandImprovements[gameState.currentRegion][plotIndex] || 0;
+        }
+
+        // 设置土地改良等级
+        function setLandImprovementLevel(plotIndex, level) {
+            if (!gameState.regionLandImprovements[gameState.currentRegion]) {
+                gameState.regionLandImprovements[gameState.currentRegion] = {};
+            }
+            gameState.regionLandImprovements[gameState.currentRegion][plotIndex] = level;
+        }
+
+        // 获取土地改良数据
+        function getLandImprovementData(level) {
+            return landImprovementLevels.find(l => l.level === level) || landImprovementLevels[0];
+        }
+
+        // 升级土地改良
+        function upgradeLandImprovement(plotIndex) {
+            const currentLevel = getLandImprovementLevel(plotIndex);
+            const nextLevel = currentLevel + 1;
+            
+            if (nextLevel >= landImprovementLevels.length) {
+                showNotification('土地已达到最高等级！', 'info');
+                return;
+            }
+            
+            const nextLevelData = getLandImprovementData(nextLevel);
+            if (gameState.money < nextLevelData.cost) {
+                showNotification(`金币不足！需要 ${nextLevelData.cost} 金币`, 'error');
+                return;
+            }
+            
+            gameState.money -= nextLevelData.cost;
+            setLandImprovementLevel(plotIndex, nextLevel);
+            
+            showNotification(`土地改良成功！升级到 ${nextLevelData.name}`, 'success');
+            updateUI();
+            renderFarm();
+            saveGameData();
+        }
+
+        // 获取水果品质数据
+        function getFruitQualityData(level) {
+            return fruitQualities.find(q => q.level === level) || fruitQualities[0];
+        }
+
+        // 根据土地等级确定水果品质
+        function determineFruitQuality(plotIndex) {
+            const landLevel = getLandImprovementLevel(plotIndex);
+            const random = Math.random();
+            
+            if (landLevel === 0) {
+                // 普通土地：只能出普通品质水果
+                return 0;
+            } else if (landLevel === 1) {
+                // 肥沃土地：能出普通和优良品质水果，按100%概率平均分配
+                return random < 0.5 ? 0 : 1;
+            } else if (landLevel === 2) {
+                // 优质土地：可以出普通、优良、精品水果，按100%概率平均分配
+                if (random < 0.33) return 0;
+                else if (random < 0.67) return 1;
+                else return 2;
+            } else if (landLevel === 3) {
+                // 完美土地：不出普通水果，出优良、精品和完美水果，按100%概率平均分配
+                if (random < 0.33) return 1;
+                else if (random < 0.67) return 2;
+                else return 3;
+            }
+            return 0;
+        }
+
+        // 添加品质水果到库存
+        function addQualityFruitToInventory(seedId, quality, count = 1) {
+            if (!gameState.qualityInventory[seedId]) {
+                gameState.qualityInventory[seedId] = { 0: 0, 1: 0, 2: 0, 3: 0 };
+            }
+            gameState.qualityInventory[seedId][quality] = (gameState.qualityInventory[seedId][quality] || 0) + count;
+        }
+
+        // 获取品质水果库存数量
+        function getQualityFruitCount(seedId, quality) {
+            if (!gameState.qualityInventory[seedId]) {
+                return 0;
+            }
+            return gameState.qualityInventory[seedId][quality] || 0;
+        }
+
+        // 移除品质水果库存
+        function removeQualityFruitFromInventory(seedId, quality, count = 1) {
+            if (!gameState.qualityInventory[seedId] || !gameState.qualityInventory[seedId][quality]) {
+                return false;
+            }
+            if (gameState.qualityInventory[seedId][quality] < count) {
+                return false;
+            }
+            gameState.qualityInventory[seedId][quality] -= count;
+            return true;
+        }
+
+        // 出售品质水果
+        function sellQualityFruit(seedId, quality, qty = 1, pricePerUnit) {
+            const availableCount = getQualityFruitCount(seedId, quality);
+            if (availableCount <= 0) {
+                showNotification('库存不足！', 'error');
+                return;
+            }
+            
+            qty = Math.max(1, Math.min(qty, availableCount));
+            
+            if (removeQualityFruitFromInventory(seedId, quality, qty)) {
+                const totalPrice = pricePerUnit * qty;
+                gameState.money += totalPrice;
+                
+                const seed = getSeedById(seedId);
+                const qualityData = getFruitQualityData(quality);
+                
+                updateUI();
+                renderInventory();
+                showNotification(`售出 ${qualityData.name}${seed.name} ×${qty}! +${totalPrice}金币`, 'success');
+                
+                // 更新任务进度
+                updateTaskProgress('sell', totalPrice);
+                
+                // 保存游戏数据
+                saveGameData();
+            } else {
+                showNotification('出售失败！', 'error');
+            }
+        }
     </script>
 </body>
 </html>
