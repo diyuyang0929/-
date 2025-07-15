@@ -1,0 +1,286 @@
+/* 商店模块样式 */
+
+/* 商店标签按钮样式 */
+.shop-tab-btn {
+    background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+    color: #374151;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+.shop-tab-btn:hover {
+    background: linear-gradient(135deg, #d1d5db, #9ca3af);
+    transform: translateY(-1px);
+}
+
+.shop-tab-btn.active {
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* 商店内容区域样式 */
+.shop-content {
+    transition: all 0.3s ease;
+}
+
+.shop-content.active {
+    display: block !important;
+}
+
+/* 商店容器样式 */
+.shop-container {
+    /* 保持原有样式 */
+}
+
+/* 种子商店项目样式 */
+.seed-item {
+    transition: all 0.3s ease;
+}
+
+.seed-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.seed-item.selected {
+    border-color: #10b981;
+    box-shadow: 0 0 0 2px #10b981;
+}
+
+/* 购买按钮样式 */
+.buy-btn {
+    transition: all 0.3s ease;
+}
+
+.buy-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.buy-item,
+.buy-decor {
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+}
+
+.buy-item:hover,
+.buy-decor:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.buy-item:disabled,
+.buy-decor:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+}
+
+/* 商品卡片样式 */
+.shop-item-card {
+    background: white;
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.shop-item-card:hover {
+    border-color: #10b981;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+    transform: translateY(-2px);
+}
+
+/* 动物专用道具样式 */
+.animal-item {
+    border-left: 4px solid #3b82f6;
+    background: linear-gradient(135deg, #dbeafe, #eff6ff);
+}
+
+/* 植物保护设施样式 */
+.plant-protection {
+    border-left: 4px solid #10b981;
+    background: linear-gradient(135deg, #d1fae5, #ecfdf5);
+}
+
+/* 栅栏段特殊样式 */
+.fence-item {
+    position: relative;
+}
+
+.fence-item::after {
+    content: "栅栏段";
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: #3b82f6;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* 库存显示样式 */
+.stock-info {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    border: 1px solid #0ea5e9;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.stock-low {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    border-color: #ef4444;
+    color: #dc2626;
+}
+
+.stock-high {
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border-color: #22c55e;
+    color: #16a34a;
+}
+
+/* 价格显示样式 */
+.price-tag {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 经验值显示样式 */
+.xp-tag {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* 地区标签样式 */
+.region-tag {
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+    color: white;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* 商店搜索框样式 */
+.shop-search {
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.shop-search:focus {
+    outline: none;
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* 商店筛选按钮样式 */
+.shop-filter-btn {
+    background: white;
+    border: 1px solid #d1d5db;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.shop-filter-btn:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+}
+
+.shop-filter-btn.active {
+    background: #10b981;
+    border-color: #10b981;
+    color: white;
+}
+
+/* 商店网格布局 */
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .shop-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .shop-tab-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+    
+    .seed-item {
+        padding: 0.75rem;
+    }
+}
+
+/* 动画效果 */
+@keyframes shopItemAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.shop-item-appear {
+    animation: shopItemAppear 0.3s ease-out;
+}
+
+/* 商店状态指示器 */
+.shop-status {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.shop-status.show {
+    opacity: 1;
+}
+
+.shop-status.success {
+    background: rgba(16, 185, 129, 0.9);
+}
+
+.shop-status.error {
+    background: rgba(239, 68, 68, 0.9);
+}
+
+.shop-status.warning {
+    background: rgba(245, 158, 11, 0.9);
+} 
