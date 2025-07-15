@@ -1,0 +1,190 @@
+/* 牧场相关CSS样式 */
+
+/* 动物呼吸动画 */
+.animal-breathe {
+    animation: breathe 2s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* 牧场动物卡片样式 */
+.ranch-animal {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ranch-animal:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* 动物区域视图样式 */
+.animal-area-view {
+    min-height: 300px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+/* 牧场统计卡片样式 */
+.ranch-stats-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.ranch-stats-card:hover {
+    transform: scale(1.05);
+}
+
+/* 动物商店卡片样式 */
+.animal-shop-card {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.animal-shop-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* 稀有度边框颜色 */
+.rarity-common {
+    border-color: #9ca3af;
+}
+
+.rarity-uncommon {
+    border-color: #10b981;
+}
+
+.rarity-rare {
+    border-color: #3b82f6;
+}
+
+.rarity-epic {
+    border-color: #8b5cf6;
+}
+
+/* 健康度颜色 */
+.health-excellent {
+    color: #10b981;
+}
+
+.health-good {
+    color: #f59e0b;
+}
+
+.health-poor {
+    color: #ef4444;
+}
+
+/* 牧场背景样式 */
+.ranch-background {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grass" patternUnits="userSpaceOnUse" width="10" height="10"><path d="M0 10L5 0L10 10" stroke="%2322c55e" stroke-width="0.5" fill="none"/></pattern></defs><rect width="100" height="100" fill="%23f0fdf4"/><rect width="100" height="100" fill="url(%23grass)" opacity="0.3"/></svg>');
+    min-height: 400px;
+}
+
+/* 动物喂食按钮样式 */
+.feed-button {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.feed-button:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.feed-button:disabled {
+    background: #d1d5db;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 道具使用按钮样式 */
+.item-button {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.item-button:hover {
+    background: linear-gradient(135deg, #059669 0%, #065f46 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.item-button:disabled {
+    background: #d1d5db;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 牧场管理面板样式 */
+.ranch-management-panel {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* 动物图标悬浮效果 */
+.animal-icon {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.animal-icon:hover {
+    transform: scale(1.2) rotate(5deg);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* 牧场区域网格布局 */
+.ranch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .ranch-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    .ranch-animal {
+        margin: 5px;
+        padding: 15px;
+    }
+    
+    .animal-area-view {
+        padding: 15px;
+    }
+} 
