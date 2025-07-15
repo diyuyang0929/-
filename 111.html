@@ -6,6 +6,10 @@
     <title>开心农场</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 牧场模块样式 -->
+    <link rel="stylesheet" href="ranch.css">
+    <!-- 商店模块样式 -->
+    <link rel="stylesheet" href="shop.css">
     <style>
         .crop-plot {
             transition: all 0.3s ease;
@@ -340,36 +344,7 @@
             transform: scale(1.05);
         }
 
-        /* 商店标签按钮样式 */
-        .shop-tab-btn {
-            background: linear-gradient(135deg, #e5e7eb, #d1d5db);
-            color: #374151;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
-        }
 
-        .shop-tab-btn:hover {
-            background: linear-gradient(135deg, #d1d5db, #9ca3af);
-            transform: translateY(-1px);
-        }
-
-        .shop-tab-btn.active {
-            background: linear-gradient(135deg, #4ade80, #22c55e);
-            color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        /* 商店内容区域样式 */
-        .shop-content {
-            transition: all 0.3s ease;
-        }
-
-        .shop-content.active {
-            display: block !important;
-        }
         .title-strong {
             font-size: 2.5rem;
             font-weight: 900;
@@ -693,6 +668,79 @@
         /* 动物区域按钮样式 */
         .animal-area-btn {
             transition: all 0.3s ease;
+        }
+        
+        /* 浏览器重置：强制清除所有默认样式 */
+        .animal-area-buttons,
+        .animal-area-buttons *,
+        .animal-area-btn,
+        .animal-area-btn * {
+            box-sizing: border-box !important;
+        }
+        
+        /* 强制重置动物区域按钮容器的所有样式 */
+        div.animal-area-buttons {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            gap: 12px !important; /* 统一间距为 12px */
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            padding: 0 0 4px 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+            background: transparent !important;
+            border: none !important;
+        }
+        
+        /* 强制重置所有动物区域按钮的样式 */
+        button.animal-area-btn,
+        .animal-area-btn {
+            min-width: 110px !important; /* 统一最小宽度 */
+            max-width: 110px !important; /* 统一最大宽度 */
+            padding: 8px 12px !important; /* 统一内边距 */
+            font-size: 14px !important; /* 统一字体大小 */
+            text-align: center !important;
+            white-space: nowrap !important;
+            border: 2px solid transparent !important; /* 统一边框 */
+            margin: 0 !important; /* 完全移除外边距 */
+            flex-shrink: 0 !important; /* 防止按钮收缩 */
+            box-sizing: border-box !important;
+        }
+        
+        /* 确保白色背景的按钮也有相同的尺寸 */
+        button.animal-area-btn.bg-white,
+        .animal-area-btn.bg-white {
+            border-color: #d1d5db !important; /* 灰色边框 */
+        }
+        
+        /* 移除任何可能的Tailwind间距类 */
+        .animal-area-buttons > * {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+        
+        /* 强制清除所有可能的间距问题 */
+        .animal-area-buttons button:first-child {
+            margin-left: 0 !important;
+        }
+        
+        .animal-area-buttons button:last-child {
+            margin-right: 0 !important;
+        }
+        
+        /* 确保所有动物区域按钮都有相同的显示方式 */
+        .animal-area-buttons button {
+            display: inline-block !important;
+            vertical-align: middle !important;
+        }
+        
+        /* 清除任何可能的字体渲染差异 */
+        .animal-area-btn span {
+            display: inline !important;
+            margin-right: 8px !important;
+            vertical-align: middle !important;
         }
         
         .animal-area-btn.active {
@@ -1127,1134 +1175,6 @@
         }
     </style>
 </head>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>开心农场</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .crop-plot {
-            transition: all 0.3s ease;
-        }
-        .crop-plot:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-        }
-        .progress-bar {
-            transition: width 0.5s linear;
-        }
-        .fade-in {
-            animation: fadeIn 0.5s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .notification {
-            animation: slideIn 0.5s forwards, stay 2s 0.5s forwards, slideOut 0.5s 2.5s forwards;
-        }
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes stay {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-        .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-        /* 添加保存指示器样式 */
-        .save-indicator {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 100;
-        }
-        .save-indicator.show {
-            opacity: 1;
-        }
-        /* 地区背景样式 */
-        body.bg-north_china {
-            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-            background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80');
-            background-size: cover;
-            background-attachment: fixed;
-        }
-        body.bg-south_china {
-            background: linear-gradient(135deg, #f9f6e7 0%, #f7e8aa 100%);
-            background-image: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1200&q=80');
-            background-size: cover;
-            background-attachment: fixed;
-        }
-        body.bg-east_china {
-            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
-            background-image: url('https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80');
-            background-size: cover;
-            background-attachment: fixed;
-        }
-        body.bg-west_china {
-            background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
-            background-image: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=80');
-            background-size: cover;
-            background-attachment: fixed;
-        }
-        body.bg-japan {
-            background: linear-gradient(135deg, #f8ffae 0%, #43c6ac 100%);
-            background-image: url('https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80');
-            background-size: cover;
-            background-attachment: fixed;
-        }
-        body.bg-us_midwest {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            background-image: url('https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=1200&q=80');
-            background-size: cover;
-            background-attachment: fixed;
-        }
-        body.bg-europe {
-            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80');
-            background-size: cover;
-            background-attachment: fixed;
-        }
-        
-        /* 天气效果样式 */
-        .weather-effect {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        /* 晴天效果 - 阳光照射 */
-        .weather-sunny::before {
-            content: '';
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 0, 0.1) 0%, transparent 70%);
-            animation: sunnyGlow 3s ease-in-out infinite;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        @keyframes sunnyGlow {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
-        }
-        
-        /* 雨天效果 - 雨滴动画 */
-        .weather-rainy::before {
-            content: '🌧️';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            font-size: 2rem;
-            animation: rainFall 1s linear infinite;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        @keyframes rainFall {
-            0% { transform: translateY(-100px); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(100vh); opacity: 0; }
-        }
-        
-        /* 暴雨效果 - 密集雨滴和闪电 */
-        .weather-stormy::before {
-            content: '⛈️';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            font-size: 2.5rem;
-            animation: stormRain 0.8s linear infinite;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        .weather-stormy::after {
-            content: '⚡';
-            position: fixed;
-            top: 20%;
-            left: 30%;
-            font-size: 4rem;
-            animation: lightning 2s ease-in-out infinite;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        @keyframes stormRain {
-            0% { transform: translateY(-100px); opacity: 0; }
-            5% { opacity: 1; }
-            95% { opacity: 1; }
-            100% { transform: translateY(100vh); opacity: 0; }
-        }
-        
-        @keyframes lightning {
-            0%, 90% { opacity: 0; }
-            95% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-        
-        /* 干旱效果 - 热浪扭曲 */
-        .weather-drought::before {
-            content: '🔥';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            font-size: 2rem;
-            animation: heatWave 2s ease-in-out infinite;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        @keyframes heatWave {
-            0%, 100% { 
-                opacity: 0.3; 
-                transform: scale(1) rotate(0deg); 
-            }
-            50% { 
-                opacity: 0.7; 
-                transform: scale(1.1) rotate(5deg); 
-            }
-        }
-        
-        /* 台风效果 - 旋转风 */
-        .weather-typhoon::before {
-            content: '🌀';
-            position: fixed;
-            top: 20%;
-            left: 20%;
-            font-size: 3rem;
-            animation: typhoonSpin 1.5s linear infinite;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        .weather-typhoon::after {
-            content: '💨';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            font-size: 1.5rem;
-            animation: windBlow 1s linear infinite;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        @keyframes typhoonSpin {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.2); }
-            100% { transform: rotate(360deg) scale(1); }
-        }
-        
-        @keyframes windBlow {
-            0% { transform: translateX(-100px) translateY(0); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateX(100vw) translateY(50px); opacity: 0; }
-        }
-        
-        /* 彩虹天效果 - 彩虹色彩 */
-        .weather-rainbow::before {
-            content: '🌈';
-            position: fixed;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 4rem;
-            animation: rainbowGlow 3s ease-in-out infinite;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        @keyframes rainbowGlow {
-            0%, 100% { 
-                opacity: 0.6; 
-                transform: translateX(-50%) scale(1); 
-            }
-            50% { 
-                opacity: 1; 
-                transform: translateX(-50%) scale(1.1); 
-            }
-        }
-        
-        /* 沙尘暴效果 - 沙尘飞舞 */
-        .weather-sandstorm::before {
-            content: '🌪️';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            font-size: 2rem;
-            animation: sandstormSwirl 2s linear infinite;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        @keyframes sandstormSwirl {
-            0% { 
-                transform: translateX(-50px) translateY(0) rotate(0deg); 
-                opacity: 0.3; 
-            }
-            50% { 
-                transform: translateX(50px) translateY(50px) rotate(180deg); 
-                opacity: 0.7; 
-            }
-            100% { 
-                transform: translateX(-50px) translateY(100px) rotate(360deg); 
-                opacity: 0.3; 
-            }
-        }
-        /* 卡片和按钮美化 */
-        .card-strong {
-            background: rgba(255,255,255,0.92);
-            border-radius: 1.25rem;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
-            border: 1.5px solid rgba(255,255,255,0.18);
-            transition: box-shadow 0.3s, transform 0.2s;
-        }
-        .card-strong:hover {
-            box-shadow: 0 16px 48px 0 rgba(31, 38, 135, 0.25);
-            transform: translateY(-2px) scale(1.01);
-        }
-        .btn-strong {
-            background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
-            color: #fff;
-            font-weight: bold;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 8px 0 rgba(67,233,123,0.15);
-            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
-        }
-        .btn-strong:hover {
-            background: linear-gradient(90deg, #38f9d7 0%, #43e97b 100%);
-            box-shadow: 0 4px 16px 0 rgba(67,233,123,0.25);
-            transform: scale(1.05);
-        }
-
-        /* 商店标签按钮样式 */
-        .shop-tab-btn {
-            background: linear-gradient(135deg, #e5e7eb, #d1d5db);
-            color: #374151;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .shop-tab-btn:hover {
-            background: linear-gradient(135deg, #d1d5db, #9ca3af);
-            transform: translateY(-1px);
-        }
-
-        .shop-tab-btn.active {
-            background: linear-gradient(135deg, #4ade80, #22c55e);
-            color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        /* 商店内容区域样式 */
-        .shop-content {
-            transition: all 0.3s ease;
-        }
-
-        .shop-content.active {
-            display: block !important;
-        }
-        .title-strong {
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            color: #1a4d2e;
-            text-shadow: 0 2px 8px rgba(67,233,123,0.15);
-        }
-        .subtitle-strong {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #388e3c;
-        }
-        /* 登录弹窗美化 */
-        #login-modal input[type="text"], #login-modal input[type="password"] {
-            font-size: 1.1rem;
-            border-radius: 1rem;
-            border: 1.5px solid #b2dfdb;
-            box-shadow: 0 2px 8px 0 rgba(67,233,123,0.08);
-            padding: 0.75rem 1.25rem;
-            margin-bottom: 1rem;
-            transition: border 0.2s, box-shadow 0.2s;
-        }
-        #login-modal input[type="text"]:focus, #login-modal input[type="password"]:focus {
-            border: 2px solid #43e97b;
-            box-shadow: 0 4px 16px 0 rgba(67,233,123,0.15);
-        }
-        #login-modal .register-btn {
-            border-radius: 50%;
-            font-size: 0.95rem;
-            font-weight: bold;
-            box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.10);
-            transition: box-shadow 0.2s, transform 0.15s, background 0.2s;
-            padding: 0;
-            margin-bottom: 0;
-            min-width: 0;
-            flex: 1 1 0;
-            margin-right: 0;
-            width: 48px;
-            height: 48px;
-            justify-content: center;
-            align-items: center;
-            display: flex;
-        }
-        #login-modal .register-btn:not(:last-child) {
-            margin-right: 0.5rem;
-        }
-        #login-modal .register-btn i {
-            font-size: 1.5rem;
-            margin: 0;
-        }
-        #login-modal .register-btn:hover {
-            box-shadow: 0 8px 24px 0 rgba(67,233,123,0.18);
-            transform: translateY(-2px) scale(1.08);
-            filter: brightness(1.05);
-        }
-        #login-modal .w-full.flex.flex-row.items-center.justify-between.gap-2.mt-2 {
-            gap: 0.7rem;
-        }
-        #login-modal .w-full.flex.items-center.my-4 {
-            margin: 1.2rem 0 1.1rem 0;
-        }
-        #login-modal hr {
-            margin: 1.2rem 0 1.1rem 0;
-        }
-        #login-modal input::placeholder {
-            color: #bdbdbd;
-            font-size: 1rem;
-        }
-        #login-btn {
-            border-radius: 1.2rem;
-            font-size: 1.1rem;
-            font-weight: bold;
-            box-shadow: 0 2px 8px 0 rgba(67,233,123,0.10);
-            transition: box-shadow 0.2s, background 0.2s, transform 0.1s;
-        }
-        #login-btn:hover {
-            background: #43e97b;
-            box-shadow: 0 8px 24px 0 rgba(67,233,123,0.18);
-            transform: scale(1.04);
-        }
-        /* 退出登录按钮样式加强 */
-        #logout-btn {
-            border-radius: 1.5rem;
-            font-size: 1.1rem;
-            box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.10);
-            transition: box-shadow 0.2s, background 0.2s, transform 0.1s;
-        }
-        #logout-btn:hover {
-            background: #e0f2f1;
-            box-shadow: 0 8px 24px 0 rgba(67,233,123,0.18);
-            transform: scale(1.04);
-        }
-        
-        /* 随机事件动画样式 */
-        .event-notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 20px 30px;
-            border-radius: 15px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            z-index: 1000;
-            animation: eventPopup 3s ease-in-out forwards;
-            text-align: center;
-            min-width: 300px;
-        }
-        
-        @keyframes eventPopup {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-        }
-        
-        /* 金雨动画 */
-        .rainbow-rain {
-            position: relative;
-            overflow: hidden;
-        }
-        .rainbow-rain::before {
-            content: '🌧️';
-            position: absolute;
-            top: -20px;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            animation: goldenRain 2s linear infinite;
-            font-size: 2rem;
-            color: #ffd700;
-        }
-        
-        @keyframes goldenRain {
-            0% { transform: translateY(-100px); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(100px); opacity: 0; }
-        }
-        
-        /* 精灵闪烁动画 */
-        .fairy-sparkle {
-            animation: fairySparkle 1.5s ease-in-out;
-        }
-        
-        @keyframes fairySparkle {
-            0% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.2); filter: brightness(1.5) hue-rotate(60deg); }
-            100% { transform: scale(1); filter: brightness(1); }
-        }
-        
-        /* 营养发光动画 */
-        .nutrient-glow {
-            animation: nutrientGlow 2s ease-in-out infinite;
-        }
-        
-        @keyframes nutrientGlow {
-            0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); }
-            50% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.8); }
-        }
-        
-        /* 时钟旋转动画 - 禁用 */
-        .clock-spin {
-            /* animation: clockSpin 1s linear infinite; */
-            animation: none; /* 禁用转圈圈动画 */
-        }
-        
-        @keyframes clockSpin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        /* 虫害爬行动画 */
-        .pest-crawl {
-            animation: pestCrawl 1s ease-in-out;
-        }
-        
-        .pest-crawl::after {
-            content: '🐛';
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation: bugCrawl 2s linear infinite;
-        }
-        
-        @keyframes pestCrawl {
-            0% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(0.9); filter: brightness(0.7); }
-            100% { transform: scale(1); filter: brightness(1); }
-        }
-        
-        @keyframes bugCrawl {
-            0% { transform: translateX(-20px) translateY(0); }
-            25% { transform: translateX(0) translateY(-5px); }
-            50% { transform: translateX(20px) translateY(0); }
-            75% { transform: translateX(0) translateY(5px); }
-            100% { transform: translateX(-20px) translateY(0); }
-        }
-        
-        /* 病害扩散动画 */
-        .disease-spread {
-            animation: diseaseSpread 2s ease-in-out;
-        }
-        
-        @keyframes diseaseSpread {
-            0% { filter: brightness(1) saturate(1); }
-            50% { filter: brightness(0.8) saturate(0.5) hue-rotate(180deg); }
-            100% { filter: brightness(1) saturate(1); }
-        }
-        
-        /* 霜冻冻结动画 */
-        .frost-freeze {
-            animation: frostFreeze 1.5s ease-in-out;
-        }
-        
-        .frost-freeze::after {
-            content: '❄️';
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation: frostFall 2s linear infinite;
-        }
-        
-        @keyframes frostFreeze {
-            0% { filter: brightness(1) saturate(1); }
-            100% { filter: brightness(0.7) saturate(0.3) hue-rotate(180deg); }
-        }
-        
-        @keyframes frostFall {
-            0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(100px) rotate(180deg); opacity: 0; }
-        }
-        
-        /* 杂草生长动画 */
-        .weed-grow {
-            animation: weedGrow 2s ease-in-out;
-        }
-        
-        .weed-grow::after {
-            content: '🌿';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: weedSprout 1.5s ease-out;
-        }
-        
-        @keyframes weedGrow {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.95); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes weedSprout {
-            0% { transform: translateX(-50%) scale(0); opacity: 0; }
-            50% { transform: translateX(-50%) scale(1.2); opacity: 1; }
-            100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
-        }
-        
-        /* 迷雾旋转动画 */
-        .fog-swirl {
-            animation: fogSwirl 3s ease-in-out infinite;
-        }
-        
-        @keyframes fogSwirl {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.1); }
-        }
-        
-        /* 土壤变化动画 */
-        .soil-shift {
-            animation: soilShift 2s ease-in-out;
-        }
-        
-        @keyframes soilShift {
-            0% { filter: brightness(1) saturate(1); }
-            50% { filter: brightness(1.2) saturate(1.3) hue-rotate(30deg); }
-            100% { filter: brightness(1) saturate(1); }
-        }
-        
-        /* 事件影响指示器 */
-        .event-indicator {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            animation: eventIndicator 2s ease-in-out infinite;
-            z-index: 10;
-        }
-        
-        @keyframes eventIndicator {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-        
-        @keyframes lightning {
-            0%, 90% { opacity: 0; }
-            95% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-        
-        /* 动物区域视图样式 */
-        .animal-area-view {
-            display: none;
-            transition: all 0.3s ease;
-        }
-        
-        .animal-area-view.active {
-            display: block;
-        }
-        
-        /* 动物区域按钮样式 */
-        .animal-area-btn {
-            transition: all 0.3s ease;
-        }
-        
-        .animal-area-btn.active {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        /* 牧场动物动画效果 */
-        .ranch-animal {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .ranch-animal:hover {
-            transform: scale(1.2);
-            filter: brightness(1.2);
-        }
-        
-        /* 动物移动动画 */
-        .animal-walk {
-            animation: walkAround 8s linear infinite;
-        }
-        
-        @keyframes walkAround {
-            0% { transform: translateX(0px) translateY(0px); }
-            25% { transform: translateX(20px) translateY(-10px); }
-            50% { transform: translateX(-15px) translateY(5px); }
-            75% { transform: translateX(10px) translateY(-5px); }
-            100% { transform: translateX(0px) translateY(0px); }
-        }
-        
-        /* 动物跳跃动画 */
-        .animal-bounce {
-            animation: bounceUp 2s ease-in-out infinite;
-        }
-        
-        @keyframes bounceUp {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
-        
-        /* 动物摇摆动画 */
-        .animal-sway {
-            animation: sway 3s ease-in-out infinite;
-        }
-        
-        @keyframes sway {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(5deg); }
-            75% { transform: rotate(-5deg); }
-        }
-        
-        /* 动物呼吸动画 */
-        .animal-breathe {
-            animation: breathe 4s ease-in-out infinite;
-        }
-        
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        /* 动物眨眼动画 */
-        .animal-blink {
-            animation: blink 5s ease-in-out infinite;
-        }
-        
-        @keyframes blink {
-            0%, 90%, 100% { opacity: 1; }
-            95% { opacity: 0.3; }
-        }
-        
-        /* 牧场环境动画 */
-        .ranch-environment {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* 草地摇摆效果 */
-        .grass-sway {
-            animation: grassWave 6s ease-in-out infinite;
-        }
-        
-        @keyframes grassWave {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(1deg); }
-            75% { transform: rotate(-1deg); }
-        }
-        
-        /* 云朵飘动效果 */
-        .cloud-float {
-            animation: cloudMove 20s linear infinite;
-        }
-        
-        @keyframes cloudMove {
-            0% { transform: translateX(-100px); }
-            100% { transform: translateX(100px); }
-        }
-        
-        /* 动物健康状态动画 */
-        .animal-healthy {
-            animation: healthyGlow 3s ease-in-out infinite;
-        }
-        
-        @keyframes healthyGlow {
-            0%, 100% { filter: brightness(1) drop-shadow(0 0 5px rgba(0, 255, 0, 0.3)); }
-            50% { filter: brightness(1.1) drop-shadow(0 0 10px rgba(0, 255, 0, 0.5)); }
-        }
-        
-        .animal-sick {
-            animation: sickShake 2s ease-in-out infinite;
-        }
-        
-        @keyframes sickShake {
-            0%, 100% { transform: translateX(0px); }
-            25% { transform: translateX(-2px); }
-            75% { transform: translateX(2px); }
-        }
-        
-        /* 牧场大气效果 */
-        .ranch-atmosphere {
-            position: relative;
-        }
-        
-        .ranch-atmosphere::before {
-            content: '🌾';
-            position: absolute;
-            top: 10%;
-            left: 10%;
-            font-size: 1.5rem;
-            animation: grassWave 4s ease-in-out infinite;
-            opacity: 0.6;
-        }
-        
-        .ranch-atmosphere::after {
-            content: '☁️';
-            position: absolute;
-            top: 5%;
-            right: 20%;
-            font-size: 2rem;
-            animation: cloudMove 15s linear infinite;
-            opacity: 0.7;
-        }
-        
-        /* 天气效果增强 */
-        .sunny-effect {
-            background: radial-gradient(circle at 80% 20%, rgba(255, 255, 0, 0.1) 0%, transparent 50%);
-            animation: sunnyShine 4s ease-in-out infinite;
-        }
-        
-        @keyframes sunnyShine {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
-        }
-        
-        .cloudy-effect {
-            background: linear-gradient(135deg, rgba(200, 200, 200, 0.2) 0%, rgba(150, 150, 150, 0.1) 100%);
-        }
-        
-        .rainy-effect {
-            background: linear-gradient(135deg, rgba(0, 100, 200, 0.1) 0%, rgba(0, 50, 150, 0.05) 100%);
-            animation: rainEffect 1s linear infinite;
-        }
-        
-        .rainy-effect::before {
-            content: '💧';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            font-size: 1rem;
-            animation: rainDrop 2s linear infinite;
-            opacity: 0.6;
-        }
-        
-        @keyframes rainDrop {
-            0% { transform: translateY(-20px); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(100px); opacity: 0; }
-        }
-        
-        .snowy-effect {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(200, 200, 255, 0.1) 100%);
-        }
-        
-        .snowy-effect::before {
-            content: '❄️';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            font-size: 1.5rem;
-            animation: snowFall 3s linear infinite;
-            opacity: 0.8;
-        }
-        
-        @keyframes snowFall {
-            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
-        }
-        
-        /* 牧场互动效果 */
-        .ranch-animal:hover::after {
-            content: '💕';
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            font-size: 1rem;
-            animation: loveFloat 1s ease-out forwards;
-        }
-        
-        @keyframes loveFloat {
-            0% { transform: translateY(0px); opacity: 1; }
-            100% { transform: translateY(-20px); opacity: 0; }
-        }
-        
-        /* 动物健康状态指示器 */
-        .health-indicator {
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 3px;
-            border-radius: 2px;
-            background: #ddd;
-        }
-        
-        .health-indicator::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            border-radius: 2px;
-            transition: width 0.3s ease;
-        }
-        
-        .health-high::after {
-            background: #10b981;
-        }
-        
-        .health-medium::after {
-            background: #f59e0b;
-        }
-        
-        .health-low::after {
-            background: #ef4444;
-        }
-        
-        @keyframes snowFall {
-            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
-        }
-        
-        /* 干旱效果 */
-        .drought-effect {
-            background: linear-gradient(135deg, rgba(255, 100, 0, 0.2) 0%, rgba(255, 150, 0, 0.1) 100%);
-            animation: heatWave 3s ease-in-out infinite;
-        }
-        
-        @keyframes heatWave {
-            0%, 100% { filter: hue-rotate(0deg); }
-            50% { filter: hue-rotate(10deg); }
-        }
-        
-        /* 台风效果 */
-        .typhoon-effect {
-            background: linear-gradient(135deg, rgba(50, 50, 100, 0.3) 0%, rgba(100, 100, 150, 0.2) 100%);
-            animation: typhoonSpin 2s linear infinite;
-        }
-        
-        .typhoon-effect::before {
-            content: '🌪️';
-            position: absolute;
-            top: 20%;
-            left: 30%;
-            font-size: 3rem;
-            animation: typhoonMove 4s linear infinite;
-            opacity: 0.7;
-        }
-        
-        @keyframes typhoonSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        @keyframes typhoonMove {
-            0% { transform: translateX(0px) rotate(0deg); }
-            25% { transform: translateX(50px) rotate(90deg); }
-            50% { transform: translateX(-10px) rotate(180deg); }
-            75% { transform: translateX(10px) rotate(270deg); }
-            100% { transform: translateX(-20px) rotate(360deg); }
-        }
-        
-        /* 彩虹天效果 */
-        .rainbow-effect {
-            background: linear-gradient(135deg, 
-                rgba(255, 0, 0, 0.1) 0%, 
-                rgba(255, 165, 0, 0.1) 16.66%, 
-                rgba(255, 255, 0, 0.1) 33.33%, 
-                rgba(0, 255, 0, 0.1) 50%, 
-                rgba(0, 0, 255, 0.1) 66.66%, 
-                rgba(75, 0, 130, 0.1) 83.33%, 
-                rgba(238, 130, 238, 0.1) 100%);
-            animation: rainbowShimmer 4s ease-in-out infinite;
-        }
-        
-        @keyframes rainbowShimmer {
-            0%, 100% { opacity: 0.8; filter: brightness(1); }
-            50% { opacity: 1; filter: brightness(1.2); }
-        }
-        
-        /* 沙尘暴效果 */
-        .sandstorm-effect {
-            background: linear-gradient(135deg, rgba(139, 69, 19, 0.3) 0%, rgba(160, 82, 45, 0.2) 100%);
-            animation: sandstormBlow 2s ease-in-out infinite;
-        }
-        
-        .sandstorm-effect::before {
-            content: '🌪️';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            font-size: 2rem;
-            animation: sandSwirl 3s linear infinite;
-            opacity: 0.6;
-            color: #8B4513;
-        }
-        
-        @keyframes sandstormBlow {
-            0%, 100% { filter: blur(0px); }
-            50% { filter: blur(1px); }
-        }
-        
-        @keyframes sandSwirl {
-            0% { transform: translateX(-20px) rotate(0deg); }
-            25% { transform: translateX(20px) rotate(90deg); }
-            50% { transform: translateX(-10px) rotate(180deg); }
-            75% { transform: translateX(10px) rotate(270deg); }
-            100% { transform: translateX(-20px) rotate(360deg); }
-        }
-        
-        /* 暴雨效果增强 */
-        .stormy-effect {
-            background: linear-gradient(135deg, rgba(25, 25, 112, 0.3) 0%, rgba(0, 0, 139, 0.2) 100%);
-            animation: stormyWeather 1s ease-in-out infinite;
-        }
-        
-        .stormy-effect::before {
-            content: '⚡';
-            position: absolute;
-            top: 10%;
-            right: 20%;
-            font-size: 4rem;
-            animation: lightning 2s ease-in-out infinite;
-            opacity: 0;
-        }
-        
-        @keyframes stormyWeather {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(0.7); }
-        }
-        
-        /* 成就系统弹窗样式 */
-        #achievement-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            max-width: 90vw;
-            max-height: 90vh;
-            width: 500px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        #achievement-modal.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translate(-50%, -50%) scale(1);
-        }
-        
-        #achievement-overlay.show {
-            display: block;
-        }
-        
-        /* 成就按钮悬停效果 */
-        #achievement-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* 成就项目样式 */
-        .achievement-item {
-            transition: all 0.3s ease;
-        }
-        
-        .achievement-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .achievement-item.completed {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            border-color: #10b981;
-        }
-        
-        .achievement-item.completed .achievement-icon {
-            animation: achievementGlow 2s ease-in-out infinite;
-        }
-        
-        @keyframes achievementGlow {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.2) drop-shadow(0 0 10px rgba(16, 185, 129, 0.5)); }
-        }
-    </style>
-</head>
 <body class="bg-green-50 min-h-screen" id="main-body">
     <!-- 退出登录按钮 -->
     <button id="logout-btn" class="fixed top-4 left-4 bg-white border border-gray-300 shadow px-4 py-2 rounded-lg text-green-700 font-bold hover:bg-green-100" style="z-index: 9999;">
@@ -2423,286 +1343,9 @@
                     <!-- 农田地块将通过JavaScript动态生成 -->
                 </div>
             </div>
-                <!-- 牧场区域 -->
-                <div class="card-strong p-8">
-                    <h2 class="text-3xl subtitle-strong mb-6 border-b-2 border-green-200 pb-2 flex items-center">
-                        <i class="fas fa-warehouse mr-3"></i> 我的牧场
-                    </h2>
-                    <!-- 牧场统计和管理 -->
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                        <div class="text-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
-                            <div class="text-3xl font-bold text-blue-600" id="total-animals">0</div>
-                            <div class="text-sm text-gray-600">总动物数</div>
-                        </div>
-                        <div class="text-center p-4 bg-green-50 rounded-lg border-2 border-green-200">
-                            <div class="text-3xl font-bold text-green-600" id="avg-health">100%</div>
-                            <div class="text-sm text-gray-600">平均健康度</div>
-                        </div>
-                        <div class="text-center p-4 bg-yellow-50 rounded-lg border-2 border-yellow-200">
-                            <div class="text-3xl font-bold text-yellow-600" id="feed-count">0</div>
-                            <div class="text-sm text-gray-600">饲料库存</div>
-                        </div>
-                        <div class="text-center p-4 bg-purple-50 rounded-lg border-2 border-purple-200">
-                            <div class="text-3xl font-bold text-purple-600" id="happiness-value">0</div>
-                            <div class="text-sm text-gray-600">幸福值</div>
-                        </div>
-                    </div>
-                    <!-- 牧场管理按钮 -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <button id="buy-feed-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg font-semibold text-lg transition">
-                            <i class="fas fa-shopping-cart mr-2"></i> 购买饲料 (10金币/包)
-                        </button>
-                        <button id="feed-animals-btn" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold text-lg transition">
-                            <i class="fas fa-apple-alt mr-2"></i> 喂养全部动物
-                        </button>
-                        <button id="sell-all-products-btn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold text-lg transition">
-                            <i class="fas fa-coins mr-2"></i> 一键出售所有副产品
-                        </button>
-                    </div>
-                    <!-- 动物区域选择 -->
-                    <div class="mb-6">
-                        <div class="overflow-x-auto">
-                            <div class="flex gap-2 mb-4 min-w-max">
-                                <button class="animal-area-btn bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold active whitespace-nowrap" data-area="chicken">
-                                <span class="text-xl mr-2">🥚</span> 鸡圈
-                            </button>
-                                <button class="animal-area-btn bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg font-semibold whitespace-nowrap" data-area="cow">
-                                <span class="text-xl mr-2">🥛</span> 牛棚
-                            </button>
-                                <button class="animal-area-btn bg-white hover:bg-gray-100 text-gray-800 px-4 py-2 rounded-lg font-semibold border-2 border-gray-300 whitespace-nowrap" data-area="sheep">
-                                <span class="text-xl mr-2">🧶</span> 羊圈
-                            </button>
-                                <button class="animal-area-btn bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg font-semibold whitespace-nowrap" data-area="pig">
-                                <span class="text-xl mr-2">🥩</span> 猪圈
-                            </button>
-                                <button class="animal-area-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold whitespace-nowrap" data-area="duck">
-                                <span class="text-xl mr-2">🥚</span> 鸭园
-                            </button>
-                                <button class="animal-area-btn bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-semibold whitespace-nowrap" data-area="goat">
-                                <span class="text-xl mr-2">🥛</span> 山羊圈
-                            </button>
-                                <button class="animal-area-btn bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold whitespace-nowrap" data-area="rabbit">
-                                <span class="text-xl mr-2">🧶</span> 兔园
-                            </button>
-                                <button class="animal-area-btn bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold whitespace-nowrap" data-area="horse">
-                                <span class="text-xl mr-2">💩</span> 马厩
-                            </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 动物区域内容 -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-                        
-                        <!-- 鸡圈 -->
-                        <div id="chicken-area-view" class="animal-area-view active bg-yellow-50 rounded-lg p-6 shadow-lg relative overflow-hidden min-h-[400px] w-full col-span-2">
-                            <div class="absolute inset-0 pointer-events-none select-none" style="background: repeating-linear-gradient(135deg, #fef3c7 0 10px, #fde68a 10px 20px);"></div>
-                            <div class="relative z-10">
-                                <h3 class="text-2xl font-bold text-yellow-800 mb-4 flex items-center">
-                                    <span class="text-3xl mr-2">🥚</span> 鸡圈
-                                </h3>
-                                <div class="grid grid-cols-3 gap-4 mb-4 text-center">
-                                    <div class="bg-yellow-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-yellow-700" id="chicken-count">0</div>
-                                        <div class="text-xs text-yellow-600">数量</div>
-                                    </div>
-                                    <div class="bg-green-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-green-700" id="chicken-health">100%</div>
-                                        <div class="text-xs text-green-600">健康度</div>
-                                    </div>
-                                    <div class="bg-blue-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-blue-700" id="chicken-eggs">0</div>
-                                        <div class="text-xs text-blue-600">鸡蛋</div>
-                                    </div>
-                                </div>
-                                <div id="chicken-fence-area"></div>
-                                <div id="chicken-animals" class="flex flex-wrap gap-4 mt-8"></div>
-                            </div>
-                        </div>
-                        
-                        <!-- 牛棚 -->
-                        <div id="cow-area-view" class="animal-area-view bg-amber-50 rounded-lg p-6 shadow-lg relative overflow-hidden min-h-[400px] w-full col-span-2">
-                            <div class="absolute inset-0 pointer-events-none select-none" style="background: repeating-linear-gradient(135deg, #fef3c7 0 10px, #fde68a 10px 20px);"></div>
-                            <div class="relative z-10">
-                                <h3 class="text-2xl font-bold text-amber-800 mb-4 flex items-center">
-                                    <span class="text-3xl mr-2">🥛</span> 牛棚
-                                </h3>
-                                <div class="grid grid-cols-3 gap-4 mb-4 text-center">
-                                    <div class="bg-amber-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-amber-700" id="cow-count">0</div>
-                                        <div class="text-xs text-amber-600">数量</div>
-                                    </div>
-                                    <div class="bg-green-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-green-700" id="cow-health">100%</div>
-                                        <div class="text-xs text-green-600">健康度</div>
-                                    </div>
-                                    <div class="bg-blue-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-blue-700" id="cow-milk">0</div>
-                                        <div class="text-xs text-blue-600">牛奶</div>
-                                    </div>
-                                </div>
-                                <div id="cow-fence-area"></div>
-                                <div id="cow-animals" class="flex flex-wrap gap-4 mt-8"></div>
-                            </div>
-                        </div>
-                        
-                        <!-- 羊圈 -->
-                        <div id="sheep-area-view" class="animal-area-view bg-white rounded-lg p-6 shadow-lg relative overflow-hidden min-h-[400px] w-full col-span-2 border-2 border-gray-300">
-                            <div class="absolute inset-0 pointer-events-none select-none" style="background: repeating-linear-gradient(135deg, #f9fafb 0 10px, #e5e7eb 10px 20px);"></div>
-                            <div class="relative z-10">
-                                <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                                    <span class="text-3xl mr-2">🧶</span> 羊圈
-                                </h3>
-                                <div class="grid grid-cols-3 gap-4 mb-4 text-center">
-                                    <div class="bg-gray-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-gray-700" id="sheep-count">0</div>
-                                        <div class="text-xs text-gray-600">数量</div>
-                                    </div>
-                                    <div class="bg-green-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-green-700" id="sheep-health">100%</div>
-                                        <div class="text-xs text-green-600">健康度</div>
-                                    </div>
-                                    <div class="bg-blue-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-blue-700" id="sheep-wool">0</div>
-                                        <div class="text-xs text-blue-600">羊毛</div>
-                                    </div>
-                                </div>
-                                <div id="sheep-fence-area"></div>
-                                <div id="sheep-animals" class="flex flex-wrap gap-4 mt-8"></div>
-                            </div>
-                        </div>
-                        
-                        <!-- 猪圈 -->
-                        <div id="pig-area-view" class="animal-area-view bg-pink-50 rounded-lg p-6 shadow-lg relative overflow-hidden min-h-[400px] w-full col-span-2">
-                            <div class="absolute inset-0 pointer-events-none select-none" style="background: repeating-linear-gradient(135deg, #fdf2f8 0 10px, #fce7f3 10px 20px);"></div>
-                            <div class="relative z-10">
-                                <h3 class="text-2xl font-bold text-pink-800 mb-4 flex items-center">
-                                    <span class="text-3xl mr-2">🥩</span> 猪圈
-                                </h3>
-                                <div class="grid grid-cols-3 gap-4 mb-4 text-center">
-                                    <div class="bg-pink-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-pink-700" id="pig-count">0</div>
-                                        <div class="text-xs text-pink-600">数量</div>
-                                    </div>
-                                    <div class="bg-green-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-green-700" id="pig-health">100%</div>
-                                        <div class="text-xs text-green-600">健康度</div>
-                                    </div>
-                                    <div class="bg-blue-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-blue-700" id="pig-pork">0</div>
-                                        <div class="text-xs text-blue-600">猪肉</div>
-                                    </div>
-                                </div>
-                                <div id="pig-fence-area"></div>
-                                <div id="pig-animals" class="flex flex-wrap gap-4 mt-8"></div>
-                            </div>
-                        </div>
-                        
-                        <!-- 鸭园 -->
-                        <div id="duck-area-view" class="animal-area-view bg-blue-50 rounded-lg p-6 shadow-lg relative overflow-hidden min-h-[400px] w-full col-span-2">
-                            <div class="absolute inset-0 pointer-events-none select-none" style="background: repeating-linear-gradient(135deg, #dbeafe 0 10px, #bfdbfe 10px 20px);"></div>
-                            <div class="relative z-10">
-                                <h3 class="text-2xl font-bold text-blue-800 mb-4 flex items-center">
-                                    <span class="text-3xl mr-2">🥚</span> 鸭园
-                                </h3>
-                                <div class="grid grid-cols-3 gap-4 mb-4 text-center">
-                                    <div class="bg-blue-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-blue-700" id="duck-count">0</div>
-                                        <div class="text-xs text-blue-600">数量</div>
-                                    </div>
-                                    <div class="bg-green-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-green-700" id="duck-health">100%</div>
-                                        <div class="text-xs text-green-600">健康度</div>
-                                    </div>
-                                    <div class="bg-blue-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-blue-700" id="duck-duck_egg">0</div>
-                                        <div class="text-xs text-blue-600">鸭蛋</div>
-                                    </div>
-                                </div>
-                                <div id="duck-fence-area"></div>
-                                <div id="duck-animals" class="flex flex-wrap gap-4 mt-8"></div>
-                            </div>
-                        </div>
-                        
-                        <!-- 山羊圈 -->
-                        <div id="goat-area-view" class="animal-area-view bg-orange-50 rounded-lg p-6 shadow-lg relative overflow-hidden min-h-[400px] w-full col-span-2">
-                            <div class="absolute inset-0 pointer-events-none select-none" style="background: repeating-linear-gradient(135deg, #fed7aa 0 10px, #fdba74 10px 20px);"></div>
-                            <div class="relative z-10">
-                                <h3 class="text-2xl font-bold text-orange-800 mb-4 flex items-center">
-                                    <span class="text-3xl mr-2">🥛</span> 山羊圈
-                                </h3>
-                                <div class="grid grid-cols-3 gap-4 mb-4 text-center">
-                                    <div class="bg-orange-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-orange-700" id="goat-count">0</div>
-                                        <div class="text-xs text-orange-600">数量</div>
-                                    </div>
-                                    <div class="bg-green-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-green-700" id="goat-health">100%</div>
-                                        <div class="text-xs text-green-600">健康度</div>
-                                    </div>
-                                    <div class="bg-blue-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-blue-700" id="goat-goat_milk">0</div>
-                                        <div class="text-xs text-blue-600">羊奶</div>
-                                    </div>
-                                </div>
-                                <div id="goat-fence-area"></div>
-                                <div id="goat-animals" class="flex flex-wrap gap-4 mt-8"></div>
-                            </div>
-                        </div>
-                        
-                        <!-- 兔园 -->
-                        <div id="rabbit-area-view" class="animal-area-view bg-purple-50 rounded-lg p-6 shadow-lg relative overflow-hidden min-h-[400px] w-full col-span-2">
-                            <div class="absolute inset-0 pointer-events-none select-none" style="background: repeating-linear-gradient(135deg, #f3e8ff 0 10px, #e9d5ff 10px 20px);"></div>
-                            <div class="relative z-10">
-                                <h3 class="text-2xl font-bold text-purple-800 mb-4 flex items-center">
-                                    <span class="text-3xl mr-2">🧶</span> 兔园
-                                </h3>
-                                <div class="grid grid-cols-3 gap-4 mb-4 text-center">
-                                    <div class="bg-purple-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-purple-700" id="rabbit-count">0</div>
-                                        <div class="text-xs text-purple-600">数量</div>
-                                    </div>
-                                    <div class="bg-green-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-green-700" id="rabbit-health">100%</div>
-                                        <div class="text-xs text-green-600">健康度</div>
-                                    </div>
-                                    <div class="bg-blue-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-blue-700" id="rabbit-rabbit_fur">0</div>
-                                        <div class="text-xs text-blue-600">兔毛</div>
-                                    </div>
-                                </div>
-                                <div id="rabbit-fence-area"></div>
-                                <div id="rabbit-animals" class="flex flex-wrap gap-4 mt-8"></div>
-                            </div>
-                        </div>
-                        
-                        <!-- 马厩 -->
-                        <div id="horse-area-view" class="animal-area-view bg-red-50 rounded-lg p-6 shadow-lg relative overflow-hidden min-h-[400px] w-full col-span-2">
-                            <div class="absolute inset-0 pointer-events-none select-none" style="background: repeating-linear-gradient(135deg, #fee2e2 0 10px, #fecaca 10px 20px);"></div>
-                            <div class="relative z-10">
-                                <h3 class="text-2xl font-bold text-red-800 mb-4 flex items-center">
-                                    <span class="text-3xl mr-2">💩</span> 马厩
-                                </h3>
-                                <div class="grid grid-cols-3 gap-4 mb-4 text-center">
-                                    <div class="bg-red-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-red-700" id="horse-count">0</div>
-                                        <div class="text-xs text-red-600">数量</div>
-                                    </div>
-                                    <div class="bg-green-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-green-700" id="horse-health">100%</div>
-                                        <div class="text-xs text-green-600">健康度</div>
-                                    </div>
-                                    <div class="bg-blue-100 rounded-lg p-2">
-                                        <div class="text-lg font-bold text-blue-700" id="horse-horse_manure">0</div>
-                                        <div class="text-xs text-blue-600">马粪</div>
-                                    </div>
-                                </div>
-                                <div id="horse-fence-area"></div>
-                                <div id="horse-animals" class="flex flex-wrap gap-4 mt-8"></div>
-                            </div>
-                        </div>
-                    </div>
+                <!-- 牧场区域 - 使用模块化管理 -->
+                <div id="ranch-container">
+                    <!-- 牧场内容将通过 ranch.js 模块动态生成 -->
                 </div>
             </div>
             <!-- 右侧侧边栏 -->
@@ -3015,51 +1658,7 @@
             { id: 'us_midwest', name: '美国中部' },
             { id: 'europe', name: '欧洲' }
         ];
-        // 植物种类不重复，每个区域独有，5-6种
-        const seeds = [
-            // 中国东北
-            { id: 'soybean', name: '大豆', price: 10, growTime: 30, sellPrice: 20, xp: 5, icon: '🌱', color: 'bg-lime-100', regions: ['north_china'] },
-            { id: 'millet', name: '小米', price: 12, growTime: 36, sellPrice: 22, xp: 6, icon: '🌾', color: 'bg-yellow-200', regions: ['north_china'] },
-            { id: 'sorghum', name: '高粱', price: 15, growTime: 45, sellPrice: 30, xp: 8, icon: '🌾', color: 'bg-red-200', regions: ['north_china'] },
-            { id: 'potato', name: '土豆', price: 20, growTime: 60, sellPrice: 45, xp: 12, icon: '🥔', color: 'bg-amber-100', regions: ['north_china'] },
-            { id: 'corn', name: '玉米', price: 18, growTime: 54, sellPrice: 38, xp: 10, icon: '🌽', color: 'bg-yellow-100', regions: ['north_china'] },
-            // 中国华南
-            { id: 'lychee', name: '荔枝', price: 22, growTime: 66, sellPrice: 50, xp: 13, icon: '🥭', color: 'bg-pink-100', regions: ['south_china'] },
-            { id: 'banana', name: '香蕉', price: 25, growTime: 75, sellPrice: 60, xp: 15, icon: '🍌', color: 'bg-yellow-200', regions: ['south_china'] },
-            { id: 'sugarcane', name: '甘蔗', price: 20, growTime: 60, sellPrice: 48, xp: 12, icon: '🎋', color: 'bg-green-200', regions: ['south_china'] },
-            { id: 'pineapple', name: '菠萝', price: 28, growTime: 84, sellPrice: 70, xp: 18, icon: '🍍', color: 'bg-amber-200', regions: ['south_china'] },
-            { id: 'dragonfruit', name: '火龙果', price: 35, growTime: 105, sellPrice: 90, xp: 22, icon: '🐉', color: 'bg-pink-200', regions: ['south_china'] },
-            // 中国华东
-            { id: 'rice', name: '水稻', price: 15, growTime: 45, sellPrice: 32, xp: 9, icon: '🌾', color: 'bg-green-200', regions: ['east_china'] },
-            { id: 'peanut', name: '花生', price: 18, growTime: 54, sellPrice: 38, xp: 10, icon: '🥜', color: 'bg-yellow-300', regions: ['east_china'] },
-            { id: 'rapeseed', name: '油菜', price: 16, growTime: 48, sellPrice: 34, xp: 9, icon: '🌻', color: 'bg-yellow-100', regions: ['east_china'] },
-            { id: 'lotus', name: '莲藕', price: 22, growTime: 66, sellPrice: 50, xp: 13, icon: '🌸', color: 'bg-pink-100', regions: ['east_china'] },
-            { id: 'tea', name: '茶叶', price: 30, growTime: 90, sellPrice: 80, xp: 20, icon: '🍃', color: 'bg-green-100', regions: ['east_china'] },
-            // 中国西部
-            { id: 'walnut', name: '核桃', price: 25, growTime: 75, sellPrice: 60, xp: 15, icon: '🌰', color: 'bg-amber-200', regions: ['west_china'] },
-            { id: 'apple', name: '苹果', price: 20, growTime: 60, sellPrice: 48, xp: 12, icon: '🍎', color: 'bg-red-100', regions: ['west_china'] },
-            { id: 'grape', name: '葡萄', price: 28, growTime: 84, sellPrice: 70, xp: 18, icon: '🍇', color: 'bg-purple-100', regions: ['west_china'] },
-            { id: 'apricot', name: '杏', price: 18, growTime: 54, sellPrice: 38, xp: 10, icon: '🍑', color: 'bg-orange-100', regions: ['west_china'] },
-            { id: 'melon', name: '哈密瓜', price: 35, growTime: 105, sellPrice: 90, xp: 22, icon: '🍈', color: 'bg-green-100', regions: ['west_china'] },
-            // 日本
-            { id: 'wasabi', name: '芥末', price: 30, growTime: 90, sellPrice: 80, xp: 20, icon: '🌱', color: 'bg-lime-100', regions: ['japan'] },
-            { id: 'sakura', name: '樱花', price: 40, growTime: 120, sellPrice: 100, xp: 25, icon: '🌸', color: 'bg-pink-200', regions: ['japan'] },
-            { id: 'sweet_potato', name: '红薯', price: 18, growTime: 54, sellPrice: 38, xp: 10, icon: '🍠', color: 'bg-orange-200', regions: ['japan'] },
-            { id: 'daikon', name: '大根', price: 22, growTime: 66, sellPrice: 50, xp: 13, icon: '🥕', color: 'bg-orange-100', regions: ['japan'] },
-            { id: 'mikan', name: '蜜柑', price: 28, growTime: 84, sellPrice: 70, xp: 18, icon: '🍊', color: 'bg-yellow-100', regions: ['japan'] },
-            // 美国中部
-            { id: 'blueberry', name: '蓝莓', price: 25, growTime: 75, sellPrice: 60, xp: 15, icon: '🫐', color: 'bg-indigo-100', regions: ['us_midwest'] },
-            { id: 'pumpkin', name: '南瓜', price: 20, growTime: 60, sellPrice: 48, xp: 12, icon: '🎃', color: 'bg-orange-200', regions: ['us_midwest'] },
-            { id: 'wheat', name: '小麦', price: 15, growTime: 45, sellPrice: 32, xp: 9, icon: '🌾', color: 'bg-yellow-100', regions: ['us_midwest'] },
-            { id: 'cranberry', name: '蔓越莓', price: 28, growTime: 84, sellPrice: 70, xp: 18, icon: '🍒', color: 'bg-red-200', regions: ['us_midwest'] },
-            { id: 'sunflower', name: '向日葵', price: 18, growTime: 54, sellPrice: 38, xp: 10, icon: '🌻', color: 'bg-yellow-200', regions: ['us_midwest'] },
-            // 欧洲
-            { id: 'carrot', name: '胡萝卜', price: 15, growTime: 45, sellPrice: 32, xp: 9, icon: '🥕', color: 'bg-orange-100', regions: ['europe'] },
-            { id: 'strawberry', name: '草莓', price: 22, growTime: 66, sellPrice: 50, xp: 13, icon: '🍓', color: 'bg-red-100', regions: ['europe'] },
-            { id: 'lettuce', name: '生菜', price: 18, growTime: 54, sellPrice: 38, xp: 10, icon: '🥬', color: 'bg-green-100', regions: ['europe'] },
-            { id: 'asparagus', name: '芦笋', price: 28, growTime: 84, sellPrice: 70, xp: 18, icon: '🥦', color: 'bg-green-200', regions: ['europe'] },
-            { id: 'grapefruit', name: '葡萄柚', price: 35, growTime: 105, sellPrice: 90, xp: 22, icon: '🍇', color: 'bg-purple-100', regions: ['europe'] }
-        ];
+
 
         // 升级数据
         const upgrades = [
@@ -3452,16 +2051,16 @@
                 saveGameData();
             }
 
-            renderShop();
+            // 初始化商店模块
+            shopModule = new ShopModule(gameState);
+            shopModule.init();
+            
             renderFarm();
             renderUpgrades();
             renderWeather();
             renderTasks();
             updateUI();
-            renderItemShop(); // 确保道具商店渲染
             renderMyItems(); // 确保我的道具渲染
-            renderDecorShop(); // 确保装饰商店渲染
-            renderAnimalShop(); // 确保动物商店渲染
             renderInventory(); // 确保库存显示正确渲染
 
             // 确保天气效果在初始化时应用
@@ -3485,9 +2084,8 @@
             // 2. 新增"花费金币刷新天气"按钮
             setupWeatherRefreshBtn();
 
-            // 渲染我的装饰和我的动物
+            // 渲染我的装饰
             renderMyDecors();
-            renderMyAnimals();
 
             // 渲染幸福值、动物健康、动物副产品
             renderHappiness();
@@ -3497,11 +2095,15 @@
             // 设置商店标签切换事件
             setupShopTabSwitching();
             
-            // 设置牧场管理功能
-            setupRanchManagement();
+            // 初始化牧场模块（传递游戏状态）
+            if (typeof ranchModule !== 'undefined') {
+                ranchModule.init('ranch-container', gameState);
+            }
             
-            // 设置动物区域切换功能
-            setupAnimalAreaSwitching();
+            // 初始化农田模块
+            if (typeof farmModule !== 'undefined') {
+                farmModule.init('farm-grid', gameState, seeds, weatherTypes);
+            }
             
             // 设置新玩法功能
             setupNewGameplayFeatures();
@@ -3566,7 +2168,7 @@
                 renderShop();
                 renderItemShop();
                 renderDecorShop();
-                renderAnimalShop();
+                // renderAnimalShop(); // 已迁移到牧场模块
                 renderFarm();
                 renderInventory();
                 updateRegionBackground();
@@ -3575,70 +2177,9 @@
             updateRegionBackground();
         }
 
-        // 渲染商店（只显示当前地区的种子）
-        function renderShop() {
-            const regionSeeds = seeds.filter(seed => seed.regions.includes(gameState.currentRegion));
-            elements.shopItems.innerHTML = regionSeeds.map(seed => `
-                <div class="seed-item flex flex-col p-4 rounded-2xl ${seed.color} cursor-pointer shadow-lg hover:shadow-2xl transition card-strong" data-seed-id="${seed.id}">
-                    <div class="flex justify-between items-start mb-2">
-                        <div>
-                            <div class="font-medium">${seed.icon} ${seed.name}</div>
-                            <div class="text-sm text-gray-600">售价: ${seed.sellPrice}金币 | 经验: ${seed.xp}</div>
-                        </div>
-                        <div class="text-right">
-                            <div class="font-semibold">${seed.price}金币</div>
-                            <div class="text-xs text-gray-600">${seed.growTime}分钟</div>
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm">库存: ${gameState.purchasedSeeds[seed.id] || 0}</span>
-                        <button class="buy-btn btn-strong px-4 py-2 text-base" data-seed-id="${seed.id}">
-                            <i class="fas fa-shopping-cart mr-2"></i> 购买
-                        </button>
-                    </div>
-                </div>
-            `).join('');
 
-            // 添加购买按钮事件
-            document.querySelectorAll('.buy-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const seedId = this.getAttribute('data-seed-id');
-                    buySeed(seedId);
-                });
-            });
 
-            // 添加种子选择事件
-            document.querySelectorAll('.seed-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const seedId = this.getAttribute('data-seed-id');
-                    selectSeed(seedId);
-                });
-            });
-        }
 
-        // 购买种子
-        function buySeed(seedId) {
-            const seed = getSeedById(seedId);
-
-            if (gameState.money >= seed.price) {
-                gameState.money -= seed.price;
-
-                if (!gameState.purchasedSeeds[seedId]) {
-                    gameState.purchasedSeeds[seedId] = 0;
-                }
-                gameState.purchasedSeeds[seedId]++;
-
-                updateUI();
-                renderShop();
-                showNotification(`成功购买 ${seed.name} 种子!`, 'success');
-
-                // 保存游戏数据
-                saveGameData();
-            } else {
-                showNotification('金币不足!', 'error');
-            }
-        }
 
         // 选择种子时，判断是否属于本地区
         function selectSeed(seedId) {
@@ -4727,11 +3268,6 @@
             checkExpandFarmButton();
         }
 
-        // 通过ID获取种子
-        function getSeedById(id) {
-            return seeds.find(seed => seed.id === id);
-        }
-
         // 获取土地改良等级
         function getLandImprovementLevel(plotIndex) {
             if (!gameState.regionLandImprovements[gameState.currentRegion]) {
@@ -5802,56 +4338,7 @@
             }).join('');
         }
         
-        // 渲染道具商店和道具数量
-        function renderItemShop() {
-            const shop = document.getElementById('item-shop');
-            if (!shop) return;
-            const items = [
-                { id: 'pesticide', name: '农药', price: 10, desc: '清除虫害', icon: '🧪' },
-                { id: 'medicine', name: '药剂', price: 15, desc: '治愈病害', icon: '💊' },
-                { id: 'weedkiller', name: '除草剂', price: 8, desc: '清除杂草', icon: '🌿' },
-                { id: 'insulation', name: '保温布', price: 12, desc: '抵御霜冻', icon: '🧣' },
-                // 动物相关道具
-                { id: 'animal_feed', name: '高级饲料', price: 25, desc: '提升动物健康度和产出', icon: '🌾', animalItem: true },
-                { id: 'vitamin_pill', name: '维生素丸', price: 30, desc: '快速恢复动物健康', icon: '💊', animalItem: true },
-                { id: 'stress_relief_pill', name: '安抚药丸', price: 20, desc: '降低动物压力值', icon: '😌', animalItem: true },
-                { id: 'water_supplement', name: '水分补充剂', price: 18, desc: '快速补充动物水分', icon: '💧', animalItem: true },
-                { id: 'healing_ointment', name: '治疗药膏', price: 35, desc: '治疗动物伤病', icon: '🩹', animalItem: true },
-                { id: 'happiness_treat', name: '幸福零食', price: 15, desc: '提升动物幸福值', icon: '🍪', animalItem: true },
-                { id: 'weather_protection', name: '天气防护剂', price: 40, desc: '临时抵御恶劣天气影响', icon: '🛡️', animalItem: true },
-                { id: 'growth_hormone', name: '生长激素', price: 50, desc: '提升动物产出效率', icon: '📈', animalItem: true }
-            ];
-            shop.innerHTML = items.map(item => `
-                <div class="flex items-center gap-2 p-2 rounded ${item.animalItem ? 'bg-blue-50 border-l-4 border-blue-500' : 'bg-gray-50'} shadow-sm">
-                    <span class="text-2xl">${item.icon}</span>
-                    <div class="flex-1">
-                        <div class="font-bold">${item.name}</div>
-                        <div class="text-xs text-gray-500">${item.desc}</div>
-                        ${item.animalItem ? '<div class="text-xs text-blue-600 font-semibold">动物专用道具</div>' : ''}
-                    </div>
-                    <div class="text-right">
-                        <div class="text-sm text-green-700">库存: ${gameState.items[item.id]||0}</div>
-                        <button class="buy-item ${item.animalItem ? 'bg-blue-500 hover:bg-blue-600' : 'bg-green-500 hover:bg-green-600'} text-white px-2 py-1 rounded text-sm" data-item-id="${item.id}">购买(${item.price}金币)</button>
-                    </div>
-                </div>
-            `).join('');
-            shop.querySelectorAll('.buy-item').forEach(btn => {
-                btn.onclick = function() {
-                    const id = this.getAttribute('data-item-id');
-                    const item = items.find(i=>i.id===id);
-                    if (gameState.money < item.price) {
-                        showNotification('金币不足，无法购买','error'); return;
-                    }
-                    gameState.money -= item.price;
-                    gameState.items[id] = (gameState.items[id]||0)+1;
-                    renderItemShop();
-                    renderMyItems();
-                    updateUI();
-                    saveGameData();
-                    showNotification(`购买${item.name}成功！`,'success');
-                };
-            });
-        }
+
 
         // 渲染装饰商店和我的装饰
         function renderDecorShop() {
@@ -6020,66 +4507,7 @@
           `).join('');
         }
 
-        // 渲染动物商店和我的动物
-        function renderAnimalShop() {
-          const shop = document.getElementById('animal-shop');
-          if (!shop) return;
-          const animals = [
-            { id: 'chicken', name: '鸡', price: 60, desc: '产蛋', icon: '🐔', rarity: 'common' },
-            { id: 'cow', name: '牛', price: 200, desc: '产奶', icon: '🐄', rarity: 'common' },
-            { id: 'sheep', name: '羊', price: 120, desc: '产羊毛', icon: '🐑', rarity: 'common' },
-            { id: 'pig', name: '猪', price: 150, desc: '产猪肉', icon: '🐷', rarity: 'uncommon' },
-            { id: 'duck', name: '鸭子', price: 80, desc: '产鸭蛋', icon: '🦆', rarity: 'common' },
-            { id: 'goat', name: '山羊', price: 180, desc: '产羊奶', icon: '🐐', rarity: 'uncommon' },
-            { id: 'rabbit', name: '兔子', price: 100, desc: '产兔毛', icon: '🐰', rarity: 'rare' },
-            { id: 'horse', name: '马', price: 500, desc: '产肥料', icon: '🐎', rarity: 'epic' }
-          ];
-          
-          // 根据稀有度添加颜色
-          const rarityColors = {
-            common: 'bg-gray-100',
-            uncommon: 'bg-green-100', 
-            rare: 'bg-blue-100',
-            epic: 'bg-purple-100'
-          };
-          
-          shop.innerHTML = animals.map(animal => `
-            <div class="flex items-center gap-2 p-2 rounded ${rarityColors[animal.rarity]} border-l-4 ${animal.rarity === 'epic' ? 'border-purple-500' : animal.rarity === 'rare' ? 'border-blue-500' : animal.rarity === 'uncommon' ? 'border-green-500' : 'border-gray-500'}>
-              <span class="text-2xl">${animal.icon}</span>
-              <div class="flex-1">
-                <div class="font-bold">${animal.name}</div>
-                <div class="text-xs text-gray-500">${animal.desc}</div>
-              </div>
-              <div class="text-right">
-                <div class="text-sm text-green-700">库存: ${gameState.animals[animal.id]||0}</div>
-                <button class="buy-animal bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm" data-animal-id="${animal.id}">购买(${animal.price}金币)</button>
-              </div>
-            </div>
-          `).join('');
-          
-          shop.querySelectorAll('.buy-animal').forEach(btn => {
-            btn.onclick = function() {
-              const id = this.getAttribute('data-animal-id');
-              const animal = animals.find(a=>a.id===id);
-              if (gameState.money < animal.price) {
-                showNotification('金币不足，无法购买','error'); return;
-              }
-              gameState.money -= animal.price;
-              gameState.animals[id] = (gameState.animals[id]||0)+1;
-              renderAnimalShop();
-              renderMyAnimals();
-              renderAnimalArea(id); // 渲染对应动物区域
-              updateRanchStats();
-              updateUI();
-              saveGameData();
-              
-              // 检查动物相关成就
-              checkAchievements();
-              
-              showNotification(`购买${animal.name}成功！`,'success');
-            };
-          });
-        }
+        // 动物商店功能已迁移到牧场模块 (ranch.js)
         function renderMyAnimals() {
           const box = document.getElementById('my-animals');
           if (!box) return;
@@ -6636,53 +5064,7 @@
           saveGameData();
         },60000); // 每分钟产出一次
 
-        // 商店标签切换功能
-        function setupShopTabSwitching() {
-            const tabButtons = document.querySelectorAll('.shop-tab-btn');
-            const shopContents = document.querySelectorAll('.shop-content');
-            
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const category = this.getAttribute('data-category');
-                    
-                    // 移除所有按钮的active类
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    // 隐藏所有内容区域
-                    shopContents.forEach(content => {
-                        content.classList.remove('active');
-                        content.style.display = 'none';
-                    });
-                    
-                    // 激活当前按钮
-                    this.classList.add('active');
-                    
-                    // 显示对应的内容区域
-                    const targetContent = document.querySelector(`[id="${category === 'seeds' ? 'shop-items' : category === 'items' ? 'item-shop' : category === 'decor' ? 'decor-shop' : 'animal-shop'}"]`);
-                    if (targetContent) {
-                        targetContent.classList.add('active');
-                        targetContent.style.display = 'block';
-                    }
-                    
-                    // "我的道具"区域已移至侧边栏，不需要显示/隐藏控制
-                    
-                    // 根据类别重新渲染对应的商店内容
-                    switch(category) {
-                        case 'seeds':
-                            renderShop();
-                            break;
-                        case 'items':
-                            renderItemShop();
-                            break;
-                        case 'decor':
-                            renderDecorShop();
-                            break;
-                        case 'animals':
-                            renderAnimalShop();
-                            break;
-                    }
-                });
-            });
-        }
+
 
         // 动物区域切换功能
         function setupAnimalAreaSwitching() {
@@ -7517,642 +5899,17 @@
 
         }
 
-        // 渲染牧场动物图标
-        function renderRanchAnimals() {
-            const box = document.getElementById('ranch-animal-icons');
-            if (!box) return;
-            
-            // 为牧场容器添加大气效果
-            box.className = 'ranch-atmosphere grid grid-cols-4 gap-6 p-8 bg-gradient-to-br from-green-100 to-green-200 rounded-lg border-2 border-green-300 shadow-lg relative overflow-hidden';
-            
-            const animals = [
-                { id: 'chicken', name: '鸡', icon: '🐔', animations: ['animal-walk', 'animal-bounce'] },
-                { id: 'cow', name: '牛', icon: '🐄', animations: ['animal-sway', 'animal-breathe'] },
-                { id: 'sheep', name: '羊', icon: '🐑', animations: ['animal-bounce', 'animal-sway'] },
-                { id: 'pig', name: '猪', icon: '🐷', animations: ['animal-walk', 'animal-breathe'] },
-                { id: 'duck', name: '鸭子', icon: '🦆', animations: ['animal-walk', 'animal-bounce'] },
-                { id: 'goat', name: '山羊', icon: '🐐', animations: ['animal-bounce', 'animal-sway'] },
-                { id: 'rabbit', name: '兔子', icon: '🐰', animations: ['animal-bounce', 'animal-walk'] },
-                { id: 'horse', name: '马', icon: '🐎', animations: ['animal-walk', 'animal-sway'] }
-            ];
-            
-            let animalElements = [];
-            
-            animals.forEach(animal => {
-                const count = gameState.animals[animal.id] || 0;
-                const health = gameState.animalHealth[animal.id] || 0;
-                
-                if (count > 0) {
-                    // 为每种动物创建多个个体（最多显示6个）
-                    const displayCount = Math.min(count, 6);
-                    
-                    for (let i = 0; i < displayCount; i++) {
-                        // 随机选择动画效果
-                        const randomAnimation = animal.animations[Math.floor(Math.random() * animal.animations.length)];
-                        
-                        // 根据健康度决定动画和样式
-                        let healthClass = '';
-                        if (health > 70) {
-                            healthClass = 'animal-healthy';
-                        } else if (health < 30) {
-                            healthClass = 'animal-sick';
-                        }
-                        
-                        // 随机延迟动画，让动物们不同步
-                        const animationDelay = Math.random() * 3;
-                        
-                        animalElements.push(`
-                            <div class="ranch-animal ${randomAnimation} ${healthClass} flex flex-col items-center justify-center p-2 rounded-lg bg-white bg-opacity-50 backdrop-blur-sm hover:bg-opacity-80 transition-all duration-300" 
-                                 style="animation-delay: ${animationDelay}s;" 
-                                 title="${animal.name} - 健康度: ${Number(health).toFixed(2)}%">
-                                <span class="text-base mb-1 animal-blink" style="animation-delay: ${animationDelay + 1}s; font-size:1.2rem;">${animal.icon}</span>
-                                <span class="text-xs font-bold text-green-800">${animal.name}</span>
-                                ${i === 0 && count > displayCount ? `<span class="text-xs text-gray-600">+${count - displayCount}只</span>` : ''}
-                            </div>
-                        `);
-                    }
-                }
-            });
-            
-            if (animalElements.length === 0) {
-                box.innerHTML = `
-                    <div class="col-span-4 text-center py-12">
-                        <div class="text-6xl mb-4 opacity-50">🌾</div>
-                        <div class="text-gray-500 italic text-lg">空旷的牧场等待着动物们的到来...</div>
-                        <div class="text-sm text-gray-400 mt-2">去商店购买一些动物吧！</div>
-                    </div>
-                `;
-            } else {
-                // 添加环境装饰
-                const environmentElements = [
-                    '<div class="ranch-decoration absolute top-2 left-2 text-2xl opacity-60 grass-sway">🌾</div>',
-                    '<div class="ranch-decoration absolute top-2 right-2 text-2xl opacity-60 cloud-float">☁️</div>',
-                    '<div class="ranch-decoration absolute bottom-2 left-2 text-xl opacity-50 grass-sway" style="animation-delay: 2s;">🌻</div>',
-                    '<div class="ranch-decoration absolute bottom-2 right-2 text-xl opacity-50 grass-sway" style="animation-delay: 1s;">🦋</div>'
-                ];
-                
-                box.innerHTML = animalElements.join('') + environmentElements.join('');
-            }
-        }
+        // 牧场动物渲染功能已迁移到 ranch.js 模块
         
-        // 定期更新动物动画（每10秒随机改变动物的动画）
-        setInterval(() => {
-            const animalElements = document.querySelectorAll('.ranch-animal');
-            animalElements.forEach(element => {
-                const animations = ['animal-walk', 'animal-bounce', 'animal-sway', 'animal-breathe'];
-                const currentClasses = element.className.split(' ');
-                
-                // 移除旧的动画类
-                animations.forEach(anim => {
-                    element.classList.remove(anim);
-                });
-                
-                // 添加新的随机动画
-                const newAnimation = animations[Math.floor(Math.random() * animations.length)];
-                element.classList.add(newAnimation);
-                
-                // 随机改变动画延迟
-                element.style.animationDelay = Math.random() * 3 + 's';
-            });
-        }, 10000); // 每10秒更新一次动画
+        // 牧场环境系统已迁移到 ranch.js 模块
         
-        // 牧场环境系统
-        const ranchEnvironment = {
-            soundEnabled: false,
-            timeOfDay: 'day',
-            season: 'spring',
-            
-            // 时间系统
-            timeSystem: {
-                day: { icon: '🕐', title: '白天', mood: '😊 动物们很活跃' },
-                evening: { icon: '🌅', title: '傍晚', mood: '😌 动物们在休息' },
-                night: { icon: '🌙', title: '夜晚', mood: '😴 动物们在睡觉' }
-            },
-            
-            // 季节系统
-            seasons: {
-                spring: { icon: '🌸', title: '春季' },
-                summer: { icon: '☀️', title: '夏季' },
-                autumn: { icon: '🍂', title: '秋季' },
-                winter: { icon: '❄️', title: '冬季' }
-            },
-            
-            // 动物叫声
-            animalSounds: {
-                chicken: ['咯咯', '咯咯咯'],
-                cow: ['哞~', '哞哞'],
-                sheep: ['咩~', '咩咩'],
-                pig: ['哼哼', '哼哼哼'],
-                duck: ['嘎嘎', '嘎嘎嘎'],
-                goat: ['咩咩', '咩~'],
-                rabbit: ['...', '(无声)'],
-                horse: ['嘶~', '嘶嘶']
-            },
-            
-            // 天气对动物的影响（与主天气系统统一）
-            weatherEffects: {
-                sunny: {
-                    icon: '☀️',
-                    title: '晴天',
-                    effect: 'sunny-effect',
-                    animalEffects: {
-                        benefits: ['产出效率+20%', '健康度缓慢恢复', '动物心情愉悦'],
-                        drawbacks: ['水分消耗增加', '需要更多饮水', '中暑风险'],
-                        productionBonus: 1.2,
-                        healthDecayModifier: 0.8, // 健康度衰减减少
-                        waterNeed: 1.5, // 需要更多水分
-                        shelterNeed: false, // 不需要庇护
-                        specialActions: ['提供遮阳', '增加饮水', '防暑降温']
-                    }
-                },
-                rainy: {
-                    icon: '🌧️',
-                    title: '雨天',
-                    effect: 'rainy-effect',
-                    animalEffects: {
-                        benefits: ['自动补充水分', '清洁环境', '降低疾病风险'],
-                        drawbacks: ['产出效率-10%', '容易感冒', '泥泞环境'],
-                        productionBonus: 0.9,
-                        healthDecayModifier: 1.1, // 健康度衰减增加
-                        diseaseResistance: 1.2, // 疾病抗性提高
-                        shelterNeed: true, // 需要庇护
-                        specialActions: ['搭建雨棚', '保持干燥', '预防感冒']
-                    }
-                },
-                stormy: {
-                    icon: '⛈️',
-                    title: '暴雨',
-                    effect: 'stormy-effect',
-                    animalEffects: {
-                        benefits: ['充足水源', '环境清洁'],
-                        drawbacks: ['产出停止', '健康度快速下降', '动物恐慌'],
-                        productionBonus: 0,
-                        healthDecayModifier: 2.0, // 健康度衰减翻倍
-                        stressLevel: 'high',
-                        shelterNeed: true, // 需要庇护
-                        specialActions: ['紧急避难', '安抚动物', '加固设施']
-                    }
-                },
-                drought: {
-                    icon: '🔥',
-                    title: '干旱',
-                    effect: 'drought-effect',
-                    animalEffects: {
-                        benefits: ['干燥环境减少细菌'],
-                        drawbacks: ['严重缺水', '产出减半', '健康度快速下降'],
-                        productionBonus: 0.5,
-                        healthDecayModifier: 2.5, // 健康度衰减大幅增加
-                        waterNeed: 3.0, // 需要大量水分
-                        shelterNeed: false, // 不需要庇护
-                        specialActions: ['紧急供水', '降温措施', '减少活动']
-                    }
-                },
-                typhoon: {
-                    icon: '🌀',
-                    title: '台风',
-                    effect: 'typhoon-effect',
-                    animalEffects: {
-                        benefits: ['台风过后空气清新'],
-                        drawbacks: ['动物受惊', '产出停止', '可能受伤'],
-                        productionBonus: 0,
-                        healthDecayModifier: 1.8,
-                        injuryRisk: 0.1, // 10%受伤风险
-                        shelterNeed: true, // 需要庇护
-                        specialActions: ['紧急避难', '加固围栏', '医疗准备']
-                    }
-                },
-                rainbow: {
-                    icon: '🌈',
-                    title: '彩虹天',
-                    effect: 'rainbow-effect',
-                    animalEffects: {
-                        benefits: ['动物心情极佳', '产出品质提升', '健康度恢复'],
-                        drawbacks: [],
-                        productionBonus: 1.5,
-                        healthDecayModifier: 0.5, // 健康度衰减大幅减少
-                        qualityBonus: 1.5, // 产品品质提升
-                        shelterNeed: false, // 不需要庇护
-                        specialActions: ['户外活动', '增加互动', '享受时光']
-                    }
-                },
-                sandstorm: {
-                    icon: '🌪️',
-                    title: '沙尘暴',
-                    effect: 'sandstorm-effect',
-                    animalEffects: {
-                        benefits: [],
-                        drawbacks: ['呼吸困难', '产出停止', '健康度下降', '视野受阻'],
-                        productionBonus: 0,
-                        healthDecayModifier: 2.2,
-                        respiratoryIssues: true,
-                        shelterNeed: true, // 需要庇护
-                        specialActions: ['紧急避难', '防护措施', '医疗护理']
-                    }
-                }
-            }
-        };
+        // 牧场环境控制功能已迁移到 ranch.js 模块
         
-        // 初始化牧场环境控制
-        function initRanchEnvironment() {
-            const soundBtn = document.getElementById('ranch-sound-btn');
-            
-            if (soundBtn) {
-                soundBtn.onclick = function() {
-                    ranchEnvironment.soundEnabled = !ranchEnvironment.soundEnabled;
-                    const soundIcon = document.getElementById('sound-icon');
-                    const soundText = document.getElementById('sound-text');
-                    
-                    if (ranchEnvironment.soundEnabled) {
-                        soundIcon.textContent = '🔊';
-                        soundText.textContent = '音效开';
-                        soundBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
-                        soundBtn.classList.add('bg-blue-500', 'hover:bg-blue-600');
-                        showNotification('牧场音效已开启！', 'success');
-                        playRanchSound();
-                    } else {
-                        soundIcon.textContent = '🔇';
-                        soundText.textContent = '音效关';
-                        soundBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
-                        soundBtn.classList.add('bg-green-500', 'hover:bg-green-600');
-                        showNotification('牧场音效已关闭', 'info');
-                    }
-                };
-            }
-            
-            // 启动时间循环
-            startTimeSystem();
-            
-            // 初始化天气显示
-            updateRanchWeather();
-        }
+        // 牧场天气、音效、时间系统功能已迁移到 ranch.js 模块
         
-        // 更新牧场天气显示（与主天气系统同步）
-        function updateRanchWeather() {
-            const weatherEffect = document.getElementById('ranch-weather-effect');
-            
-            const currentWeather = ranchEnvironment.weatherEffects[gameState.weather];
-            if (currentWeather) {
-                if (weatherEffect) {
-                    weatherEffect.className = `absolute inset-0 pointer-events-none z-5 ${currentWeather.effect}`;
-                }
-            }
-        }
+        // 动物天气应对系统功能已迁移到 ranch.js 模块
         
-        // 播放牧场音效
-        function playRanchSound() {
-            if (!ranchEnvironment.soundEnabled) return;
-            
-            const animals = ['chicken', 'cow', 'sheep', 'pig', 'duck', 'goat', 'rabbit', 'horse'];
-            const availableAnimals = animals.filter(animal => (gameState.animals[animal] || 0) > 0);
-            
-            if (availableAnimals.length > 0) {
-                const randomAnimal = availableAnimals[Math.floor(Math.random() * availableAnimals.length)];
-                const sounds = ranchEnvironment.animalSounds[randomAnimal];
-                const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
-                
-                // 显示音效提示
-                const soundNotification = document.createElement('div');
-                soundNotification.className = 'fixed top-20 right-4 bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-semibold z-50 animate-pulse';
-                soundNotification.innerHTML = `🔊 ${getAnimalName(randomAnimal)}: ${randomSound}`;
-                document.body.appendChild(soundNotification);
-                
-                setTimeout(() => {
-                    soundNotification.remove();
-                }, 2000);
-            }
-        }
-        
-        // 时间系统
-        function startTimeSystem() {
-            // 每30秒更新一次时间
-            setInterval(() => {
-                updateTimeOfDay();
-                updateSeason();
-                updateRanchStatus();
-                
-                // 随机播放动物音效
-                if (Math.random() < 0.3) {
-                    playRanchSound();
-                }
-            }, 30000);
-        }
-        
-        function updateTimeOfDay() {
-            const times = Object.keys(ranchEnvironment.timeSystem);
-            const currentIndex = times.indexOf(ranchEnvironment.timeOfDay);
-            const nextIndex = (currentIndex + 1) % times.length;
-            
-            ranchEnvironment.timeOfDay = times[nextIndex];
-            
-            const timeElement = document.getElementById('ranch-time');
-            const moodElement = document.getElementById('ranch-mood');
-            
-            if (timeElement && moodElement) {
-                const timeData = ranchEnvironment.timeSystem[ranchEnvironment.timeOfDay];
-                timeElement.innerHTML = `${timeData.icon} 现在是${timeData.title}`;
-                moodElement.textContent = timeData.mood;
-            }
-        }
-        
-        function updateSeason() {
-            // 每2分钟换一次季节（演示用）
-            if (Math.random() < 0.1) {
-                const seasons = Object.keys(ranchEnvironment.seasons);
-                const currentIndex = seasons.indexOf(ranchEnvironment.season);
-                const nextIndex = (currentIndex + 1) % seasons.length;
-                
-                ranchEnvironment.season = seasons[nextIndex];
-                
-                const seasonElement = document.getElementById('ranch-season');
-                if (seasonElement) {
-                    const seasonData = ranchEnvironment.seasons[ranchEnvironment.season];
-                    seasonElement.innerHTML = `${seasonData.icon} ${seasonData.title}`;
-                }
-            }
-        }
-        
-        function updateRanchStatus() {
-            const titleElement = document.getElementById('ranch-title');
-            if (titleElement) {
-                const totalAnimals = Object.values(gameState.animals).reduce((sum, count) => sum + (count || 0), 0);
-                const avgHealth = calculateAverageHealth();
-                const currentWeather = ranchEnvironment.weatherEffects[gameState.weather];
-                
-                let title = '牧场悠闲时光';
-                if (totalAnimals === 0) {
-                    title = '空旷的牧场';
-                } else if (currentWeather && currentWeather.animalEffects.drawbacks.length > 0) {
-                    title = `${currentWeather.title}中的牧场`;
-                } else if (avgHealth > 80) {
-                    title = '繁荣的牧场';
-                } else if (avgHealth < 40) {
-                    title = '需要关爱的牧场';
-                }
-                
-                titleElement.textContent = title;
-            }
-        }
-        
-        function calculateAverageHealth() {
-            const animalIds = ['chicken', 'cow', 'sheep', 'pig', 'duck', 'goat', 'rabbit', 'horse'];
-            let totalHealth = 0;
-            let animalCount = 0;
-            
-            animalIds.forEach(id => {
-                const count = gameState.animals[id] || 0;
-                if (count > 0) {
-                    totalHealth += (gameState.animalHealth[id] || 0) * count;
-                    animalCount += count;
-                }
-            });
-            
-            return animalCount > 0 ? Math.round(totalHealth / animalCount) : 100;
-        }
-        
-        // 动物应对天气系统功能
-        function handleAnimalWeatherResponse() {
-            const currentWeather = ranchEnvironment.weatherEffects[gameState.weather];
-            if (!currentWeather) return;
-            
-            const animalIds = ['chicken', 'cow', 'sheep', 'pig', 'duck', 'goat', 'rabbit', 'horse'];
-            const effects = currentWeather.animalEffects;
-            
-            animalIds.forEach(animalId => {
-                const animalCount = gameState.animals[animalId] || 0;
-                if (animalCount === 0) return;
-                
-                // 处理庇护需求
-                if (effects.shelterNeed && !gameState.animalShelter[animalId]) {
-                    // 检查是否有庇护所设施
-                    const hasShelter = (gameState.decors.shelter || 0) > 0;
-                    if (hasShelter) {
-                        // 有庇护所，自动提供庇护
-                        gameState.animalShelter[animalId] = true;
-                        gameState.animalStress[animalId] = Math.max(0, gameState.animalStress[animalId] - 5);
-                        showNotification(`${getAnimalName(animalId)}自动获得庇护！`, 'success');
-                    } else {
-                        // 动物需要庇护但没有庇护
-                        gameState.animalHealth[animalId] = Math.max(0, gameState.animalHealth[animalId] - 5);
-                        gameState.animalStress[animalId] = Math.min(100, gameState.animalStress[animalId] + 10);
-                        showNotification(`${getAnimalName(animalId)}需要庇护！健康度下降`, 'warning');
-                    }
-                }
-                
-                // 处理水分需求
-                if (effects.waterNeed && effects.waterNeed > 1) {
-                    const waterConsumption = effects.waterNeed * 2; // 天气影响水分消耗
-                    gameState.animalWaterSupply[animalId] = Math.max(0, gameState.animalWaterSupply[animalId] - waterConsumption);
-                    
-                    // 检查是否有自动饮水系统
-                    const hasWaterSystem = (gameState.decors.water_system || 0) > 0;
-                    if (hasWaterSystem && gameState.animalWaterSupply[animalId] < 50) {
-                        // 自动补充水分
-                        gameState.animalWaterSupply[animalId] = 100;
-                        showNotification(`${getAnimalName(animalId)}自动补充水分！`, 'success');
-                    } else if (gameState.animalWaterSupply[animalId] < 30) {
-                        gameState.animalHealth[animalId] = Math.max(0, gameState.animalHealth[animalId] - 3);
-                        showNotification(`${getAnimalName(animalId)}缺水！需要补充水分`, 'warning');
-                    }
-                }
-                
-                // 处理压力值
-                if (effects.stressLevel === 'high') {
-                    gameState.animalStress[animalId] = Math.min(100, gameState.animalStress[animalId] + 15);
-                }
-                
-                // 处理伤病风险
-                if (effects.injuryRisk && Math.random() < effects.injuryRisk) {
-                    // 检查是否有医疗箱
-                    const hasMedicalKit = (gameState.decors.medical_kit || 0) > 0;
-                    if (hasMedicalKit) {
-                        // 自动治疗
-                        showNotification(`${getAnimalName(animalId)}受伤但被医疗箱自动治疗！`, 'success');
-                    } else {
-                        const injury = {
-                            type: 'weather_injury',
-                            severity: Math.floor(Math.random() * 3) + 1, // 1-3级严重程度
-                            timestamp: Date.now(),
-                            weather: gameState.weather
-                        };
-                        gameState.animalInjuries[animalId].push(injury);
-                        gameState.animalHealth[animalId] = Math.max(0, gameState.animalHealth[animalId] - 20);
-                        showNotification(`${getAnimalName(animalId)}在${currentWeather.title}中受伤了！`, 'error');
-                    }
-                }
-                
-                // 处理呼吸问题（沙尘暴）
-                if (effects.respiratoryIssues) {
-                    gameState.animalHealth[animalId] = Math.max(0, gameState.animalHealth[animalId] - 2);
-                    gameState.animalStress[animalId] = Math.min(100, gameState.animalStress[animalId] + 5);
-                }
-            });
-            
-            // 更新动物状态显示
-            renderAnimalWeatherStatus();
-        }
-        
-        // 动物天气状态渲染
-        function renderAnimalWeatherStatus() {
-            const statusBox = document.getElementById('animal-weather-status');
-            if (!statusBox) return;
-            
-            const currentWeather = ranchEnvironment.weatherEffects[gameState.weather];
-            if (!currentWeather) return;
-            
-            const animalIds = ['chicken', 'cow', 'sheep', 'pig', 'duck', 'goat', 'rabbit', 'horse'];
-            let statusHtml = `
-                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
-                    <h3 class="font-bold text-lg mb-2 flex items-center">
-                        <span class="text-2xl mr-2">${currentWeather.icon}</span>
-                        ${currentWeather.title}对动物的影响
-                    </h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <h4 class="font-semibold text-green-600 mb-1">好处：</h4>
-                            <ul class="text-sm text-green-700">
-                                ${currentWeather.animalEffects.benefits.map(benefit => `<li>• ${benefit}</li>`).join('')}
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-red-600 mb-1">坏处：</h4>
-                            <ul class="text-sm text-red-700">
-                                ${currentWeather.animalEffects.drawbacks.map(drawback => `<li>• ${drawback}</li>`).join('')}
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <h4 class="font-semibold text-blue-600 mb-1">建议行动：</h4>
-                        <div class="flex flex-wrap gap-2">
-                            ${currentWeather.animalEffects.specialActions.map(action => {
-                                const facility = getWeatherActionFacility(action);
-                                const hasFacility = facility ? (gameState.decors[facility.id] || 0) > 0 : false;
-                                const facilityCost = facility ? facility.price : 0;
-                                
-                                if (hasFacility) {
-                                    return `<button class="weather-action-btn bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm" data-action="${action}" title="已拥有${facility.name}">${action}</button>`;
-                                } else if (facility) {
-                                    return `<button class="weather-action-btn bg-gray-400 hover:bg-gray-500 text-white px-3 py-1 rounded text-sm" data-action="${action}" data-facility="${facility.id}" data-cost="${facilityCost}" title="需要购买${facility.name}">${action} (需购买)</button>`;
-                                } else {
-                                    return `<button class="weather-action-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm" data-action="${action}">${action}</button>`;
-                                }
-                            }).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // 添加动物状态详情
-            let animalStatusHtml = '<div class="space-y-2">';
-            animalIds.forEach(animalId => {
-                const count = gameState.animals[animalId] || 0;
-                if (count === 0) return;
-                
-                const health = gameState.animalHealth[animalId] || 0;
-                const stress = gameState.animalStress[animalId] || 0;
-                const water = gameState.animalWaterSupply[animalId] || 100;
-                const shelter = gameState.animalShelter[animalId] || false;
-                const injuries = gameState.animalInjuries[animalId] || [];
-                
-                let statusClass = 'bg-green-50 border-green-400';
-                let statusText = '状态良好';
-                
-                if (health < 50 || stress > 70 || water < 30) {
-                    statusClass = 'bg-red-50 border-red-400';
-                    statusText = '需要关注';
-                } else if (health < 80 || stress > 40 || water < 60) {
-                    statusClass = 'bg-yellow-50 border-yellow-400';
-                    statusText = '状态一般';
-                }
-                
-                animalStatusHtml += `
-                    <div class="${statusClass} border-l-4 p-3">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-2">${getAnimalIcon(animalId)}</span>
-                                <div>
-                                    <div class="font-semibold">${getAnimalName(animalId)} ×${count}</div>
-                                    <div class="text-sm text-gray-600">${statusText}</div>
-                                </div>
-                            </div>
-                            <div class="text-right text-sm">
-                                <div class="flex items-center gap-2">
-                                    <span>健康: ${health.toFixed(2)}%</span>
-                                    <span>压力: ${stress}%</span>
-                                    <span>水分: ${water}%</span>
-                                </div>
-                                <div class="flex items-center gap-2 mt-1">
-                                    <span>庇护: ${shelter ? '✅' : '❌'}</span>
-                                    <span>伤病: ${injuries.length}</span>
-                                </div>
-                            </div>
-                        </div>
-                        ${injuries.length > 0 ? `
-                            <div class="mt-2 text-xs text-red-600">
-                                伤病记录: ${injuries.map(injury => 
-                                    `${injury.type}(${injury.severity}级)`
-                                ).join(', ')}
-                            </div>
-                        ` : ''}
-                        <div class="mt-2">
-                            <button class="weather-item-btn bg-purple-500 hover:bg-purple-600 text-white px-2 py-1 rounded text-xs" data-animal-id="${animalId}">
-                                使用道具
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-            animalStatusHtml += '</div>';
-            
-            statusBox.innerHTML = statusHtml + animalStatusHtml;
-            
-            // 绑定天气行动按钮
-            document.querySelectorAll('.weather-action-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const action = this.getAttribute('data-action');
-                    const facility = this.getAttribute('data-facility');
-                    const cost = this.getAttribute('data-cost');
-                    
-                    if (facility && cost) {
-                        // 需要购买设施
-                        if (gameState.money < parseInt(cost)) {
-                            showNotification(`金币不足！需要 ${cost} 金币购买设施`, 'error');
-                            return;
-                        }
-                        
-                        // 询问是否购买设施
-                        if (confirm(`需要购买${getWeatherActionFacility(action).name}才能执行此行动。是否立即购买？(${cost}金币)`)) {
-                            // 购买设施
-                            gameState.money -= parseInt(cost);
-                            gameState.decors[facility] = (gameState.decors[facility] || 0) + 1;
-                            
-                            // 切换到装饰商店显示购买结果
-                            const decorTab = document.querySelector('.shop-tab-btn[data-category="decor"]');
-                            if (decorTab) {
-                                decorTab.click();
-                            }
-                            
-                            renderDecorShop();
-                            renderMyDecors();
-                            updateUI();
-                            saveGameData();
-                            
-                            showNotification(`购买${getWeatherActionFacility(action).name}成功！现在可以执行${action}了`, 'success');
-                        }
-                    } else {
-                        // 直接执行行动
-                        executeWeatherAction(action);
-                    }
-                });
-            });
-            
-            // 绑定天气状态面板中的道具使用按钮
-            statusBox.querySelectorAll('.weather-item-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const animalId = this.getAttribute('data-animal-id');
-                    showAnimalItemMenu(animalId);
-                });
-            });
-        }
+        // 动物天气状态渲染功能已迁移到 ranch.js 模块
         
         // 执行天气应对行动
         function executeWeatherAction(action) {
@@ -8325,11 +6082,6 @@
         setTimeout(() => {
             initRanchEnvironment();
         }, 1000);
-
-        // 通过ID获取种子
-        function getSeedById(id) {
-            return seeds.find(seed => seed.id === id);
-        }
 
         // 获取土地改良等级
         function getLandImprovementLevel(plotIndex) {
@@ -8541,6 +6293,152 @@
                 saveGameData();
             }
         }, 60000); // 每60秒执行一次
+    </script>
+    
+    <!-- 牧场模块JS -->
+    <script src="ranch.js"></script>
+    <script src="farm.js"></script>
+    <!-- 商店模块JS -->
+    <script src="shop.js"></script>
+    
+    <script>
+        // 全局变量声明
+        let shopModule;
+        
+        // 商店兼容性处理
+        function renderShop() {
+            if (shopModule) {
+                shopModule.renderSeedShop();
+            }
+        }
+        function renderItemShop() {
+            if (shopModule) {
+                shopModule.renderItemShop();
+            }
+        }
+        function renderDecorShop() {
+            if (shopModule) {
+                shopModule.renderDecorShop();
+            }
+        }
+        function buySeed(seedId) {
+            if (shopModule) {
+                shopModule.buySeed(seedId);
+            }
+        }
+        function selectSeed(seedId) {
+            if (shopModule) {
+                shopModule.selectSeed(seedId);
+            }
+        }
+        function setupShopTabSwitching() {
+            if (shopModule) {
+                shopModule.setupShopTabSwitching();
+            }
+        }
+        function getSeedById(seedId) {
+            if (shopModule) {
+                return shopModule.getSeedById(seedId);
+            }
+            return null;
+        }
+        
+        // 兼容性处理：为了避免错误，创建空的牧场函数占位符
+        if (typeof renderAnimalShop === 'undefined') {
+            window.renderAnimalShop = function() { 
+                console.log('renderAnimalShop 已迁移到牧场模块'); 
+            };
+        }
+        if (typeof renderMyAnimals === 'undefined') {
+            window.renderMyAnimals = function() { 
+                console.log('renderMyAnimals 已迁移到牧场模块'); 
+            };
+        }
+        if (typeof updateRanchStats === 'undefined') {
+            window.updateRanchStats = function() { 
+                console.log('updateRanchStats 已迁移到牧场模块'); 
+            };
+        }
+                if (typeof renderRanchAnimals === 'undefined') {
+            window.renderRanchAnimals = function() {
+                if (window.ranchModule) {
+                    window.ranchModule.renderRanchAnimals();
+                } else {
+                    console.log('renderRanchAnimals 已迁移到牧场模块');
+                }
+            };
+        }
+        
+        // 牧场天气系统兼容性处理
+        if (typeof handleAnimalWeatherResponse === 'undefined') {
+            window.handleAnimalWeatherResponse = function() {
+                if (window.ranchModule) {
+                    window.ranchModule.handleAnimalWeatherResponse();
+                } else {
+                    console.log('handleAnimalWeatherResponse 已迁移到牧场模块');
+                }
+            };
+        }
+        
+        if (typeof updateRanchWeather === 'undefined') {
+            window.updateRanchWeather = function() {
+                if (window.ranchModule) {
+                    window.ranchModule.updateRanchWeather();
+                } else {
+                    console.log('updateRanchWeather 已迁移到牧场模块');
+                }
+            };
+        }
+        
+        if (typeof renderAnimalWeatherStatus === 'undefined') {
+            window.renderAnimalWeatherStatus = function() {
+                if (window.ranchModule) {
+                    window.ranchModule.renderAnimalWeatherStatus();
+                } else {
+                    console.log('renderAnimalWeatherStatus 已迁移到牧场模块');
+                }
+            };
+        }
+        if (typeof setupRanchManagement === 'undefined') {
+            window.setupRanchManagement = function() { 
+                console.log('setupRanchManagement 已迁移到牧场模块'); 
+            };
+        }
+        if (typeof setupAnimalAreaSwitching === 'undefined') {
+            window.setupAnimalAreaSwitching = function() { 
+                console.log('setupAnimalAreaSwitching 已迁移到牧场模块'); 
+            };
+        }
+        
+        // 农田模块兼容性处理
+        if (typeof renderFarm === 'undefined') {
+            window.renderFarm = function() {
+                if (window.farmModule) {
+                    window.farmModule.render();
+                }
+            };
+        }
+        if (typeof handlePlotClick === 'undefined') {
+            window.handlePlotClick = function(plotIndex) {
+                if (window.farmModule) {
+                    window.farmModule.handlePlotClick(plotIndex);
+                }
+            };
+        }
+        if (typeof plantSeed === 'undefined') {
+            window.plantSeed = function(plotIndex, seed) {
+                if (window.farmModule) {
+                    window.farmModule.plantSeed(plotIndex, seed);
+                }
+            };
+        }
+        if (typeof harvestCrop === 'undefined') {
+            window.harvestCrop = function(plotIndex) {
+                if (window.farmModule) {
+                    window.farmModule.harvestCrop(plotIndex);
+                }
+            };
+        }
     </script>
 </body>
 </html>
