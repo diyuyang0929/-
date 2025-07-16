@@ -12,1006 +12,22 @@
     <!-- 商店模块样式 -->
     <link rel="stylesheet" href="shop.css">
     <style>
-        /* ===== 现代化UI设计系统 ===== */
-        
-        /* 1. 全局变量和基础样式 */
-        :root {
-            --primary-color: #10b981;
-            --primary-dark: #059669;
-            --primary-light: #34d399;
-            --secondary-color: #3b82f6;
-            --accent-color: #f59e0b;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --error-color: #ef4444;
-            --info-color: #3b82f6;
-            
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --text-muted: #9ca3af;
-            
-            --bg-primary: #ffffff;
-            --bg-secondary: #f9fafb;
-            --bg-tertiary: #f3f4f6;
-            
-            --border-color: #e5e7eb;
-            --border-light: #f3f4f6;
-            
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            
-            --radius-sm: 0.375rem;
-            --radius-md: 0.5rem;
-            --radius-lg: 0.75rem;
-            --radius-xl: 1rem;
-            --radius-2xl: 1.5rem;
-            
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        .crop-plot {
+            transition: all 0.3s ease;
         }
-        
-        /* 2. 全局字体和基础样式 */
-        * {
-            box-sizing: border-box;
+        .crop-plot:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         }
-        
-        body {
-            font-family: var(--font-sans);
-            line-height: 1.6;
-            color: var(--text-primary);
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0fdf4 100%);
-            min-height: 100vh;
+        .progress-bar {
+            transition: width 0.5s linear;
         }
-        
-        /* 3. 现代化卡片组件 */
-        .card-modern {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-lg);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
+        .fade-in {
+            animation: fadeIn 0.5s;
         }
-        
-        .card-modern:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-xl);
-            border-color: rgba(16, 185, 129, 0.2);
-        }
-        
-        .card-glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: var(--radius-xl);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* 4. 现代化按钮组件 */
-        .btn-modern {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            font-size: 0.875rem;
-            border-radius: var(--radius-lg);
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn-modern::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .btn-modern:hover::before {
-            left: 100%;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            box-shadow: var(--shadow-md);
-        }
-        
-        .btn-primary:hover {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--secondary-color), #2563eb);
-            color: white;
-            box-shadow: var(--shadow-md);
-        }
-        
-        .btn-secondary:hover {
-            background: linear-gradient(135deg, #2563eb, var(--secondary-color));
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .btn-accent {
-            background: linear-gradient(135deg, var(--accent-color), #d97706);
-            color: white;
-            box-shadow: var(--shadow-md);
-        }
-        
-        .btn-accent:hover {
-            background: linear-gradient(135deg, #d97706, var(--accent-color));
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .btn-ghost {
-            background: transparent;
-            color: var(--text-primary);
-            border: 2px solid var(--border-color);
-        }
-        
-        .btn-ghost:hover {
-            background: var(--bg-secondary);
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-        
-        /* 5. 现代化输入框 */
-        .input-modern {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            font-size: 0.875rem;
-            border: 2px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            background: var(--bg-primary);
-            transition: all 0.2s ease;
-            outline: none;
-        }
-        
-        .input-modern:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-        }
-        
-        /* 6. 现代化标签和徽章 */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .badge-success {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success-color);
-        }
-        
-        .badge-warning {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning-color);
-        }
-        
-        .badge-error {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--error-color);
-        }
-        
-        .badge-info {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--info-color);
-        }
-        
-        /* 7. 现代化进度条 */
-        .progress-modern {
-            width: 100%;
-            height: 0.5rem;
-            background: var(--bg-tertiary);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .progress-modern::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
-            border-radius: var(--radius-md);
-            transition: width 0.3s ease;
-        }
-        
-        /* 8. 现代化动画 */
-        .animate-fade-in {
-            animation: fadeIn 0.5s ease-out;
-        }
-        
-        .animate-slide-up {
-            animation: slideUp 0.3s ease-out;
-        }
-        
-        .animate-bounce-in {
-            animation: bounceIn 0.6s ease-out;
-        }
-        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
-        }
-        
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes bounceIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.3);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        
-        /* 9. 现代化网格布局 */
-        .grid-modern {
-            display: grid;
-            gap: 1.5rem;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        }
-        
-        /* 10. 现代化间距系统 */
-        .space-xs { margin: 0.25rem; }
-        .space-sm { margin: 0.5rem; }
-        .space-md { margin: 1rem; }
-        .space-lg { margin: 1.5rem; }
-        .space-xl { margin: 2rem; }
-        
-        /* 11. 现代化通知系统 */
-        .notification-modern {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            z-index: 1000;
-            max-width: 400px;
-            animation: slideInRight 0.3s ease-out;
-        }
-        
-        .notification-success {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.2);
-            color: var(--success-color);
-        }
-        
-        .notification-error {
-            background: rgba(239, 68, 68, 0.1);
-            border-color: rgba(239, 68, 68, 0.2);
-            color: var(--error-color);
-        }
-        
-        .notification-warning {
-            background: rgba(245, 158, 11, 0.1);
-            border-color: rgba(245, 158, 11, 0.2);
-            color: var(--warning-color);
-        }
-        
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
-        /* 12. 现代化模态框 */
-        .modal-modern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .modal-modern.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal-content {
-            background: var(--bg-primary);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-xl);
-            max-width: 90vw;
-            max-height: 90vh;
-            overflow: auto;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-        
-        .modal-modern.show .modal-content {
-            transform: scale(1);
-        }
-        
-        /* 13. 现代化导航栏 */
-        .navbar-modern {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-light);
-            box-shadow: var(--shadow-sm);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        /* 14. 现代化侧边栏 */
-        .sidebar-modern {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-right: 1px solid var(--border-light);
-            box-shadow: var(--shadow-md);
-        }
-        
-        /* 15. 现代化表格 */
-        .table-modern {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            background: var(--bg-primary);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-        }
-        
-        .table-modern th {
-            background: var(--bg-secondary);
-            padding: 1rem;
-            font-weight: 600;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .table-modern td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-light);
-        }
-        
-        .table-modern tr:hover {
-            background: var(--bg-secondary);
-        }
-        
-        /* 16. 现代化工具提示 */
-        .tooltip-modern {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .tooltip-modern::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--text-primary);
-            color: white;
-            padding: 0.5rem 0.75rem;
-            border-radius: var(--radius-md);
-            font-size: 0.75rem;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.2s ease;
-            z-index: 1000;
-        }
-        
-        .tooltip-modern:hover::after {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(-5px);
-        }
-        
-        /* 17. 现代化加载动画 */
-        .loading-modern {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border-color);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* 18. 现代化分割线 */
-        .divider-modern {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
-            margin: 1.5rem 0;
-        }
-        
-        /* 19. 现代化头像 */
-        .avatar-modern {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        /* 20. 现代化图标 */
-        .icon-modern {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 1.5rem;
-            height: 1.5rem;
-            border-radius: var(--radius-sm);
-            transition: all 0.2s ease;
-        }
-        
-        .icon-modern:hover {
-            background: var(--bg-secondary);
-            transform: scale(1.1);
-        }
-        
-        /* 21. 现代化农作物地块 */
-        .crop-plot {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .crop-plot:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .crop-plot::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .crop-plot:hover::before {
-            opacity: 1;
-        }
-        /* 22. 现代化进度条 */
-        .progress-bar {
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: var(--radius-md);
-            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* 23. 现代化状态指示器 */
-        .status-indicator {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.25rem 0.75rem;
-            border-radius: var(--radius-md);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .status-healthy {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success-color);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-        
-        .status-warning {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning-color);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-        }
-        
-        .status-danger {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--error-color);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-        
-        /* 24. 现代化卡片网格 */
-        .card-grid {
-            display: grid;
-            gap: 1.5rem;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        }
-        
-        /* 25. 现代化列表 */
-        .list-modern {
-            background: var(--bg-primary);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            overflow: hidden;
-        }
-        
-        .list-item-modern {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border-light);
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .list-item-modern:last-child {
-            border-bottom: none;
-        }
-        
-        .list-item-modern:hover {
-            background: var(--bg-secondary);
-            transform: translateX(4px);
-        }
-        
-        /* 26. 现代化表单 */
-        .form-modern {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        
-        .form-group-modern {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
-        .form-label-modern {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 0.875rem;
-        }
-        
-        .form-input-modern {
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
-            background: var(--bg-primary);
-        }
-        
-        .form-input-modern:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-        }
-        
-        /* 27. 现代化选择器 */
-        .select-modern {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .select-modern select {
-            appearance: none;
-            padding: 0.75rem 1rem;
-            padding-right: 2.5rem;
-            border: 2px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            background: var(--bg-primary);
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .select-modern::after {
-            content: '▼';
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-        }
-        
-        .select-modern select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-        }
-        
-        /* 28. 现代化开关 */
-        .switch-modern {
-            position: relative;
-            display: inline-block;
-            width: 3rem;
-            height: 1.5rem;
-        }
-        
-        .switch-modern input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .switch-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--border-color);
-            transition: 0.3s;
-            border-radius: 1.5rem;
-        }
-        
-        .switch-slider:before {
-            position: absolute;
-            content: "";
-            height: 1.25rem;
-            width: 1.25rem;
-            left: 0.125rem;
-            bottom: 0.125rem;
-            background-color: white;
-            transition: 0.3s;
-            border-radius: 50%;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        input:checked + .switch-slider {
-            background-color: var(--primary-color);
-        }
-        
-        input:checked + .switch-slider:before {
-            transform: translateX(1.5rem);
-        }
-        
-        /* 29. 现代化标签页 */
-        .tabs-modern {
-            display: flex;
-            border-bottom: 2px solid var(--border-color);
-            margin-bottom: 1.5rem;
-        }
-        
-        .tab-modern {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--text-secondary);
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s ease;
-            position: relative;
-        }
-        
-        .tab-modern.active {
-            color: var(--primary-color);
-            border-bottom-color: var(--primary-color);
-        }
-        
-        .tab-modern:hover {
-            color: var(--text-primary);
-        }
-        
-        /* 30. 现代化面包屑 */
-        .breadcrumb-modern {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-        }
-        
-        .breadcrumb-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .breadcrumb-item:not(:last-child)::after {
-            content: '›';
-            color: var(--text-muted);
-        }
-        
-        .breadcrumb-item a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        
-        .breadcrumb-item a:hover {
-            color: var(--primary-color);
-        }
-        
-        /* 31. 现代化分页 */
-        .pagination-modern {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-        
-        .page-item-modern {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            text-decoration: none;
-            transition: all 0.2s ease;
-            font-weight: 600;
-        }
-        
-        .page-item-modern:hover {
-            background: var(--bg-secondary);
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-        
-        .page-item-modern.active {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-        
-        /* 32. 现代化空状态 */
-        .empty-state-modern {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--text-secondary);
-        }
-        
-        .empty-state-modern .icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-        
-        .empty-state-modern h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-        
-        .empty-state-modern p {
-            font-size: 0.875rem;
-            line-height: 1.5;
-        }
-        
-        /* 33. 现代化加载状态 */
-        .loading-state-modern {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 3rem 1rem;
-            color: var(--text-secondary);
-        }
-        
-        .loading-spinner-modern {
-            width: 2rem;
-            height: 2rem;
-            border: 2px solid var(--border-color);
-            border-top-color: var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 1rem;
-        }
-        
-        /* 34. 现代化错误状态 */
-        .error-state-modern {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--error-color);
-        }
-        
-        .error-state-modern .icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.7;
-        }
-        
-        .error-state-modern h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        
-        .error-state-modern p {
-            font-size: 0.875rem;
-            line-height: 1.5;
-            margin-bottom: 1.5rem;
-        }
-        
-        /* 35. 现代化成功状态 */
-        .success-state-modern {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--success-color);
-        }
-        
-        .success-state-modern .icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.7;
-        }
-        
-        .success-state-modern h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        
-        .success-state-modern p {
-            font-size: 0.875rem;
-            line-height: 1.5;
-            margin-bottom: 1.5rem;
-        }
-        
-        /* 36. 现代化响应式设计 */
-        @media (max-width: 768px) {
-            .card-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .tabs-modern {
-                flex-wrap: wrap;
-            }
-            
-            .tab-modern {
-                flex: 1;
-                min-width: 120px;
-            }
-            
-            .modal-content {
-                margin: 1rem;
-                max-width: calc(100vw - 2rem);
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .btn-modern {
-                padding: 0.5rem 1rem;
-                font-size: 0.8rem;
-            }
-            
-            .card-modern {
-                border-radius: var(--radius-lg);
-            }
-            
-            .input-modern {
-                padding: 0.5rem 0.75rem;
-            }
-        }
-        
-        /* 37. 现代化深色模式支持 */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --text-primary: #f9fafb;
-                --text-secondary: #d1d5db;
-                --text-muted: #9ca3af;
-                
-                --bg-primary: #1f2937;
-                --bg-secondary: #111827;
-                --bg-tertiary: #374151;
-                
-                --border-color: #374151;
-                --border-light: #4b5563;
-            }
-            
-            body {
-                background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-            }
-            
-            .card-modern {
-                background: rgba(31, 41, 55, 0.95);
-                border-color: rgba(75, 85, 99, 0.2);
-            }
-            
-            .card-glass {
-                background: rgba(31, 41, 55, 0.1);
-                border-color: rgba(75, 85, 99, 0.2);
-            }
-        }
-        
-        /* 38. 现代化无障碍支持 */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-        
-        /* 39. 现代化焦点样式 */
-        .btn-modern:focus,
-        .input-modern:focus,
-        .select-modern select:focus {
-            outline: 2px solid var(--primary-color);
-            outline-offset: 2px;
-        }
-        
-        /* 40. 现代化打印样式 */
-        @media print {
-            .btn-modern,
-            .modal-modern,
-            .notification-modern {
-                display: none !important;
-            }
-            
-            .card-modern {
-                box-shadow: none;
-                border: 1px solid #000;
-            }
         }
         .notification {
             animation: slideIn 0.5s forwards, stay 2s 0.5s forwards, slideOut 0.5s 2.5s forwards;
@@ -2259,21 +1275,21 @@
       </div>
     </div>
     <!-- 管理员按钮，仅管理员可见 -->
-    <button id="admin-open-btn" class="fixed top-4 right-4 z-50 btn-modern btn-primary font-bold px-5 py-2 shadow-lg" style="display:none;">管理员</button>
+    <button id="admin-open-btn" class="fixed top-4 right-4 z-50 bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-2 rounded-xl shadow-lg" style="display:none;">管理员</button>
     <!-- 立即完成生长按钮，仅管理员可见 -->
-    <button id="admin-grow-btn" class="fixed top-16 right-4 z-50 btn-modern btn-accent font-bold px-5 py-2 shadow-lg" style="display:none;">立即完成生长</button>    
+    <button id="admin-grow-btn" class="fixed top-16 right-4 z-50 bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-5 py-2 rounded-xl shadow-lg" style="display:none;">立即完成生长</button>
     <div class="container mx-auto px-4 py-8">
         <!-- 地区切换区域（更大更显眼） -->
         <div class="mb-8 flex items-center justify-center">
-            <div class="card-modern p-8 mb-6 flex items-center shadow-lg border-2 border-green-400">
+            <div class="bg-green-200 rounded-xl px-6 py-4 flex items-center shadow-lg border-2 border-green-400">
                 <label for="region-select" class="mr-4 text-2xl font-extrabold text-green-900 title-strong">🌏 选择地区：</label>
-                <select id="region-select" class="input-modern text-xl font-bold text-green-900 bg-white shadow focus:outline-none focus:ring-2 focus:ring-green-400 transition">
+                <select id="region-select" class="border-2 border-green-500 rounded-lg px-6 py-3 text-xl font-bold text-green-900 bg-white shadow focus:outline-none focus:ring-2 focus:ring-green-400 transition">
                     <!-- 选项通过JS动态生成 -->
                 </select>
             </div>
         </div>
         <!-- 游戏标题和状态栏 -->
-        <header class="card-modern p-8 mb-6 flex flex-col md:flex-row justify-between items-center">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 card-strong p-6">
             <h1 class="title-strong mb-4 md:mb-0">🎮 开心农场 🚜</h1>
             <div class="flex space-x-4">
                 <div class="bg-white rounded-lg p-3 shadow flex items-center">
@@ -2314,13 +1330,13 @@
             <!-- 左侧主区：农田+牧场 -->
             <div class="lg:col-span-2 flex flex-col gap-6">
             <!-- 农场区域 -->
-                <div class="card-modern p-8 mb-6">
+                <div class="card-strong p-8">
                 <h2 class="text-3xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                     <i class="fas fa-tractor mr-3"></i> 我的农场
                 </h2>
                 <div class="flex justify-between items-center mb-4">
                     <p class="text-gray-600">你有 <span id="plots-count">4</span> 块农田 (最大: 12)</p>
-                    <button id="expand-farm" class="btn-modern btn-primary px-6 py-2 text-lg transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    <button id="expand-farm" class="btn-strong px-6 py-2 text-lg transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                         <i class="fas fa-plus mr-2"></i> 扩展农田 (200金币)
                     </button>
                 </div>
@@ -2341,22 +1357,22 @@
             <!-- 右侧侧边栏 -->
             <div class="space-y-6">
                 <!-- 统一商店 -->
-                <div class="card-modern p-8 mb-6">
+                <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-store mr-3"></i> 综合商店
                     </h2>
                     <!-- 商店分类选择 -->
                     <div class="flex space-x-2 mb-4">
-                        <button class="shop-tab-btn btn-modern btn-primary px-4 py-2 text-sm active" data-category="seeds">
+                        <button class="shop-tab-btn btn-strong px-4 py-2 text-sm active" data-category="seeds">
                             <i class="fas fa-seedling mr-2"></i> 种子
                         </button>
-                        <button class="shop-tab-btn btn-modern btn-primary px-4 py-2 text-sm" data-category="items">
+                        <button class="shop-tab-btn btn-strong px-4 py-2 text-sm" data-category="items">
                             <i class="fas fa-toolbox mr-2"></i> 道具
                         </button>
-                        <button class="shop-tab-btn btn-modern btn-primary px-4 py-2 text-sm" data-category="decor">
+                        <button class="shop-tab-btn btn-strong px-4 py-2 text-sm" data-category="decor">
                             <i class="fas fa-tree mr-2"></i> 装饰
                         </button>
-                        <button class="shop-tab-btn btn-modern btn-primary px-4 py-2 text-sm" data-category="animals">
+                        <button class="shop-tab-btn btn-strong px-4 py-2 text-sm" data-category="animals">
                             <i class="fas fa-dog mr-2"></i> 动物
                         </button>
                     </div>
@@ -2409,17 +1425,17 @@
                     </div>
                 </div>
                 <!-- 库存区域 -->
-                <div class="card-modern p-8 mb-6">
+                <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-box-open mr-3"></i> 水果库存
                     </h2>
                     <!-- 水果品质切换按钮 -->
                     <div id="fruit-quality-tabs" class="flex space-x-2 mb-4">
-                        <button class="fruit-quality-tab btn-modern btn-secondary px-3 py-1 text-sm active" data-quality="all">全部</button>
-                        <button class="fruit-quality-tab btn-modern btn-secondary px-3 py-1 text-sm" data-quality="0">普通</button>
-                        <button class="fruit-quality-tab btn-modern btn-secondary px-3 py-1 text-sm" data-quality="1">优良</button>
-                        <button class="fruit-quality-tab btn-modern btn-secondary px-3 py-1 text-sm" data-quality="2">精品</button>
-                        <button class="fruit-quality-tab btn-modern btn-secondary px-3 py-1 text-sm" data-quality="3">完美</button>
+                        <button class="fruit-quality-tab btn-strong px-3 py-1 text-sm active" data-quality="all">全部</button>
+                        <button class="fruit-quality-tab btn-strong px-3 py-1 text-sm" data-quality="0">普通</button>
+                        <button class="fruit-quality-tab btn-strong px-3 py-1 text-sm" data-quality="1">优良</button>
+                        <button class="fruit-quality-tab btn-strong px-3 py-1 text-sm" data-quality="2">精品</button>
+                        <button class="fruit-quality-tab btn-strong px-3 py-1 text-sm" data-quality="3">完美</button>
                     </div>
                     <div id="inventory-items">
                         <!-- 作物/水果列表 -->
@@ -2429,7 +1445,7 @@
                     </div>
                 </div>
                 <!-- 动物副产品区域（独立卡片） -->
-                <div class="card-modern p-8 mb-6">
+                <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-gift mr-3"></i> 动物副产品
                     </h2>
@@ -2438,7 +1454,7 @@
                 </div>
                 </div>
                 <!-- 我的道具区域 -->
-                <div class="card-modern p-8 mb-6">
+                <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-toolbox mr-3"></i> 我的道具
                     </h2>
@@ -2447,7 +1463,7 @@
                     </div>
                 </div>
                 <!-- 任务区域 -->
-                <div class="card-modern p-8 mb-6">
+                <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-tasks mr-3"></i> 每日任务
                     </h2>
@@ -2457,7 +1473,7 @@
                 </div>
                 
                 <!-- 农场活动 -->
-                <div class="card-modern p-8 mb-6">
+                <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-calendar-alt mr-3"></i> 农场活动
                     </h2>
@@ -2467,7 +1483,7 @@
                 </div>
                 
                 <!-- 农场商店 -->
-                <div class="card-modern p-8 mb-6">
+                <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-store mr-3"></i> 农场商店
                     </h2>
@@ -2477,7 +1493,7 @@
                 </div>
                 
                 <!-- 升级区域 -->
-                <div class="card-modern p-8 mb-6">
+                <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-wrench mr-3"></i> 农场升级
                     </h2>
@@ -2486,7 +1502,7 @@
                     </div>
                 </div>
                 <!-- 我的装饰 -->
-                <div class="card-modern p-8 mb-6">
+                <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-gift mr-3"></i> 我的装饰
                     </h2>
@@ -2494,7 +1510,7 @@
                 </div>
                 
                 <!-- 我的动物 -->
-                <div class="card-modern p-8 mb-6">
+                <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-paw mr-3"></i> 我的动物
                     </h2>
@@ -2506,12 +1522,12 @@
         </main>
 
         <!-- 成就系统弹窗 -->
-        <div id="achievement-modal" class="card-modern">
+        <div id="achievement-modal" class="bg-white rounded-xl shadow-2xl">
             <div class="flex justify-between items-center p-6 border-b-2 border-green-200">
                 <h2 class="text-2xl font-bold text-green-700 flex items-center">
                     <i class="fas fa-trophy text-yellow-500 mr-2"></i> 成就系统
                 </h2>
-                <button id="close-achievement-modal" class="btn-modern btn-ghost text-gray-500 hover:text-gray-700 text-xl">
+                <button id="close-achievement-modal" class="text-gray-500 hover:text-gray-700 text-xl">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -2523,7 +1539,7 @@
         </div>
 
         <!-- 弹窗遮罩层 -->
-        <div id="achievement-overlay" class="modal-modern hidden"></div>
+        <div id="achievement-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
 
         <!-- 通知区域 -->
         <div id="notifications" class="fixed bottom-4 right-4 space-y-2 w-64"></div>
