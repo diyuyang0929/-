@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- 牧场模块样式 -->
     <link rel="stylesheet" href="ranch.css">
+    <link rel="stylesheet" href="fishing.css">
     <!-- 商店模块样式 -->
     <link rel="stylesheet" href="shop.css">
     <style>
@@ -1347,6 +1348,11 @@
                 <div id="ranch-container">
                     <!-- 牧场内容将通过 ranch.js 模块动态生成 -->
                 </div>
+                
+                <!-- 钓鱼区域 - 使用模块化管理 -->
+                <div id="fishing-container">
+                    <!-- 钓鱼内容将通过 fishing.js 模块动态生成 -->
+                </div>
             </div>
             <!-- 右侧侧边栏 -->
             <div class="space-y-6">
@@ -1502,6 +1508,7 @@
                     </h2>
                     <div id="my-decors" class="space-y-3 max-h-96 overflow-y-auto"></div>
                 </div>
+                
                 <!-- 我的动物 -->
                 <div class="card-strong p-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
@@ -1509,7 +1516,7 @@
                     </h2>
                     <div id="my-animals" class="space-y-3"></div>
                     <!-- 动物天气状态 -->
-                    <div id="animal-weather-status" class="mt-4"></div>
+    
                 </div>
             </div>
         </main>
@@ -2069,8 +2076,17 @@
             setupShopTabSwitching();
             
             // 初始化牧场模块（传递游戏状态）
-            if (typeof ranchModule !== 'undefined') {
-                ranchModule.init('ranch-container', gameState);
+            if (typeof window.ranchModule !== 'undefined') {
+                window.ranchModule.init('ranch-container', gameState);
+            } else {
+                console.error('牧场模块未加载');
+            }
+            
+            // 初始化钓鱼模块（传递游戏状态）
+            if (typeof window.fishingModule !== 'undefined') {
+                window.fishingModule.init('fishing-container', gameState);
+            } else {
+                console.error('钓鱼模块未加载');
             }
             // 修复seeds未定义
             let seeds = shopModule ? shopModule.seeds : [];
@@ -2078,6 +2094,9 @@
             if (typeof farmModule !== 'undefined') {
                 farmModule.init('farm-grid', gameState, seeds, weatherTypes);
             }
+            
+            // 渲染我的动物
+            renderMyAnimals();
             
             // 设置新玩法功能
             setupNewGameplayFeatures();
@@ -4482,109 +4501,6 @@
         }
 
         // 动物商店功能已迁移到牧场模块 (ranch.js)
-        function renderMyAnimals() {
-          const box = document.getElementById('my-animals');
-          if (!box) return;
-          const animals = [
-            { id: 'chicken', name: '鸡', icon: '🐔', rarity: 'common' },
-            { id: 'cow', name: '牛', icon: '🐄', rarity: 'common' },
-            { id: 'sheep', name: '羊', icon: '🐑', rarity: 'common' },
-            { id: 'pig', name: '猪', icon: '🐷', rarity: 'uncommon' },
-            { id: 'duck', name: '鸭子', icon: '🦆', rarity: 'common' },
-            { id: 'goat', name: '山羊', icon: '🐐', rarity: 'uncommon' },
-            { id: 'rabbit', name: '兔子', icon: '🐰', rarity: 'rare' },
-            { id: 'horse', name: '马', icon: '🐎', rarity: 'epic' }
-          ];
-          const rarityColors = {
-            common: 'bg-gray-50',
-            uncommon: 'bg-green-50', 
-            rare: 'bg-blue-50',
-            epic: 'bg-purple-50'
-          };
-          box.innerHTML = animals.map(animal => {
-            const health = gameState.animalHealth[animal.id]||0;
-            const count = gameState.animals[animal.id]||0;
-            const needsFeeding = count > 0 && health < 100;
-            const feedCost = Math.ceil(count * 0.1); // 每只动物消耗0.1个饲料，向上取整
-            
-            return `<div class="flex items-center gap-3 p-3 rounded-lg ${rarityColors[animal.rarity]} border-l-4 ${animal.rarity === 'epic' ? 'border-purple-500' : animal.rarity === 'rare' ? 'border-blue-500' : animal.rarity === 'uncommon' ? 'border-green-500' : 'border-gray-500'} shadow-sm">
-              <span class="text-3xl">${animal.icon}</span>
-              <div class="flex-1">
-                <div class="font-bold text-lg">${animal.name}</div>
-                <div class="text-sm text-gray-500">数量: ${count}</div>
-                <div class="flex items-center gap-2 mt-1">
-                  <span class="text-xs text-gray-400">健康度</span>
-                  <div class="w-24 bg-gray-200 rounded-full h-3">
-                    <div class="${health > 50 ? 'bg-green-500' : health > 20 ? 'bg-yellow-500' : 'bg-red-500'} h-3 rounded-full transition-all duration-300" style="width: ${health}%"></div>
-                  </div>
-                  <span class="text-xs font-semibold ${health > 50 ? 'text-green-700' : health > 20 ? 'text-yellow-600' : 'text-red-600'}">${health}%</span>
-                </div>
-              </div>
-              <div class="flex flex-col gap-1">
-                ${count > 0 ? `
-                  <button class="feed-individual-btn px-3 py-1 rounded text-xs font-semibold transition-all duration-200 ${needsFeeding ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}" 
-                    data-animal-id="${animal.id}" 
-                    data-feed-cost="${feedCost}"
-                    ${!needsFeeding ? 'disabled' : ''}>
-                    ${needsFeeding ? `喂养 (${feedCost}饲料)` : '健康满值'}
-                  </button>
-                  <button class="use-item-btn px-3 py-1 rounded text-xs font-semibold bg-blue-500 hover:bg-blue-600 text-white transition-all duration-200" 
-                    data-animal-id="${animal.id}">
-                    使用道具
-                  </button>
-                ` : `
-                  <div class="px-3 py-1 text-xs text-gray-400">暂无动物</div>
-                `}
-              </div>
-            </div>`;
-          }).join('');
-          
-          // 为每个动物的喂养按钮添加点击事件
-          box.querySelectorAll('.feed-individual-btn').forEach(btn => {
-            btn.onclick = function() {
-              const animalId = this.getAttribute('data-animal-id');
-              const feedCost = parseInt(this.getAttribute('data-feed-cost'));
-              
-              if ((gameState.animalFeed || 0) < feedCost) {
-                showNotification(`饲料不足！需要 ${feedCost} 个饲料`, 'error');
-                return;
-              }
-              
-              const animalName = animals.find(a => a.id === animalId)?.name;
-              const currentHealth = gameState.animalHealth[animalId] || 0;
-              
-              if (currentHealth >= 100) {
-                showNotification(`${animalName}健康度已满，无需喂养`, 'info');
-                return;
-              }
-              
-              // 执行喂养
-              gameState.animalFeed -= feedCost;
-              gameState.animalHealth[animalId] = 100;
-              
-              // 更新UI
-              renderMyAnimals();
-              renderAnimalArea(animalId); // 更新对应动物区域
-              updateRanchStats();
-              saveGameData();
-              
-              showNotification(`${animalName}喂养成功！健康度恢复到100%`, 'success');
-            };
-          });
-          
-          // 为每个动物的道具使用按钮添加点击事件
-          box.querySelectorAll('.use-item-btn').forEach(btn => {
-            btn.onclick = function() {
-              const animalId = this.getAttribute('data-animal-id');
-              showAnimalItemMenu(animalId);
-            };
-          });
-          
-          renderRanchAnimals(); // 保持牧场动物展示同步
-          
-          // 渲染动物天气状态
-          renderAnimalWeatherStatus();
-        }
 
         // 渲染幸福值、动物健康、动物副产品
         function renderHappiness() {
@@ -5869,8 +5785,6 @@
             if (feedCountElement) {
                 feedCountElement.textContent = gameState.animalFeed || 0;
             }
-
-
         }
 
         // 牧场动物渲染功能已迁移到 ranch.js 模块
@@ -6272,6 +6186,8 @@
     <!-- 牧场模块JS -->
     <script src="ranch.js"></script>
     <script src="farm.js"></script>
+    <!-- 钓鱼模块JS -->
+    <script src="fishing.js"></script>
     <!-- 商店模块JS -->
     <script src="shop.js"></script>
     
@@ -6325,7 +6241,11 @@
         }
         if (typeof renderMyAnimals === 'undefined') {
             window.renderMyAnimals = function() { 
-                console.log('renderMyAnimals 已迁移到牧场模块'); 
+                if (window.ranchModule) {
+                    window.ranchModule.renderMyAnimals();
+                } else {
+                    console.log('renderMyAnimals 已迁移到牧场模块');
+                }
             };
         }
         if (typeof updateRanchStats === 'undefined') {
