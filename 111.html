@@ -12,22 +12,1006 @@
     <!-- 商店模块样式 -->
     <link rel="stylesheet" href="shop.css">
     <style>
-        .crop-plot {
-            transition: all 0.3s ease;
+        /* ===== 现代化UI设计系统 ===== */
+        
+        /* 1. 全局变量和基础样式 */
+        :root {
+            --primary-color: #10b981;
+            --primary-dark: #059669;
+            --primary-light: #34d399;
+            --secondary-color: #3b82f6;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --info-color: #3b82f6;
+            
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-tertiary: #f3f4f6;
+            
+            --border-color: #e5e7eb;
+            --border-light: #f3f4f6;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
-        .crop-plot:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        
+        /* 2. 全局字体和基础样式 */
+        * {
+            box-sizing: border-box;
         }
-        .progress-bar {
-            transition: width 0.5s linear;
+        
+        body {
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0fdf4 100%);
+            min-height: 100vh;
         }
-        .fade-in {
-            animation: fadeIn 0.5s;
+        
+        /* 3. 现代化卡片组件 */
+        .card-modern {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
         }
+        
+        .card-modern:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+        
+        .card-glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 4. 现代化按钮组件 */
+        .btn-modern {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border-radius: var(--radius-lg);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-modern:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary-color), #2563eb);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #2563eb, var(--secondary-color));
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent-color), #d97706);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-accent:hover {
+            background: linear-gradient(135deg, #d97706, var(--accent-color));
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+        
+        .btn-ghost:hover {
+            background: var(--bg-secondary);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        /* 5. 现代化输入框 */
+        .input-modern {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: var(--bg-primary);
+            transition: all 0.2s ease;
+            outline: none;
+        }
+        
+        .input-modern:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        /* 6. 现代化标签和徽章 */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .badge-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+        
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .badge-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+        }
+        
+        .badge-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info-color);
+        }
+        
+        /* 7. 现代化进度条 */
+        .progress-modern {
+            width: 100%;
+            height: 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-modern::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            border-radius: var(--radius-md);
+            transition: width 0.3s ease;
+        }
+        
+        /* 8. 现代化动画 */
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .animate-slide-up {
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        .animate-bounce-in {
+            animation: bounceIn 0.6s ease-out;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* 9. 现代化网格布局 */
+        .grid-modern {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        
+        /* 10. 现代化间距系统 */
+        .space-xs { margin: 0.25rem; }
+        .space-sm { margin: 0.5rem; }
+        .space-md { margin: 1rem; }
+        .space-lg { margin: 1.5rem; }
+        .space-xl { margin: 2rem; }
+        
+        /* 11. 现代化通知系统 */
+        .notification-modern {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            max-width: 400px;
+            animation: slideInRight 0.3s ease-out;
+        }
+        
+        .notification-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
+        }
+        
+        .notification-error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.2);
+            color: var(--error-color);
+        }
+        
+        .notification-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.2);
+            color: var(--warning-color);
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* 12. 现代化模态框 */
+        .modal-modern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-modern.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-modern.show .modal-content {
+            transform: scale(1);
+        }
+        
+        /* 13. 现代化导航栏 */
+        .navbar-modern {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        /* 14. 现代化侧边栏 */
+        .sidebar-modern {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid var(--border-light);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* 15. 现代化表格 */
+        .table-modern {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .table-modern th {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            font-weight: 600;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .table-modern td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .table-modern tr:hover {
+            background: var(--bg-secondary);
+        }
+        
+        /* 16. 现代化工具提示 */
+        .tooltip-modern {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip-modern::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text-primary);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+        
+        .tooltip-modern:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-5px);
+        }
+        
+        /* 17. 现代化加载动画 */
+        .loading-modern {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 18. 现代化分割线 */
+        .divider-modern {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            margin: 1.5rem 0;
+        }
+        
+        /* 19. 现代化头像 */
+        .avatar-modern {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* 20. 现代化图标 */
+        .icon-modern {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+        
+        .icon-modern:hover {
+            background: var(--bg-secondary);
+            transform: scale(1.1);
+        }
+        
+        /* 21. 现代化农作物地块 */
+        .crop-plot {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .crop-plot:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .crop-plot::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .crop-plot:hover::before {
+            opacity: 1;
+        }
+        /* 22. 现代化进度条 */
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: var(--radius-md);
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 23. 现代化状态指示器 */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .status-healthy {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        
+        .status-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        
+        .status-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        
+        /* 24. 现代化卡片网格 */
+        .card-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+        
+        /* 25. 现代化列表 */
+        .list-modern {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+        
+        .list-item-modern {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .list-item-modern:last-child {
+            border-bottom: none;
+        }
+        
+        .list-item-modern:hover {
+            background: var(--bg-secondary);
+            transform: translateX(4px);
+        }
+        
+        /* 26. 现代化表单 */
+        .form-modern {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .form-group-modern {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-label-modern {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+        
+        .form-input-modern {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            background: var(--bg-primary);
+        }
+        
+        .form-input-modern:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        /* 27. 现代化选择器 */
+        .select-modern {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .select-modern select {
+            appearance: none;
+            padding: 0.75rem 1rem;
+            padding-right: 2.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: var(--bg-primary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .select-modern::after {
+            content: '▼';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+        
+        .select-modern select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        /* 28. 现代化开关 */
+        .switch-modern {
+            position: relative;
+            display: inline-block;
+            width: 3rem;
+            height: 1.5rem;
+        }
+        
+        .switch-modern input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: 0.3s;
+            border-radius: 1.5rem;
+        }
+        
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 1.25rem;
+            width: 1.25rem;
+            left: 0.125rem;
+            bottom: 0.125rem;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        input:checked + .switch-slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .switch-slider:before {
+            transform: translateX(1.5rem);
+        }
+        
+        /* 29. 现代化标签页 */
+        .tabs-modern {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab-modern {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .tab-modern.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .tab-modern:hover {
+            color: var(--text-primary);
+        }
+        
+        /* 30. 现代化面包屑 */
+        .breadcrumb-modern {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .breadcrumb-item:not(:last-child)::after {
+            content: '›';
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .breadcrumb-item a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* 31. 现代化分页 */
+        .pagination-modern {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .page-item-modern {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+        
+        .page-item-modern:hover {
+            background: var(--bg-secondary);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .page-item-modern.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        /* 32. 现代化空状态 */
+        .empty-state-modern {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state-modern .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .empty-state-modern h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .empty-state-modern p {
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        /* 33. 现代化加载状态 */
+        .loading-state-modern {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1rem;
+            color: var(--text-secondary);
+        }
+        
+        .loading-spinner-modern {
+            width: 2rem;
+            height: 2rem;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        /* 34. 现代化错误状态 */
+        .error-state-modern {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--error-color);
+        }
+        
+        .error-state-modern .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+        
+        .error-state-modern h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .error-state-modern p {
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* 35. 现代化成功状态 */
+        .success-state-modern {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--success-color);
+        }
+        
+        .success-state-modern .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+        
+        .success-state-modern h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .success-state-modern p {
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* 36. 现代化响应式设计 */
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs-modern {
+                flex-wrap: wrap;
+            }
+            
+            .tab-modern {
+                flex: 1;
+                min-width: 120px;
+            }
+            
+            .modal-content {
+                margin: 1rem;
+                max-width: calc(100vw - 2rem);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .btn-modern {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .card-modern {
+                border-radius: var(--radius-lg);
+            }
+            
+            .input-modern {
+                padding: 0.5rem 0.75rem;
+            }
+        }
+        
+        /* 37. 现代化深色模式支持 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-primary: #f9fafb;
+                --text-secondary: #d1d5db;
+                --text-muted: #9ca3af;
+                
+                --bg-primary: #1f2937;
+                --bg-secondary: #111827;
+                --bg-tertiary: #374151;
+                
+                --border-color: #374151;
+                --border-light: #4b5563;
+            }
+            
+            body {
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            }
+            
+            .card-modern {
+                background: rgba(31, 41, 55, 0.95);
+                border-color: rgba(75, 85, 99, 0.2);
+            }
+            
+            .card-glass {
+                background: rgba(31, 41, 55, 0.1);
+                border-color: rgba(75, 85, 99, 0.2);
+            }
+        }
+        
+        /* 38. 现代化无障碍支持 */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* 39. 现代化焦点样式 */
+        .btn-modern:focus,
+        .input-modern:focus,
+        .select-modern select:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+        
+        /* 40. 现代化打印样式 */
+        @media print {
+            .btn-modern,
+            .modal-modern,
+            .notification-modern {
+                display: none !important;
+            }
+            
+            .card-modern {
+                box-shadow: none;
+                border: 1px solid #000;
+            }
         }
         .notification {
             animation: slideIn 0.5s forwards, stay 2s 0.5s forwards, slideOut 0.5s 2.5s forwards;
@@ -1275,21 +2259,21 @@
       </div>
     </div>
     <!-- 管理员按钮，仅管理员可见 -->
-    <button id="admin-open-btn" class="fixed top-4 right-4 z-50 bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-2 rounded-xl shadow-lg" style="display:none;">管理员</button>
+    <button id="admin-open-btn" class="fixed top-4 right-4 z-50 btn-modern btn-primary font-bold px-5 py-2 shadow-lg" style="display:none;">管理员</button>
     <!-- 立即完成生长按钮，仅管理员可见 -->
-    <button id="admin-grow-btn" class="fixed top-16 right-4 z-50 bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-5 py-2 rounded-xl shadow-lg" style="display:none;">立即完成生长</button>
+    <button id="admin-grow-btn" class="fixed top-16 right-4 z-50 btn-modern btn-accent font-bold px-5 py-2 shadow-lg" style="display:none;">立即完成生长</button>    
     <div class="container mx-auto px-4 py-8">
         <!-- 地区切换区域（更大更显眼） -->
         <div class="mb-8 flex items-center justify-center">
-            <div class="bg-green-200 rounded-xl px-6 py-4 flex items-center shadow-lg border-2 border-green-400">
+            <div class="card-modern p-8 mb-6 flex items-center shadow-lg border-2 border-green-400">
                 <label for="region-select" class="mr-4 text-2xl font-extrabold text-green-900 title-strong">🌏 选择地区：</label>
-                <select id="region-select" class="border-2 border-green-500 rounded-lg px-6 py-3 text-xl font-bold text-green-900 bg-white shadow focus:outline-none focus:ring-2 focus:ring-green-400 transition">
+                <select id="region-select" class="input-modern text-xl font-bold text-green-900 bg-white shadow focus:outline-none focus:ring-2 focus:ring-green-400 transition">
                     <!-- 选项通过JS动态生成 -->
                 </select>
             </div>
         </div>
         <!-- 游戏标题和状态栏 -->
-        <header class="flex flex-col md:flex-row justify-between items-center mb-8 card-strong p-6">
+        <header class="card-modern p-8 mb-6 flex flex-col md:flex-row justify-between items-center">
             <h1 class="title-strong mb-4 md:mb-0">🎮 开心农场 🚜</h1>
             <div class="flex space-x-4">
                 <div class="bg-white rounded-lg p-3 shadow flex items-center">
@@ -1330,13 +2314,13 @@
             <!-- 左侧主区：农田+牧场 -->
             <div class="lg:col-span-2 flex flex-col gap-6">
             <!-- 农场区域 -->
-                <div class="card-strong p-8">
+                <div class="card-modern p-8 mb-6">
                 <h2 class="text-3xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                     <i class="fas fa-tractor mr-3"></i> 我的农场
                 </h2>
                 <div class="flex justify-between items-center mb-4">
                     <p class="text-gray-600">你有 <span id="plots-count">4</span> 块农田 (最大: 12)</p>
-                    <button id="expand-farm" class="btn-strong px-6 py-2 text-lg transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    <button id="expand-farm" class="btn-modern btn-primary px-6 py-2 text-lg transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                         <i class="fas fa-plus mr-2"></i> 扩展农田 (200金币)
                     </button>
                 </div>
@@ -1357,22 +2341,22 @@
             <!-- 右侧侧边栏 -->
             <div class="space-y-6">
                 <!-- 统一商店 -->
-                <div class="card-strong p-6">
+                <div class="card-modern p-8 mb-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-store mr-3"></i> 综合商店
                     </h2>
                     <!-- 商店分类选择 -->
                     <div class="flex space-x-2 mb-4">
-                        <button class="shop-tab-btn btn-strong px-4 py-2 text-sm active" data-category="seeds">
+                        <button class="shop-tab-btn btn-modern btn-primary px-4 py-2 text-sm active" data-category="seeds">
                             <i class="fas fa-seedling mr-2"></i> 种子
                         </button>
-                        <button class="shop-tab-btn btn-strong px-4 py-2 text-sm" data-category="items">
+                        <button class="shop-tab-btn btn-modern btn-primary px-4 py-2 text-sm" data-category="items">
                             <i class="fas fa-toolbox mr-2"></i> 道具
                         </button>
-                        <button class="shop-tab-btn btn-strong px-4 py-2 text-sm" data-category="decor">
+                        <button class="shop-tab-btn btn-modern btn-primary px-4 py-2 text-sm" data-category="decor">
                             <i class="fas fa-tree mr-2"></i> 装饰
                         </button>
-                        <button class="shop-tab-btn btn-strong px-4 py-2 text-sm" data-category="animals">
+                        <button class="shop-tab-btn btn-modern btn-primary px-4 py-2 text-sm" data-category="animals">
                             <i class="fas fa-dog mr-2"></i> 动物
                         </button>
                     </div>
@@ -1425,17 +2409,17 @@
                     </div>
                 </div>
                 <!-- 库存区域 -->
-                <div class="card-strong p-6">
+                <div class="card-modern p-8 mb-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-box-open mr-3"></i> 水果库存
                     </h2>
                     <!-- 水果品质切换按钮 -->
                     <div id="fruit-quality-tabs" class="flex space-x-2 mb-4">
-                        <button class="fruit-quality-tab btn-strong px-3 py-1 text-sm active" data-quality="all">全部</button>
-                        <button class="fruit-quality-tab btn-strong px-3 py-1 text-sm" data-quality="0">普通</button>
-                        <button class="fruit-quality-tab btn-strong px-3 py-1 text-sm" data-quality="1">优良</button>
-                        <button class="fruit-quality-tab btn-strong px-3 py-1 text-sm" data-quality="2">精品</button>
-                        <button class="fruit-quality-tab btn-strong px-3 py-1 text-sm" data-quality="3">完美</button>
+                        <button class="fruit-quality-tab btn-modern btn-secondary px-3 py-1 text-sm active" data-quality="all">全部</button>
+                        <button class="fruit-quality-tab btn-modern btn-secondary px-3 py-1 text-sm" data-quality="0">普通</button>
+                        <button class="fruit-quality-tab btn-modern btn-secondary px-3 py-1 text-sm" data-quality="1">优良</button>
+                        <button class="fruit-quality-tab btn-modern btn-secondary px-3 py-1 text-sm" data-quality="2">精品</button>
+                        <button class="fruit-quality-tab btn-modern btn-secondary px-3 py-1 text-sm" data-quality="3">完美</button>
                     </div>
                     <div id="inventory-items">
                         <!-- 作物/水果列表 -->
@@ -1445,7 +2429,7 @@
                     </div>
                 </div>
                 <!-- 动物副产品区域（独立卡片） -->
-                <div class="card-strong p-6">
+                <div class="card-modern p-8 mb-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-gift mr-3"></i> 动物副产品
                     </h2>
@@ -1454,7 +2438,7 @@
                 </div>
                 </div>
                 <!-- 我的道具区域 -->
-                <div class="card-strong p-6">
+                <div class="card-modern p-8 mb-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-toolbox mr-3"></i> 我的道具
                     </h2>
@@ -1463,7 +2447,7 @@
                     </div>
                 </div>
                 <!-- 任务区域 -->
-                <div class="card-strong p-6">
+                <div class="card-modern p-8 mb-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-tasks mr-3"></i> 每日任务
                     </h2>
@@ -1473,7 +2457,7 @@
                 </div>
                 
                 <!-- 农场活动 -->
-                <div class="card-strong p-6">
+                <div class="card-modern p-8 mb-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-calendar-alt mr-3"></i> 农场活动
                     </h2>
@@ -1483,7 +2467,7 @@
                 </div>
                 
                 <!-- 农场商店 -->
-                <div class="card-strong p-6">
+                <div class="card-modern p-8 mb-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-store mr-3"></i> 农场商店
                     </h2>
@@ -1493,7 +2477,7 @@
                 </div>
                 
                 <!-- 升级区域 -->
-                <div class="card-strong p-6">
+                <div class="card-modern p-8 mb-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-wrench mr-3"></i> 农场升级
                     </h2>
@@ -1502,7 +2486,7 @@
                     </div>
                 </div>
                 <!-- 我的装饰 -->
-                <div class="card-strong p-6">
+                <div class="card-modern p-8 mb-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-gift mr-3"></i> 我的装饰
                     </h2>
@@ -1510,24 +2494,24 @@
                 </div>
                 
                 <!-- 我的动物 -->
-                <div class="card-strong p-6">
+                <div class="card-modern p-8 mb-6">
                     <h2 class="text-2xl subtitle-strong mb-4 border-b-2 border-green-200 pb-2 flex items-center">
                         <i class="fas fa-paw mr-3"></i> 我的动物
                     </h2>
-                    <div id="my-animals" class="space-y-3"></div>
-                    <!-- 动物天气状态 -->
-    
+                    <div id="my-animals" class="space-y-3 max-h-96 overflow-y-auto">
+                        <!-- 动物卡片将通过JavaScript动态生成 -->
+                    </div>
                 </div>
             </div>
         </main>
 
         <!-- 成就系统弹窗 -->
-        <div id="achievement-modal" class="bg-white rounded-xl shadow-2xl">
+        <div id="achievement-modal" class="card-modern">
             <div class="flex justify-between items-center p-6 border-b-2 border-green-200">
                 <h2 class="text-2xl font-bold text-green-700 flex items-center">
                     <i class="fas fa-trophy text-yellow-500 mr-2"></i> 成就系统
                 </h2>
-                <button id="close-achievement-modal" class="text-gray-500 hover:text-gray-700 text-xl">
+                <button id="close-achievement-modal" class="btn-modern btn-ghost text-gray-500 hover:text-gray-700 text-xl">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -1539,7 +2523,7 @@
         </div>
 
         <!-- 弹窗遮罩层 -->
-        <div id="achievement-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+        <div id="achievement-overlay" class="modal-modern hidden"></div>
 
         <!-- 通知区域 -->
         <div id="notifications" class="fixed bottom-4 right-4 space-y-2 w-64"></div>
@@ -2067,6 +3051,9 @@
             // 渲染我的装饰
             renderMyDecors();
 
+            // 渲染我的动物
+            renderMyAnimals();
+
             // 渲染幸福值、动物健康、动物副产品
             renderHappiness();
             renderAnimalHealth();
@@ -2095,8 +3082,7 @@
                 farmModule.init('farm-grid', gameState, seeds, weatherTypes);
             }
             
-            // 渲染我的动物
-            renderMyAnimals();
+
             
             // 设置新玩法功能
             setupNewGameplayFeatures();
@@ -3259,6 +4245,11 @@
 
             // 检查扩展农田按钮
             checkExpandFarmButton();
+            
+            // 更新我的动物区域
+            if (typeof renderMyAnimals === 'function') {
+                renderMyAnimals();
+            }
         }
 
         // 获取土地改良等级
@@ -4297,38 +5288,88 @@
             if (!box) return;
             
             const items = [
-                { id: 'pesticide', name: '农药', icon: '🧪', desc: '清除虫害' },
-                { id: 'medicine', name: '药剂', icon: '💊', desc: '治愈病害' },
-                { id: 'weedkiller', name: '除草剂', icon: '🌿', desc: '清除杂草' },
-                { id: 'insulation', name: '保温布', icon: '🧣', desc: '抵御霜冻' },
+                // 植物相关道具
+                { id: 'pesticide', name: '农药', icon: '🧪', desc: '清除虫害', category: 'plant' },
+                { id: 'medicine', name: '药剂', icon: '💊', desc: '治愈病害', category: 'plant' },
+                { id: 'weedkiller', name: '除草剂', icon: '🌿', desc: '清除杂草', category: 'plant' },
+                { id: 'insulation', name: '保温布', icon: '🧣', desc: '抵御霜冻', category: 'plant' },
+                { id: 'fertilizer', name: '高级肥料', icon: '🌱', desc: '提升作物生长速度', category: 'plant' },
+                { id: 'growth_accelerator', name: '生长加速剂', icon: '⚡', desc: '大幅缩短作物生长时间', category: 'plant' },
+                { id: 'quality_enhancer', name: '品质提升剂', icon: '⭐', desc: '提升作物品质和售价', category: 'plant' },
                 // 动物相关道具
-                { id: 'animal_feed', name: '高级饲料', icon: '🌾', desc: '提升动物健康度和产出', animalItem: true },
-                { id: 'vitamin_pill', name: '维生素丸', icon: '💊', desc: '快速恢复动物健康', animalItem: true },
-                { id: 'stress_relief_pill', name: '安抚药丸', icon: '😌', desc: '降低动物压力值', animalItem: true },
-                { id: 'water_supplement', name: '水分补充剂', icon: '💧', desc: '快速补充动物水分', animalItem: true },
-                { id: 'healing_ointment', name: '治疗药膏', icon: '🩹', desc: '治疗动物伤病', animalItem: true },
-                { id: 'happiness_treat', name: '幸福零食', icon: '🍪', desc: '提升动物幸福值', animalItem: true },
-                { id: 'weather_protection', name: '天气防护剂', icon: '🛡️', desc: '临时抵御恶劣天气影响', animalItem: true },
-                { id: 'growth_hormone', name: '生长激素', icon: '📈', desc: '提升动物产出效率', animalItem: true }
+                { id: 'animal_feed', name: '高级饲料', icon: '🌾', desc: '提升动物健康度和产出', category: 'animal' },
+                { id: 'vitamin_pill', name: '维生素丸', icon: '💊', desc: '快速恢复动物健康', category: 'animal' },
+                { id: 'stress_relief_pill', name: '安抚药丸', icon: '😌', desc: '降低动物压力值', category: 'animal' },
+                { id: 'water_supplement', name: '水分补充剂', icon: '💧', desc: '快速补充动物水分', category: 'animal' },
+                { id: 'healing_ointment', name: '治疗药膏', icon: '🩹', desc: '治疗动物伤病', category: 'animal' },
+                { id: 'happiness_treat', name: '幸福零食', icon: '🍪', desc: '提升动物幸福值', category: 'animal' },
+                { id: 'weather_protection', name: '天气防护剂', icon: '🛡️', desc: '临时抵御恶劣天气影响', category: 'animal' },
+                { id: 'growth_hormone', name: '生长激素', icon: '📈', desc: '提升动物产出效率', category: 'animal' },
+                // 渔具相关道具
+                { id: 'bait', name: '高级鱼饵', icon: '🪱', desc: '提升钓鱼成功率', category: 'fishing' },
+                { id: 'fishing_rod', name: '精良鱼竿', icon: '🎣', desc: '提升钓鱼效率和稀有鱼概率', category: 'fishing' },
+                { id: 'fish_finder', name: '鱼群探测器', icon: '📡', desc: '显示附近鱼群位置', category: 'fishing' },
+                { id: 'lucky_charm', name: '幸运符', icon: '🍀', desc: '提升稀有鱼捕获概率', category: 'fishing' },
+                { id: 'fishing_net', name: '渔网', icon: '🕸️', desc: '一次性捕获多条鱼', category: 'fishing' },
+                { id: 'underwater_light', name: '水下照明', icon: '💡', desc: '在夜晚提升钓鱼效果', category: 'fishing' }
             ];
             
-            box.innerHTML = items.map(item => {
-                const count = gameState.items[item.id] || 0;
+            // 按分类分组道具
+            const plantItems = items.filter(item => item.category === 'plant');
+            const animalItems = items.filter(item => item.category === 'animal');
+            const fishingItems = items.filter(item => item.category === 'fishing');
+            
+            // 渲染函数
+            const renderItemSection = (items, title, colorClass, borderColor) => {
+                if (items.length === 0) return '';
+                
+                const itemsWithCount = items.map(item => {
+                    const count = gameState.items[item.id] || 0;
+                    return { ...item, count };
+                }).filter(item => item.count > 0); // 只显示有库存的道具
+                
+                if (itemsWithCount.length === 0) return '';
+                
                 return `
-                    <div class="flex items-center gap-2 p-2 rounded ${item.animalItem ? 'bg-blue-50 border-l-4 border-blue-500' : 'bg-gray-50'} shadow-sm">
-                        <span class="text-2xl">${item.icon}</span>
-                        <div class="flex-1">
-                            <div class="font-bold">${item.name}</div>
-                            <div class="text-xs text-gray-500">${item.desc}</div>
-                            ${item.animalItem ? '<div class="text-xs text-blue-600 font-semibold">动物专用道具</div>' : ''}
-                        </div>
-                        <div class="text-right">
-                            <div class="text-sm text-green-700">库存: ${count}</div>
-                            ${item.animalItem ? '<div class="text-xs text-blue-600">可在动物管理中使用</div>' : ''}
+                    <div class="mb-4">
+                        <h4 class="text-md font-bold mb-2 flex items-center">
+                            <span class="mr-2">${title === '植物道具' ? '🌱' : title === '动物道具' ? '🐾' : '🎣'}</span>
+                            ${title}
+                        </h4>
+                        <div class="space-y-2">
+                            ${itemsWithCount.map(item => `
+                                <div class="flex items-center gap-2 p-2 rounded ${colorClass} border-l-4 ${borderColor} shadow-sm">
+                                    <span class="text-xl">${item.icon}</span>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-sm">${item.name}</div>
+                                        <div class="text-xs text-gray-500">${item.desc}</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-sm text-green-700">库存: ${item.count}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
                 `;
-            }).join('');
+            };
+            
+            // 渲染所有分类
+            box.innerHTML = `
+                ${renderItemSection(plantItems, '植物道具', 'bg-green-50', 'border-green-500')}
+                ${renderItemSection(animalItems, '动物道具', 'bg-blue-50', 'border-blue-500')}
+                ${renderItemSection(fishingItems, '渔具道具', 'bg-cyan-50', 'border-cyan-500')}
+            `;
+            
+            // 如果没有道具，显示提示信息
+            if (box.innerHTML.trim() === '') {
+                box.innerHTML = `
+                    <div class="text-center text-gray-500 py-8">
+                        <div class="text-lg mb-2">暂无道具</div>
+                        <div class="text-sm">去商店购买一些道具吧！</div>
+                    </div>
+                `;
+            }
         }
         
 
@@ -4548,6 +5589,152 @@
           `).join('');
           document.getElementById('feed-count').textContent = gameState.animalFeed||0;
         }
+
+        // 渲染我的动物区域
+        function renderMyAnimals() {
+          const container = document.getElementById('my-animals');
+          if (!container) return;
+          
+          // 获取当前天气信息
+          let weatherInfo = '';
+          if (gameState.weather && window.ranchModule && window.ranchModule.ranchEnvironment) {
+            const currentWeather = window.ranchModule.ranchEnvironment.weatherEffects[gameState.weather];
+            if (currentWeather) {
+              weatherInfo = `
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+                  <h3 class="font-bold text-lg mb-2 flex items-center">
+                    <span class="text-2xl mr-2">${currentWeather.icon}</span>
+                    ${currentWeather.title}对动物的影响
+                  </h3>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <h4 class="font-semibold text-green-600 mb-1">好处：</h4>
+                      <ul class="text-sm text-green-700">
+                        ${currentWeather.animalEffects.benefits.map(benefit => `<li>• ${benefit}</li>`).join('')}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-red-600 mb-1">坏处：</h4>
+                      <ul class="text-sm text-red-700">
+                        ${currentWeather.animalEffects.drawbacks.map(drawback => `<li>• ${drawback}</li>`).join('')}
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="mt-3">
+                    <h4 class="font-semibold text-blue-600 mb-1">建议行动：</h4>
+                    <div class="flex flex-wrap gap-2">
+                      ${currentWeather.animalEffects.specialActions.map(action => {
+                        return `<button class="weather-action-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm" onclick="executeWeatherAction('${action}')">${action}</button>`;
+                      }).join('')}
+                    </div>
+                  </div>
+                </div>
+              `;
+            }
+          }
+          
+          const animals = [
+            { id: 'chicken', name: '鸡', icon: '🐔', rarity: 'common' },
+            { id: 'cow', name: '牛', icon: '🐄', rarity: 'common' },
+            { id: 'sheep', name: '羊', icon: '🐑', rarity: 'common' },
+            { id: 'pig', name: '猪', icon: '🐷', rarity: 'uncommon' },
+            { id: 'duck', name: '鸭子', icon: '🦆', rarity: 'common' },
+            { id: 'goat', name: '山羊', icon: '🐐', rarity: 'uncommon' },
+            { id: 'rabbit', name: '兔子', icon: '🐰', rarity: 'rare' },
+            { id: 'horse', name: '马', icon: '🐎', rarity: 'epic' }
+          ];
+          
+          container.innerHTML = weatherInfo + animals.map(animal => {
+            const count = gameState.animals[animal.id] || 0;
+            const baseHealth = gameState.animalHealth[animal.id] || 100;
+            const stress = gameState.animalStress[animal.id] || 0;
+            const water = gameState.animalWaterSupply[animal.id] || 100;
+            const shelter = gameState.animalShelter[animal.id] || false;
+            const injuries = gameState.animalInjuries[animal.id] || [];
+            
+            // 计算天气影响
+            let weatherImpact = 0;
+            if (window.ranchModule && window.ranchModule.calculateWeatherAffectedHealth) {
+              weatherImpact = window.ranchModule.calculateWeatherAffectedHealth(animal.id);
+            }
+            
+            const finalHealth = Math.max(0, Math.min(100, baseHealth + weatherImpact));
+            const needsAttention = count > 0 && (finalHealth < 80 || stress > 50 || water < 80 || injuries.length > 0);
+            
+            // 生成伤病信息
+            let injuryText = '';
+            if (injuries.length > 0) {
+              const injuryGroups = {};
+              injuries.forEach(injury => {
+                if (!injuryGroups[injury.type]) injuryGroups[injury.type] = 0;
+                injuryGroups[injury.type]++;
+              });
+              injuryText = Object.entries(injuryGroups)
+                .map(([type, count]) => `${type}(${count}级)`)
+                .join(', ');
+            }
+            
+            return `
+              <div class="bg-white border-2 border-pink-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all">
+                <!-- 头部信息 -->
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center">
+                    <span class="text-2xl mr-3">${animal.icon}</span>
+                    <div>
+                      <div class="font-bold text-lg">${animal.name} x${count}</div>
+                      ${count > 0 ? (needsAttention ? '<div class="text-sm text-red-600">需要关注</div>' : '<div class="text-sm text-green-600">状态良好</div>') : '<div class="text-sm text-gray-500">暂无动物</div>'}
+                    </div>
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    ${count > 0 ? `<button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm font-semibold transition" onclick="feedAnimal('${animal.id}')">
+                      喂养
+                    </button>` : `<button class="bg-gray-400 text-white px-4 py-2 rounded text-sm font-semibold cursor-not-allowed" disabled>
+                      喂养
+                    </button>`}
+                    ${count > 0 ? `<button class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded text-sm font-semibold transition" onclick="showAnimalItemMenu('${animal.id}')">
+                      使用道具
+                    </button>` : `<button class="bg-gray-400 text-white px-4 py-2 rounded text-sm font-semibold cursor-not-allowed" disabled>
+                      使用道具
+                    </button>`}
+                  </div>
+                </div>
+                
+                <!-- 动物状态 -->
+                <div class="space-y-2">
+                  <div class="font-semibold text-gray-700">动物状态</div>
+                  ${count > 0 ? `
+                  <div class="grid grid-cols-2 gap-2 text-sm">
+                    <div class="text-green-600">基础健康: ${Number(baseHealth).toFixed(2)}%</div>
+                    <div class="text-blue-600">水分: ${Number(water).toFixed(2)}%</div>
+                    ${injuries.length > 0 ? `<div class="text-red-600 col-span-2">伤病: ${injuries.length}个 - ${injuryText}</div>` : ''}
+                    <div class="text-gray-600">天气影响: ${weatherImpact > 0 ? '+' : ''}${Number(weatherImpact).toFixed(2)}</div>
+                    <div class="${stress > 50 ? 'text-red-600' : 'text-yellow-600'}">压力: ${Number(stress).toFixed(2)}%</div>
+                    <div class="text-gray-600">庇护: ${shelter ? '✔' : '✗'}</div>
+                  </div>
+                  ` : `
+                  <div class="text-center text-gray-500 py-4">
+                    <div class="text-lg mb-2">暂无${animal.name}</div>
+                    <div class="text-sm">请先购买${animal.name}才能进行管理</div>
+                  </div>
+                  `}
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        // 执行天气行动
+        function executeWeatherAction(action) {
+          if (window.ranchModule && window.ranchModule.executeWeatherAction) {
+            window.ranchModule.executeWeatherAction(action);
+          } else {
+            showNotification(`执行天气行动: ${action}`, 'info');
+          }
+        }
+
+        // 将renderMyAnimals挂载为全局函数
+        window.renderMyAnimals = renderMyAnimals;
+
         function renderAnimalProducts() {
           const box = document.getElementById('animal-products-list');
           if (!box) return;
@@ -4649,7 +5836,8 @@
               
               gameState.animalFeed -= feedNeeded;
               renderAnimalHealth();
-              renderMyAnimals(); // 新增：喂完动物后刷新我的动物卡片
+              renderMyAnimals(); // 更新我的动物区域
+
               renderAllAnimalAreas(); // 更新所有动物区域
               updateRanchStats();
               saveGameData();
@@ -4680,6 +5868,40 @@
             'duck': '鸭子', 'goat': '山羊', 'rabbit': '兔子', 'horse': '马'
           };
           return animalNames[id] || id;
+        }
+
+        // 喂养单个动物
+        function feedAnimal(animalId) {
+          const animalName = getAnimalName(animalId);
+          const animalCount = gameState.animals[animalId] || 0;
+          
+          if (animalCount <= 0) {
+            showNotification(`你没有${animalName}！`, 'error');
+            return;
+          }
+          
+          if ((gameState.animalFeed || 0) <= 0) {
+            showNotification('饲料不足！请先购买饲料', 'error');
+            return;
+          }
+          
+          const oldHealth = gameState.animalHealth[animalId] || 0;
+          if (oldHealth >= 100) {
+            showNotification(`${animalName}的健康度已经是满的，无需喂养！`, 'info');
+            return;
+          }
+          
+          // 执行喂养
+          gameState.animalHealth[animalId] = 100;
+          gameState.animalFeed--;
+          
+          // 更新UI
+          renderAnimalHealth();
+          renderMyAnimals();
+          updateUI();
+          saveGameData();
+          
+          showNotification(`${animalName}喂养完成！健康度: ${oldHealth.toFixed(2)}% → 100%`, 'success');
         }
         
         // 显示动物道具使用菜单
@@ -4828,6 +6050,7 @@
           // 更新UI
           renderMyAnimals();
           renderHappiness();
+          renderAnimalHealth(); // 更新动物健康显示
           renderItemShop();
           renderMyItems();
           renderAnimalArea(animalId); // 更新对应动物区域
@@ -4836,8 +6059,10 @@
           saveGameData();
         }
 
-        // 定时器：动物产出与健康度变化
+        // 定时器：动物产出与健康度变化（每30分钟执行一次）
         setInterval(()=>{
+          console.log('定时器执行 - 动物健康度检查开始（每30分钟）');
+          
           // 幸福值影响产出效率
           const happinessBonus = 1 + (gameState.happiness||0)/100;
           
@@ -4848,19 +6073,25 @@
           
           // 动物产出配置
           const animalProduction = {
-            chicken: { product: 'egg', chance: 0.2, healthDecay: 2 },
-            cow: { product: 'milk', chance: 0.1, healthDecay: 1 },
-            sheep: { product: 'wool', chance: 0.12, healthDecay: 1 },
-            pig: { product: 'pork', chance: 0.08, healthDecay: 1.5 },
-            duck: { product: 'duck_egg', chance: 0.15, healthDecay: 1.5 },
-            goat: { product: 'goat_milk', chance: 0.09, healthDecay: 1 },
-            rabbit: { product: 'rabbit_fur', chance: 0.06, healthDecay: 0.5 },
-            horse: { product: 'horse_manure', chance: 0.25, healthDecay: 0.5 }
+            chicken: { product: 'egg', chance: 0.2, healthDecay: 3 },
+            cow: { product: 'milk', chance: 0.1, healthDecay: 3 },
+            sheep: { product: 'wool', chance: 0.12, healthDecay: 3 },
+            pig: { product: 'pork', chance: 0.08, healthDecay: 3 },
+            duck: { product: 'duck_egg', chance: 0.15, healthDecay: 3 },
+            goat: { product: 'goat_milk', chance: 0.09, healthDecay: 3 },
+            rabbit: { product: 'rabbit_fur', chance: 0.06, healthDecay: 3 },
+            horse: { product: 'horse_manure', chance: 0.25, healthDecay: 3 }
           };
           
           // 动物产出和健康度变化
           Object.keys(animalProduction).forEach(animalId => {
-            if(gameState.animals[animalId] > 0 && (gameState.animalHealth[animalId]||0) > 0){
+            const animalCount = gameState.animals[animalId] || 0;
+            const animalHealth = gameState.animalHealth[animalId] || 0;
+            
+            console.log(`${getAnimalName(animalId)}: 数量=${animalCount}, 健康度=${animalHealth.toFixed(2)}`);
+            
+            if(animalCount > 0 && animalHealth > 0){
+              console.log(`处理${getAnimalName(animalId)}的健康度衰减...`);
               const config = animalProduction[animalId];
               
               // 计算最终产出概率（幸福值 × 天气影响）
@@ -4878,9 +6109,20 @@
                 gameState.animalProducts[config.product] += productAmount;
               }
               
-              // 健康度衰减（受天气影响）
-              const finalHealthDecay = config.healthDecay * healthDecayModifier;
-              gameState.animalHealth[animalId] = Math.max(0, gameState.animalHealth[animalId] - finalHealthDecay);
+                        // 健康度衰减（受天气影响）
+          const finalHealthDecay = config.healthDecay * healthDecayModifier;
+          const oldHealth = gameState.animalHealth[animalId];
+          gameState.animalHealth[animalId] = Math.max(0, gameState.animalHealth[animalId] - finalHealthDecay);
+          
+          // 调试信息
+          if (oldHealth !== gameState.animalHealth[animalId]) {
+            console.log(`${getAnimalName(animalId)}健康度衰减: ${oldHealth.toFixed(2)} → ${gameState.animalHealth[animalId].toFixed(2)} (衰减: ${finalHealthDecay.toFixed(2)}%)`);
+          }
+          
+          // 同步到牧场模块
+          if (window.ranchModule) {
+            window.ranchModule.animalHealth[animalId] = gameState.animalHealth[animalId];
+          }
               
                         // 特殊天气效果
           if (currentWeatherEffect) {
@@ -4889,18 +6131,30 @@
             // 台风可能造成动物受伤
             if (effects.injuryRisk && Math.random() < effects.injuryRisk) {
               gameState.animalHealth[animalId] = Math.max(0, gameState.animalHealth[animalId] - 20);
+              // 同步到牧场模块
+              if (window.ranchModule) {
+                window.ranchModule.animalHealth[animalId] = gameState.animalHealth[animalId];
+              }
               showNotification(`台风中${getAnimalName(animalId)}受伤了！健康度下降`, 'error');
             }
             
             // 彩虹天气的健康恢复效果
             if (gameState.weather === 'rainbow' && Math.random() < 0.3) {
               gameState.animalHealth[animalId] = Math.min(100, gameState.animalHealth[animalId] + 5);
+              // 同步到牧场模块
+              if (window.ranchModule) {
+                window.ranchModule.animalHealth[animalId] = gameState.animalHealth[animalId];
+              }
             }
             
             // 干旱天气的额外水分需求
             if (effects.waterNeed && effects.waterNeed > 1) {
               if (Math.random() < 0.2) {
                 gameState.animalHealth[animalId] = Math.max(0, gameState.animalHealth[animalId] - 3);
+                // 同步到牧场模块
+                if (window.ranchModule) {
+                  window.ranchModule.animalHealth[animalId] = gameState.animalHealth[animalId];
+                }
               }
             }
           }
@@ -4911,6 +6165,10 @@
             if (Math.random() < 0.3) {
               gameState.animalStress[animalId] = Math.max(0, gameState.animalStress[animalId] - 3);
               gameState.animalHealth[animalId] = Math.min(100, gameState.animalHealth[animalId] + 2);
+              // 同步到牧场模块
+              if (window.ranchModule) {
+                window.ranchModule.animalHealth[animalId] = gameState.animalHealth[animalId];
+              }
             }
           }
           
@@ -4947,12 +6205,20 @@
           
           renderAnimalProducts();
           renderAnimalHealth();
+          renderMyAnimals(); // 更新我的动物区域
           renderAllAnimalAreas(); // 更新所有动物区域
           updateRanchStats();
           updateRanchWeather(); // 更新牧场天气显示
           renderAnimalWeatherStatus(); // 更新动物天气状态显示
+          
+          // 同步到牧场模块
+          if (window.ranchModule && window.ranchModule.syncToGameState) {
+            window.ranchModule.syncToGameState();
+          }
+          
           saveGameData();
-        },60000); // 每分钟产出一次
+          console.log('定时器执行完成 - 动物健康度检查结束');
+        },1800000); // 每30分钟执行一次
 
 
 
@@ -6175,6 +7441,9 @@
                 // 更新UI显示最新的动物数量
                 updateUI();
                 renderAnimals();
+                if (typeof renderMyAnimals === 'function') {
+                    renderMyAnimals();
+                }
                 updateRanchStats(); // 确保动物总数实时更新
                 
                 // 保存游戏数据
@@ -6239,15 +7508,7 @@
                 console.log('renderAnimalShop 已迁移到牧场模块'); 
             };
         }
-        if (typeof renderMyAnimals === 'undefined') {
-            window.renderMyAnimals = function() { 
-                if (window.ranchModule) {
-                    window.ranchModule.renderMyAnimals();
-                } else {
-                    console.log('renderMyAnimals 已迁移到牧场模块');
-                }
-            };
-        }
+
         if (typeof updateRanchStats === 'undefined') {
             window.updateRanchStats = function() { 
                 console.log('updateRanchStats 已迁移到牧场模块'); 
@@ -6333,6 +7594,73 @@
                 }
             };
         }
+
+        // 模态框系统
+        function showModal(title, content) {
+            // 创建模态框HTML
+            let modalHTML = `
+                <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                    <div id="modal-content" class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto">
+                        <div class="flex justify-between items-center p-4 border-b">
+                            <h2 class="text-xl font-bold text-gray-800">${title}</h2>
+                            <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 text-2xl">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="p-4">
+                            ${content}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // 移除已存在的模态框
+            const existingModal = document.getElementById('modal-overlay');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // 添加新模态框
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // 添加动画效果
+            const modal = document.getElementById('modal-content');
+            modal.style.transform = 'scale(0.8)';
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.transition = 'all 0.3s ease';
+                modal.style.transform = 'scale(1)';
+                modal.style.opacity = '1';
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal-overlay');
+            if (modal) {
+                const modalContent = document.getElementById('modal-content');
+                modalContent.style.transition = 'all 0.3s ease';
+                modalContent.style.transform = 'scale(0.8)';
+                modalContent.style.opacity = '0';
+                
+                setTimeout(() => {
+                    modal.remove();
+                }, 300);
+            }
+        }
+
+        // 点击模态框外部关闭
+        document.addEventListener('click', function(e) {
+            if (e.target.id === 'modal-overlay') {
+                closeModal();
+            }
+        });
+
+        // ESC键关闭模态框
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
     </script>
 </body>
 </html>
