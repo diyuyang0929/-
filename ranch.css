@@ -171,6 +171,39 @@
     padding: 20px;
 }
 
+/* 自定义饲料输入框样式 */
+.custom-feed-input {
+    background: #f8fafc;
+    border: 1px solid #d1d5db;
+    transition: all 0.3s ease;
+}
+
+.custom-feed-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    background: #ffffff;
+}
+
+.custom-feed-input::-webkit-inner-spin-button,
+.custom-feed-input::-webkit-outer-spin-button {
+    opacity: 1;
+    height: 20px;
+}
+
+/* 动物卡片中的按钮组样式 */
+.animal-feed-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.animal-feed-row {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
     .ranch-grid {
@@ -186,5 +219,15 @@
     
     .animal-area-view {
         padding: 15px;
+    }
+    
+    .custom-feed-input {
+        width: 40px;
+        font-size: 10px;
+    }
+    
+    .animal-feed-row {
+        flex-direction: column;
+        gap: 2px;
     }
 } 
