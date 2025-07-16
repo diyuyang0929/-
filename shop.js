@@ -55,19 +55,30 @@ class ShopModule {
 
         // 道具数据
         this.items = [
-            { id: 'pesticide', name: '农药', price: 10, desc: '清除虫害', icon: '🧪' },
-            { id: 'medicine', name: '药剂', price: 15, desc: '治愈病害', icon: '💊' },
-            { id: 'weedkiller', name: '除草剂', price: 8, desc: '清除杂草', icon: '🌿' },
-            { id: 'insulation', name: '保温布', price: 12, desc: '抵御霜冻', icon: '🧣' },
+            // 植物相关道具
+            { id: 'pesticide', name: '农药', price: 10, desc: '清除虫害', icon: '🧪', category: 'plant' },
+            { id: 'medicine', name: '药剂', price: 15, desc: '治愈病害', icon: '💊', category: 'plant' },
+            { id: 'weedkiller', name: '除草剂', price: 8, desc: '清除杂草', icon: '🌿', category: 'plant' },
+            { id: 'insulation', name: '保温布', price: 12, desc: '抵御霜冻', icon: '🧣', category: 'plant' },
+            { id: 'fertilizer', name: '高级肥料', price: 20, desc: '提升作物生长速度', icon: '🌱', category: 'plant' },
+            { id: 'growth_accelerator', name: '生长加速剂', price: 35, desc: '大幅缩短作物生长时间', icon: '⚡', category: 'plant' },
+            { id: 'quality_enhancer', name: '品质提升剂', price: 45, desc: '提升作物品质和售价', icon: '⭐', category: 'plant' },
             // 动物相关道具
-            { id: 'animal_feed', name: '高级饲料', price: 25, desc: '提升动物健康度和产出', icon: '🌾', animalItem: true },
-            { id: 'vitamin_pill', name: '维生素丸', price: 30, desc: '快速恢复动物健康', icon: '💊', animalItem: true },
-            { id: 'stress_relief_pill', name: '安抚药丸', price: 20, desc: '降低动物压力值', icon: '😌', animalItem: true },
-            { id: 'water_supplement', name: '水分补充剂', price: 18, desc: '快速补充动物水分', icon: '💧', animalItem: true },
-            { id: 'healing_ointment', name: '治疗药膏', price: 35, desc: '治疗动物伤病', icon: '🩹', animalItem: true },
-            { id: 'happiness_treat', name: '幸福零食', price: 15, desc: '提升动物幸福值', icon: '🍪', animalItem: true },
-            { id: 'weather_protection', name: '天气防护剂', price: 40, desc: '临时抵御恶劣天气影响', icon: '🛡️', animalItem: true },
-            { id: 'growth_hormone', name: '生长激素', price: 50, desc: '提升动物产出效率', icon: '📈', animalItem: true }
+            { id: 'animal_feed', name: '高级饲料', price: 25, desc: '提升动物健康度和产出', icon: '🌾', category: 'animal' },
+            { id: 'vitamin_pill', name: '维生素丸', price: 30, desc: '快速恢复动物健康', icon: '💊', category: 'animal' },
+            { id: 'stress_relief_pill', name: '安抚药丸', price: 20, desc: '降低动物压力值', icon: '😌', category: 'animal' },
+            { id: 'water_supplement', name: '水分补充剂', price: 18, desc: '快速补充动物水分', icon: '💧', category: 'animal' },
+            { id: 'healing_ointment', name: '治疗药膏', price: 35, desc: '治疗动物伤病', icon: '🩹', category: 'animal' },
+            { id: 'happiness_treat', name: '幸福零食', price: 15, desc: '提升动物幸福值', icon: '🍪', category: 'animal' },
+            { id: 'weather_protection', name: '天气防护剂', price: 40, desc: '临时抵御恶劣天气影响', icon: '🛡️', category: 'animal' },
+            { id: 'growth_hormone', name: '生长激素', price: 50, desc: '提升动物产出效率', icon: '📈', category: 'animal' },
+            // 渔具相关道具
+            { id: 'bait', name: '高级鱼饵', price: 15, desc: '提升钓鱼成功率', icon: '🪱', category: 'fishing' },
+            { id: 'fishing_rod', name: '精良鱼竿', price: 60, desc: '提升钓鱼效率和稀有鱼概率', icon: '🎣', category: 'fishing' },
+            { id: 'fish_finder', name: '鱼群探测器', price: 80, desc: '显示附近鱼群位置', icon: '📡', category: 'fishing' },
+            { id: 'lucky_charm', name: '幸运符', price: 25, desc: '提升稀有鱼捕获概率', icon: '🍀', category: 'fishing' },
+            { id: 'fishing_net', name: '渔网', price: 40, desc: '一次性捕获多条鱼', icon: '🕸️', category: 'fishing' },
+            { id: 'underwater_light', name: '水下照明', price: 55, desc: '在夜晚提升钓鱼效果', icon: '💡', category: 'fishing' }
         ];
 
         // 装饰品数据
@@ -161,21 +172,48 @@ class ShopModule {
         const shop = document.getElementById('item-shop');
         if (!shop) return;
 
-        shop.innerHTML = this.items.map(item => `
-            <div class="flex items-center gap-2 p-2 rounded ${item.animalItem ? 'bg-blue-50 border-l-4 border-blue-500' : 'bg-gray-50'} shadow-sm">
-                <span class="text-2xl">${item.icon}</span>
-                <div class="flex-1">
-                    <div class="font-bold">${item.name}</div>
-                    <div class="text-xs text-gray-500">${item.desc}</div>
-                    ${item.animalItem ? '<div class="text-xs text-blue-600 font-semibold">动物专用道具</div>' : ''}
-                </div>
-                <div class="text-right">
-                    <div class="text-sm text-green-700">库存: ${this.gameState.items[item.id] || 0}</div>
-                    <button class="buy-item ${item.animalItem ? 'bg-blue-500 hover:bg-blue-600' : 'bg-green-500 hover:bg-green-600'} text-white px-2 py-1 rounded text-sm" data-item-id="${item.id}">购买(${item.price}金币)</button>
-                </div>
-            </div>
-        `).join('');
+        // 按分类分组道具
+        const plantItems = this.items.filter(item => item.category === 'plant');
+        const animalItems = this.items.filter(item => item.category === 'animal');
+        const fishingItems = this.items.filter(item => item.category === 'fishing');
 
+        // 渲染函数
+        const renderItemSection = (items, title, colorClass, borderColor) => {
+            if (items.length === 0) return '';
+            
+            return `
+                <div class="mb-6">
+                    <h3 class="text-lg font-bold mb-3 flex items-center">
+                        <span class="mr-2">${title === '植物道具' ? '🌱' : title === '动物道具' ? '🐾' : '🎣'}</span>
+                        ${title}
+                    </h3>
+                    <div class="space-y-2">
+                        ${items.map(item => `
+                            <div class="flex items-center gap-2 p-3 rounded ${colorClass} border-l-4 ${borderColor} shadow-sm">
+                                <span class="text-2xl">${item.icon}</span>
+                                <div class="flex-1">
+                                    <div class="font-bold">${item.name}</div>
+                                    <div class="text-xs text-gray-500">${item.desc}</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm text-green-700">库存: ${this.gameState.items[item.id] || 0}</div>
+                                    <button class="buy-item ${borderColor.replace('border-', 'bg-').replace('-500', '-500 hover:bg-').replace('-500', '-600')} text-white px-3 py-1 rounded text-sm" data-item-id="${item.id}">购买(${item.price}金币)</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        };
+
+        // 渲染所有分类
+        shop.innerHTML = `
+            ${renderItemSection(plantItems, '植物道具', 'bg-green-50', 'border-green-500')}
+            ${renderItemSection(animalItems, '动物道具', 'bg-blue-50', 'border-blue-500')}
+            ${renderItemSection(fishingItems, '渔具道具', 'bg-cyan-50', 'border-cyan-500')}
+        `;
+
+        // 绑定购买事件
         shop.querySelectorAll('.buy-item').forEach(btn => {
             btn.onclick = () => {
                 const id = btn.getAttribute('data-item-id');
