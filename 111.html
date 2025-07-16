@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>开心农场</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 字体图标 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- 牧场模块样式 -->
     <link rel="stylesheet" href="ranch.css">
+    <!-- 钓鱼模块样式 -->
     <link rel="stylesheet" href="fishing.css">
     <!-- 商店模块样式 -->
     <link rel="stylesheet" href="shop.css">
+    <!-- 管理员模块样式 -->
+    <link rel="stylesheet" href="admin.css">
     <style>
         .crop-plot {
             transition: all 0.3s ease;
@@ -1226,59 +1231,6 @@
         </form>
       </div>
     </div>
-    <!-- 管理员面板弹窗 -->
-    <div id="admin-panel" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50" style="display:none;">
-      <div class="bg-white rounded-2xl shadow-2xl p-8 w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto flex flex-col">
-        <h2 class="text-2xl font-bold mb-4 text-green-700">管理员面板</h2>
-        <div class="mb-6">
-          <h3 class="text-lg font-semibold mb-2">当前游戏数据</h3>
-          <div class="grid grid-cols-2 gap-4 mb-2">
-            <div>
-              <label class="block text-gray-700 text-sm font-bold mb-1">金币</label>
-              <input id="admin-money" type="number" class="w-full border rounded px-2 py-1" />
-            </div>
-            <div>
-              <label class="block text-gray-700 text-sm font-bold mb-1">经验</label>
-              <input id="admin-xp" type="number" class="w-full border rounded px-2 py-1" />
-            </div>
-            <div>
-              <label class="block text-gray-700 text-sm font-bold mb-1">等级</label>
-              <input id="admin-level" type="number" class="w-full border rounded px-2 py-1" />
-            </div>
-            <div>
-              <label class="block text-gray-700 text-sm font-bold mb-1">天气</label>
-              <div class="flex items-center gap-2">
-              <select id="admin-weather" class="w-full border rounded px-2 py-1">
-                <option value="sunny">晴天</option>
-                <option value="rainy">雨天</option>
-                <option value="cloudy">阴天</option>
-                <option value="stormy">暴风雨</option>
-                  <option value="typhoon">台风</option>
-                  <option value="rainbow">彩虹天</option>
-              </select>
-                <span class="text-xs text-gray-500 ml-2">仅本地前端生效</span>
-              </div>
-            </div>
-          </div>
-          <button id="admin-save" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded font-bold mt-2">保存修改</button>
-        </div>
-        <div>
-          <h3 class="text-lg font-semibold mb-2">所有用户信息</h3>
-          <div id="admin-users-list" class="overflow-x-auto text-sm"></div>
-        </div>
-        <!-- 随机事件管理 -->
-        <div class="mt-8">
-          <h3 class="text-lg font-semibold mb-2">随机事件管理</h3>
-          <div id="admin-events-list" class="grid grid-cols-1 gap-2"></div>
-        </div>
-        <button id="admin-close" class="mt-6 bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded font-bold self-end">关闭</button>
-      </div>
-    </div>
-    <!-- 管理员按钮，仅管理员可见 -->
-    <button id="admin-open-btn" class="fixed top-4 right-4 z-50 bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-2 rounded-xl shadow-lg" style="display:none;">管理员</button>
-    <!-- 立即完成生长按钮，仅管理员可见 -->
-    <button id="admin-grow-btn" class="fixed top-16 right-4 z-50 bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-5 py-2 rounded-xl shadow-lg" style="display:none;">立即完成生长</button>
-    <div class="container mx-auto px-4 py-8">
         <!-- 地区切换区域（更大更显眼） -->
         <div class="mb-8 flex items-center justify-center">
             <div class="bg-green-200 rounded-xl px-6 py-4 flex items-center shadow-lg border-2 border-green-400">
@@ -1866,7 +1818,7 @@
                 description: '土壤性质改变，影响未知',
                 animation: 'soil-shift'
             }
-        ];
+        ];    
 
         // 成就系统
         const achievements = [
@@ -2034,6 +1986,11 @@
             // 初始化商店模块
             shopModule = new ShopModule(gameState);
             shopModule.init();
+            window.weatherTypes = weatherTypes;
+            window.randomEvents = randomEvents;
+            window.shopModule = shopModule;
+            window.seeds = shopModule.seeds;
+            window.weatherTypes = weatherTypes;
             
             renderFarm();
             renderUpgrades();
@@ -3622,6 +3579,9 @@
 
         // 显示通知
         function showNotification(message, type) {
+            // 屏蔽所有植物保护设施激活相关提示
+            if (typeof message === 'string' && message.includes('植物保护设施激活')) return;
+            if (typeof message === 'string' && message.includes('遮阳网保护')) return;
             const notification = document.createElement('div');
             notification.className = `notification p-3 rounded-lg shadow-lg text-white fade-in ${type === 'error' ? 'bg-red-500' : type === 'success' ? 'bg-green-500' : 'bg-blue-500'}`;
             notification.innerHTML = `<p>${message}</p>`;
@@ -3760,171 +3720,6 @@
                 renderFarm();
             }, 1000);
         };
-
-        // 管理员面板逻辑
-        function showAdminPanel() {
-            const adminPanel = document.getElementById('admin-panel');
-            adminPanel.style.display = 'flex';
-            // 显示当前游戏数据
-            document.getElementById('admin-money').value = gameState.money;
-            document.getElementById('admin-xp').value = gameState.xp;
-            document.getElementById('admin-level').value = gameState.level;
-            document.getElementById('admin-weather').value = gameState.weather;
-            // 实时天气切换
-            const adminWeather = document.getElementById('admin-weather');
-            adminWeather.onchange = function() {
-                gameState.weather = this.value;
-                updateUI();
-                renderWeather();
-                saveGameData();
-                showNotification('天气已切换', 'success');
-            };
-            // 显示所有用户信息
-            const users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
-            const typeMap = { account: '账号密码', qq: 'QQ', wx: '微信', douyin: '抖音' };
-            let html = '<table class="min-w-full border text-center"><thead><tr><th class="border px-2">账号</th><th class="border px-2">注册方式</th><th class="border px-2">最近游玩</th><th class="border px-2">金币</th><th class="border px-2">经验</th><th class="border px-2">等级</th></tr></thead><tbody>';
-            users.forEach(u => {
-                html += `<tr><td class="border px-2">${u.account}</td><td class="border px-2">${typeMap[u.type]||u.type}</td><td class="border px-2">${u.lastPlayed||''}</td><td class="border px-2">${u.money||''}</td><td class="border px-2">${u.xp||''}</td><td class="border px-2">${u.level||''}</td></tr>`;
-            });
-            html += '</tbody></table>';
-            document.getElementById('admin-users-list').innerHTML = html;
-            // 保存按钮
-            document.getElementById('admin-save').onclick = function() {
-                gameState.money = parseInt(document.getElementById('admin-money').value)||0;
-                gameState.xp = parseInt(document.getElementById('admin-xp').value)||0;
-                gameState.level = parseInt(document.getElementById('admin-level').value)||1;
-                gameState.weather = document.getElementById('admin-weather').value;
-                updateUI();
-                renderWeather();
-                saveGameData();
-                showNotification('数据已保存', 'success');
-            };
-            // 重置按钮
-            if (!document.getElementById('admin-reset')) {
-                const resetBtn = document.createElement('button');
-                resetBtn.id = 'admin-reset';
-                resetBtn.className = 'bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded font-bold mt-2 ml-2';
-                resetBtn.textContent = '重置管理员数据';
-                document.getElementById('admin-save').after(resetBtn);
-                resetBtn.onclick = function() {
-                    // 彻底重置管理员自己的数据
-                    const def = getDefaultGameState();
-                    for (const k in def) gameState[k] = def[k];
-                    // 初始化所有区域农田
-                    for (const region of regions) {
-                        gameState.regionFarmData[region.id] = [];
-                        for (let i = 0; i < gameState.plots; i++) {
-                            gameState.regionFarmData[region.id].push({
-                                state: 'empty',
-                                seedId: null,
-                                growth: null,
-                                progress: 0,
-                                growthTime: 0
-                            });
-                        }
-                    }
-                    gameState.farmData = gameState.regionFarmData[gameState.currentRegion];
-                    saveGameData();
-                    updateUI();
-                    renderFarm();
-                    renderWeather();
-                    renderShop();
-                    renderInventory();
-                    renderUpgrades();
-                    renderTasks();
-                    checkExpandFarmButton();
-                    showNotification('管理员数据已重置', 'success');
-                    // 刷新面板数据
-                    showAdminPanel();
-                };
-            }
-            // 关闭按钮
-            document.getElementById('admin-close').onclick = function() {
-                adminPanel.style.display = 'none';
-            };
-            // 随机事件管理
-            const eventsList = document.getElementById('admin-events-list');
-            if (eventsList) {
-                eventsList.innerHTML = randomEvents.map(event => `
-                    <div class="flex items-center gap-2 p-2 border rounded-lg">
-                        <span class="text-2xl">${event.icon}</span>
-                        <span class="font-bold">${event.name}</span>
-                        <span class="text-xs text-gray-500">${event.description}</span>
-                        <button class="admin-trigger-event bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded ml-auto" data-event-id="${event.id}">触发</button>
-                    </div>
-                `).join('');
-                // 绑定触发事件按钮
-                eventsList.querySelectorAll('.admin-trigger-event').forEach(btn => {
-                    btn.onclick = function() {
-                        const eventId = this.getAttribute('data-event-id');
-                        const event = randomEvents.find(e => e.id === eventId);
-                        if (!event) return;
-                        // 随机影响部分地块
-                        const plantedPlots = gameState.farmData.filter(p => p.state === 'planted');
-                        if (plantedPlots.length === 0) {
-                            showNotification('当前没有已种植作物，无法触发事件', 'error');
-                            return;
-                        }
-                        const affectedCount = Math.max(1, Math.floor(Math.random() * plantedPlots.length));
-                        const affectedIndexes = [];
-                        while (affectedIndexes.length < affectedCount) {
-                            const idx = Math.floor(Math.random() * gameState.farmData.length);
-                            if (!affectedIndexes.includes(idx) && gameState.farmData[idx].state === 'planted') {
-                                affectedIndexes.push(idx);
-                            }
-                        }
-                        const now = Date.now();
-                        const eventObj = {
-                            ...event,
-                            affectedPlots: affectedIndexes,
-                            startTime: now
-                        };
-                        gameState.activeEvents.push(eventObj);
-                        gameState.lastEventTime = now;
-                        showNotification(`管理员触发事件：${event.icon} ${event.name} - ${event.description}`,'info');
-                        // 应用事件效果
-                        affectedIndexes.forEach(i => {
-                            const plot = gameState.farmData[i];
-                            switch(event.effect){
-                                case 'growth_boost':
-                                    plot.growthSpeedMultiplier = 1.5; break;
-                                case 'instant_growth':
-                                    plot.progress = plot.growthTime * 60; plot.growth = 'completed'; break;
-                                case 'quality_boost':
-                                    plot.qualityBoost = true; break;
-                                case 'time_speed':
-                                    plot.timeSpeedMultiplier = 10; break; // 改为10倍加速
-                                case 'pest_damage':
-                                    plot.pest = true; break;
-                                case 'disease_damage':
-                                    plot.disease = true; break;
-                                case 'frost_damage':
-                                    plot.growthSpeedMultiplier = 0.5; break;
-                                case 'weed_competition':
-                                    plot.growthSpeedMultiplier = 0.7; break;
-                                case 'random_effect':
-                                    if (Math.random()<0.5) plot.pest = true; else plot.growthSpeedMultiplier = 2; break;
-                            }
-                        });
-                        renderFarm();
-                        saveGameData();
-                        // 定时移除事件
-                        setTimeout(()=>{
-                            affectedIndexes.forEach(i => {
-                                const plot = gameState.farmData[i];
-                                delete plot.growthSpeedMultiplier;
-                                delete plot.timeSpeedMultiplier;
-                                delete plot.qualityBoost;
-                                delete plot.disease;
-                            });
-                            gameState.activeEvents = gameState.activeEvents.filter(e=>e!==eventObj);
-                            renderFarm();
-                            saveGameData();
-                        }, event.duration*1000 || 20000);
-                    };
-                });
-            }
-        }
 
         // 登录/注册弹窗切换逻辑
         function setupLoginRegisterSwitch() {
@@ -6519,11 +6314,14 @@
     
     <!-- 牧场模块JS -->
     <script src="ranch.js"></script>
+    <!-- 农田模块JS --> 
     <script src="farm.js"></script>
     <!-- 钓鱼模块JS -->
     <script src="fishing.js"></script>
     <!-- 商店模块JS -->
     <script src="shop.js"></script>
+    <!-- 管理员模块JS -->
+    <script src="admin.js"></script>
     
     <script>
         // 全局变量声明

@@ -438,6 +438,11 @@ class ShopModule {
         this.renderMyDecors();
         this.updateUI();
         this.saveGameData();
+
+        if (decor.id === 'shade_net' && !this.gameState.shadeNetActivated) {
+            this.showNotification('植物保护设施激活：遮阳网保护', 'success');
+            this.gameState.shadeNetActivated = true;
+        }
     }
 
     // 商店标签切换功能

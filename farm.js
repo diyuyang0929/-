@@ -16,6 +16,7 @@ class FarmModule {
             { level: 2, name: '精品', icon: '🟢', color: 'bg-blue-100 border-blue-300', priceMultiplier: 1.6, description: '精品品质的水果，售价+60%', landRequirement: 2 },
             { level: 3, name: '完美', icon: '✨', color: 'bg-purple-100 border-purple-300', priceMultiplier: 2.0, description: '完美品质的水果，售价+100%', landRequirement: 3 }
         ];
+        this.lastProtectionMessage = '';
     }
 
     // 初始化农田模块
@@ -534,10 +535,7 @@ class FarmModule {
             protectionMessage += protectionMessage ? '，虫害防治系统清除虫害' : '虫害防治系统清除虫害';
         }
         
-        if (protectionApplied) {
-            this.showNotification(`植物保护设施激活：${protectionMessage}`, 'success');
-        }
-        
+        // 移除弹窗提示
         return protectionApplied;
     }
 
