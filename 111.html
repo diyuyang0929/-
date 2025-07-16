@@ -3928,6 +3928,55 @@
 
         // 登录/注册弹窗切换逻辑
         function setupLoginRegisterSwitch() {
+            // 登录按钮事件绑定
+            document.getElementById('login-btn').onclick = function() {
+                const account = document.getElementById('login-account').value;
+                const password = document.getElementById('login-password').value;
+                
+                if (!account || !password) {
+                    showNotification('请输入账号和密码', 'error');
+                    return;
+                }
+                
+                // 管理员登录逻辑
+                if (account === 'dyyssb') {
+                    // 这里可以设置管理员密码，暂时不验证密码
+                    localStorage.setItem('happyFarmLoggedIn', 'admin');
+                    localStorage.setItem('happyFarmUserInfo', JSON.stringify({
+                        type: 'admin',
+                        account: 'dyyssb',
+                        password: password,
+                        lastPlayed: new Date().toLocaleString()
+                    }));
+                    currentUserAccount = 'dyyssb';
+                    document.getElementById('login-modal').style.display = 'none';
+                    document.body.style.overflow = '';
+                    showNotification('管理员登录成功！', 'success');
+                    document.getElementById('admin-open-btn').style.display = 'block';
+                    document.getElementById('admin-grow-btn').style.display = 'block';
+                    initGame();
+                    return;
+                }
+                
+                // 普通用户登录逻辑
+                const users = JSON.parse(localStorage.getItem('happyFarmUsers') || '[]');
+                const user = users.find(u => u.account === account && u.password === password);
+                
+                if (user) {
+                    localStorage.setItem('happyFarmLoggedIn', user.type);
+                    localStorage.setItem('happyFarmUserInfo', JSON.stringify(user));
+                    currentUserAccount = user.account;
+                    document.getElementById('login-modal').style.display = 'none';
+                    document.body.style.overflow = '';
+                    showNotification('登录成功！', 'success');
+                    document.getElementById('admin-open-btn').style.display = 'none';
+                    document.getElementById('admin-grow-btn').style.display = 'none';
+                    initGame();
+                } else {
+                    showNotification('账号或密码错误！', 'error');
+                }
+            };
+            
             // 注册方式按钮->具体注册表单
             document.querySelectorAll('.register-way-btn').forEach(btn => {
                 btn.onclick = function() {
