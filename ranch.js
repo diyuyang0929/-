@@ -48,20 +48,31 @@ class RanchModule {
                 horse: ['嘶~', '嘶嘶']
             },
             
-            // 天气对动物的影响
+            // 天气对牧场的全面影响
             weatherEffects: {
                 sunny: {
                     icon: '☀️',
                     title: '晴天',
                     effect: 'sunny-effect',
                     animalEffects: {
-                        benefits: ['产出效率+20%', '健康度缓慢恢复', '动物心情愉悦'],
-                        drawbacks: ['水分消耗增加', '需要更多饮水', '中暑风险'],
+                        benefits: ['产出效率+20%', '健康度缓慢恢复', '动物心情愉悦', '饲料效果提升'],
+                        drawbacks: ['水分消耗增加', '需要更多饮水', '中暑风险', '饲料消耗增加'],
                         productionBonus: 1.2,
                         healthDecayModifier: 0.8,
                         waterNeed: 1.5,
                         shelterNeed: false,
+                        feedConsumptionMultiplier: 1.3,
+                        feedEffectivenessMultiplier: 1.2,
+                        stressReduction: 0.5,
+                        happinessBonus: 1.1,
                         specialActions: ['提供遮阳', '增加饮水', '防暑降温']
+                    },
+                    ranchEffects: {
+                        feedPriceMultiplier: 0.9,
+                        productPriceMultiplier: 1.1,
+                        animalPriceMultiplier: 1.05,
+                        facilityEffectiveness: 1.2,
+                        maintenanceCost: 0.8
                     }
                 },
                 rainy: {
@@ -69,13 +80,24 @@ class RanchModule {
                     title: '雨天',
                     effect: 'rainy-effect',
                     animalEffects: {
-                        benefits: ['自动补充水分', '清洁环境', '降低疾病风险'],
-                        drawbacks: ['产出效率-10%', '容易感冒', '泥泞环境'],
+                        benefits: ['自动补充水分', '清洁环境', '降低疾病风险', '饲料吸收更好'],
+                        drawbacks: ['产出效率-10%', '容易感冒', '泥泞环境', '饲料容易发霉'],
                         productionBonus: 0.9,
                         healthDecayModifier: 1.1,
                         diseaseResistance: 1.2,
                         shelterNeed: true,
+                        feedConsumptionMultiplier: 0.9,
+                        feedEffectivenessMultiplier: 1.1,
+                        stressReduction: 1.2,
+                        happinessBonus: 0.95,
                         specialActions: ['搭建雨棚', '保持干燥', '预防感冒']
+                    },
+                    ranchEffects: {
+                        feedPriceMultiplier: 1.1,
+                        productPriceMultiplier: 0.95,
+                        animalPriceMultiplier: 0.98,
+                        facilityEffectiveness: 0.9,
+                        maintenanceCost: 1.2
                     }
                 },
                 stormy: {
@@ -84,12 +106,23 @@ class RanchModule {
                     effect: 'stormy-effect',
                     animalEffects: {
                         benefits: ['充足水源', '环境清洁'],
-                        drawbacks: ['产出停止', '健康度快速下降', '动物恐慌'],
+                        drawbacks: ['产出停止', '健康度快速下降', '动物恐慌', '饲料损失'],
                         productionBonus: 0,
                         healthDecayModifier: 2.0,
                         stressLevel: 'high',
                         shelterNeed: true,
+                        feedConsumptionMultiplier: 0.5,
+                        feedEffectivenessMultiplier: 0.7,
+                        stressReduction: 2.0,
+                        happinessBonus: 0.7,
                         specialActions: ['紧急避难', '安抚动物', '加固设施']
+                    },
+                    ranchEffects: {
+                        feedPriceMultiplier: 1.3,
+                        productPriceMultiplier: 0.8,
+                        animalPriceMultiplier: 0.9,
+                        facilityEffectiveness: 0.7,
+                        maintenanceCost: 1.5
                     }
                 },
                 drought: {
@@ -98,12 +131,23 @@ class RanchModule {
                     effect: 'drought-effect',
                     animalEffects: {
                         benefits: ['干燥环境减少细菌'],
-                        drawbacks: ['严重缺水', '产出减半', '健康度快速下降'],
+                        drawbacks: ['严重缺水', '产出减半', '健康度快速下降', '饲料需求增加'],
                         productionBonus: 0.5,
                         healthDecayModifier: 2.5,
                         waterNeed: 3.0,
                         shelterNeed: false,
+                        feedConsumptionMultiplier: 1.5,
+                        feedEffectivenessMultiplier: 0.8,
+                        stressReduction: 1.8,
+                        happinessBonus: 0.8,
                         specialActions: ['紧急供水', '降温措施', '减少活动']
+                    },
+                    ranchEffects: {
+                        feedPriceMultiplier: 1.4,
+                        productPriceMultiplier: 1.2,
+                        animalPriceMultiplier: 0.95,
+                        facilityEffectiveness: 0.8,
+                        maintenanceCost: 1.3
                     }
                 },
                 typhoon: {
@@ -112,12 +156,23 @@ class RanchModule {
                     effect: 'typhoon-effect',
                     animalEffects: {
                         benefits: ['台风过后空气清新'],
-                        drawbacks: ['动物受惊', '产出停止', '可能受伤'],
+                        drawbacks: ['动物受惊', '产出停止', '可能受伤', '设施损坏'],
                         productionBonus: 0,
                         healthDecayModifier: 1.8,
                         injuryRisk: 0.1,
                         shelterNeed: true,
+                        feedConsumptionMultiplier: 0.3,
+                        feedEffectivenessMultiplier: 0.6,
+                        stressReduction: 2.5,
+                        happinessBonus: 0.6,
                         specialActions: ['紧急避难', '加固围栏', '医疗准备']
+                    },
+                    ranchEffects: {
+                        feedPriceMultiplier: 1.5,
+                        productPriceMultiplier: 0.7,
+                        animalPriceMultiplier: 0.85,
+                        facilityEffectiveness: 0.6,
+                        maintenanceCost: 2.0
                     }
                 },
                 rainbow: {
@@ -125,13 +180,24 @@ class RanchModule {
                     title: '彩虹天',
                     effect: 'rainbow-effect',
                     animalEffects: {
-                        benefits: ['动物心情极佳', '产出品质提升', '健康度恢复'],
+                        benefits: ['动物心情极佳', '产出品质提升', '健康度恢复', '饲料效果翻倍'],
                         drawbacks: [],
                         productionBonus: 1.5,
                         healthDecayModifier: 0.5,
                         qualityBonus: 1.5,
                         shelterNeed: false,
+                        feedConsumptionMultiplier: 0.8,
+                        feedEffectivenessMultiplier: 2.0,
+                        stressReduction: 0.3,
+                        happinessBonus: 1.5,
                         specialActions: ['户外活动', '增加互动', '享受时光']
+                    },
+                    ranchEffects: {
+                        feedPriceMultiplier: 0.8,
+                        productPriceMultiplier: 1.3,
+                        animalPriceMultiplier: 1.15,
+                        facilityEffectiveness: 1.4,
+                        maintenanceCost: 0.7
                     }
                 },
                 sandstorm: {
@@ -140,12 +206,23 @@ class RanchModule {
                     effect: 'sandstorm-effect',
                     animalEffects: {
                         benefits: [],
-                        drawbacks: ['呼吸困难', '产出停止', '健康度下降', '视野受阻'],
+                        drawbacks: ['呼吸困难', '产出停止', '健康度下降', '视野受阻', '饲料污染'],
                         productionBonus: 0,
                         healthDecayModifier: 2.2,
                         respiratoryIssues: true,
                         shelterNeed: true,
+                        feedConsumptionMultiplier: 0.4,
+                        feedEffectivenessMultiplier: 0.5,
+                        stressReduction: 2.2,
+                        happinessBonus: 0.5,
                         specialActions: ['紧急避难', '防护措施', '医疗护理']
+                    },
+                    ranchEffects: {
+                        feedPriceMultiplier: 1.6,
+                        productPriceMultiplier: 0.6,
+                        animalPriceMultiplier: 0.8,
+                        facilityEffectiveness: 0.5,
+                        maintenanceCost: 1.8
                     }
                 }
             }
@@ -271,6 +348,8 @@ class RanchModule {
                     <!-- 区域详情内容 -->
                 </div>
 
+
+
                 <!-- 栅栏状态 -->
                 <div class="mb-6">
                     <h3 class="text-xl font-bold mb-4 flex items-center">
@@ -312,11 +391,32 @@ class RanchModule {
 
     // 购买饲料
     buyFeed() {
-        if (this.gameState && this.gameState.money >= 10) {
-            this.gameState.money -= 10;
+        // 获取当前天气对饲料价格的影响
+        const currentWeather = this.gameState ? this.ranchEnvironment.weatherEffects[this.gameState.weather] : null;
+        const basePrice = 10;
+        const priceMultiplier = currentWeather?.ranchEffects?.feedPriceMultiplier || 1.0;
+        const actualPrice = Math.round(basePrice * priceMultiplier);
+        
+        if (this.gameState && this.gameState.money >= actualPrice) {
+            this.gameState.money -= actualPrice;
             this.gameState.animalFeed = (this.gameState.animalFeed || 0) + 1;
             this.animalFeed = this.gameState.animalFeed;
-            this.showNotification('购买饲料成功！', 'success');
+            
+            let message = `购买饲料成功！花费${actualPrice}金币`;
+            if (priceMultiplier !== 1.0) {
+                const change = priceMultiplier > 1 ? '上涨' : '下降';
+                const percent = Math.abs((priceMultiplier - 1) * 100);
+                message += ` (天气影响：价格${change}${percent.toFixed(0)}%)`;
+            }
+            
+            this.showNotification(message, 'success');
+            
+            // 更新按钮文本显示当前价格
+            const buyFeedBtn = document.getElementById('buy-feed-btn');
+            if (buyFeedBtn) {
+                buyFeedBtn.innerHTML = `<i class="fas fa-shopping-cart mr-2"></i> 购买饲料 (${actualPrice}金币/包)`;
+            }
+            
             // 只更新饲料数量显示，不重新计算健康值
             const feedCountEl = document.getElementById('feed-count');
             if (feedCountEl) feedCountEl.textContent = this.animalFeed;
@@ -325,7 +425,7 @@ class RanchModule {
                 window.updateUI();
             }
         } else {
-            this.showNotification('金币不足！', 'error');
+            this.showNotification(`金币不足！需要 ${actualPrice} 金币`, 'error');
         }
     }
 
@@ -381,7 +481,12 @@ class RanchModule {
 
     // 出售所有副产品
     sellAllProducts() {
+        // 获取当前天气对产品价格的影响
+        const currentWeather = this.gameState ? this.ranchEnvironment.weatherEffects[this.gameState.weather] : null;
+        const priceMultiplier = currentWeather?.ranchEffects?.productPriceMultiplier || 1.0;
+        
         let totalEarned = 0;
+        let baseTotal = 0;
         const productPrices = {
             egg: 5, milk: 8, wool: 12, pork: 15,
             duck_egg: 6, goat_milk: 10, rabbit_fur: 20, horse_manure: 3
@@ -390,7 +495,10 @@ class RanchModule {
         Object.keys(this.animalProducts).forEach(product => {
             const count = this.animalProducts[product];
             if (count > 0) {
-                totalEarned += count * (productPrices[product] || 1);
+                const basePrice = count * (productPrices[product] || 1);
+                const actualPrice = Math.round(basePrice * priceMultiplier);
+                baseTotal += basePrice;
+                totalEarned += actualPrice;
                 this.animalProducts[product] = 0;
                 if (this.gameState) {
                     this.gameState.animalProducts[product] = 0;
@@ -402,7 +510,15 @@ class RanchModule {
             if (this.gameState) {
                 this.gameState.money += totalEarned;
             }
-            this.showNotification(`出售成功！获得${totalEarned}金币`, 'success');
+            
+            let message = `出售成功！获得${totalEarned}金币`;
+            if (priceMultiplier !== 1.0) {
+                const change = priceMultiplier > 1 ? '上涨' : '下降';
+                const percent = Math.abs((priceMultiplier - 1) * 100);
+                message += ` (天气影响：价格${change}${percent.toFixed(0)}%)`;
+            }
+            
+            this.showNotification(message, 'success');
             this.updateDisplay();
             this.syncToGameState();
             if (typeof window.updateUI === 'function') {
@@ -447,201 +563,42 @@ class RanchModule {
         `).join('');
     }
 
-    // 渲染我的动物
-    renderMyAnimals() {
-        const box = document.getElementById('my-animals');
-        if (!box) return;
-
-        // 同步游戏状态数据（但不覆盖已修改的健康值）
-        if (this.gameState) {
-            this.animals = this.gameState.animals || this.animals;
-            // 只在初始化时同步健康值，避免覆盖喂养后的值
-            if (!this.animalHealth || Object.keys(this.animalHealth).length === 0) {
-                this.animalHealth = this.gameState.animalHealth || this.animalHealth;
-            }
-            // 始终同步饲料数量，确保显示一致
-            this.animalFeed = this.gameState.animalFeed || this.animalFeed;
-        }
-
-        // 同时渲染栅栏状态
-        this.renderFenceStatus();
-
-        // 获取当前天气信息
-        let weatherInfo = '';
-        if (this.gameState && this.gameState.weather) {
-            const currentWeather = this.ranchEnvironment.weatherEffects[this.gameState.weather];
-            if (currentWeather) {
-                weatherInfo = `
-                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
-                        <h3 class="font-bold text-lg mb-2 flex items-center">
-                            <span class="text-2xl mr-2">${currentWeather.icon}</span>
-                            ${currentWeather.title}对动物的影响
-                        </h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <h4 class="font-semibold text-green-600 mb-1">好处：</h4>
-                                <ul class="text-sm text-green-700">
-                                    ${currentWeather.animalEffects.benefits.map(benefit => `<li>• ${benefit}</li>`).join('')}
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-red-600 mb-1">坏处：</h4>
-                                <ul class="text-sm text-red-700">
-                                    ${currentWeather.animalEffects.drawbacks.map(drawback => `<li>• ${drawback}</li>`).join('')}
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="mt-3">
-                            <h4 class="font-semibold text-blue-600 mb-1">建议行动：</h4>
-                            <div class="flex flex-wrap gap-2">
-                                ${currentWeather.animalEffects.specialActions.map(action => {
-                                    return `<button class="weather-action-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm" data-action="${action}">${action}</button>`;
-                                }).join('')}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        const animalList = [
-            { id: 'chicken', name: '鸡', icon: '🐔', rarity: 'common' },
-            { id: 'cow', name: '牛', icon: '🐄', rarity: 'common' },
-            { id: 'sheep', name: '羊', icon: '🐑', rarity: 'common' },
-            { id: 'pig', name: '猪', icon: '🐷', rarity: 'uncommon' },
-            { id: 'duck', name: '鸭子', icon: '🦆', rarity: 'common' },
-            { id: 'goat', name: '山羊', icon: '🐐', rarity: 'uncommon' },
-            { id: 'rabbit', name: '兔子', icon: '🐰', rarity: 'rare' },
-            { id: 'horse', name: '马', icon: '🐎', rarity: 'epic' }
-        ];
-        
-        const rarityColors = {
-            common: 'bg-gray-50',
-            uncommon: 'bg-green-50',
-            rare: 'bg-blue-50',
-            epic: 'bg-purple-50'
-        };
-        
-        box.innerHTML = weatherInfo + animalList.map(animal => {
-            const count = this.animals[animal.id] || 0;
-            const baseHealth = this.animalHealth[animal.id] || 100;
-            const weatherHealth = this.calculateWeatherAffectedHealth(animal.id);
-            const finalHealth = Math.max(0, Math.min(100, baseHealth + weatherHealth));
-            const needsFeeding = count > 0 && baseHealth < 100;
-            
-            // 获取详细状态信息
-            const stress = this.animalStress[animal.id] || 0;
-            const water = this.animalWaterSupply[animal.id] || 100;
-            const shelter = this.animalShelter[animal.id] || false;
-            const injuries = this.animalInjuries[animal.id] || [];
-            
-            // 判断状态
-            let statusClass = 'bg-green-50 border-green-400';
-            let statusText = '状态良好';
-            
-            if (finalHealth < 50 || stress > 70 || water < 30) {
-                statusClass = 'bg-red-50 border-red-400';
-                statusText = '需要关注';
-            } else if (finalHealth < 80 || stress > 40 || water < 60) {
-                statusClass = 'bg-yellow-50 border-yellow-400';
-                statusText = '状态一般';
-            }
-            
-            return `
-                <div class="p-3 ${rarityColors[animal.rarity]} rounded-lg border hover:shadow-lg transition-all ${count > 0 ? statusClass : ''}">
-                    <div class="flex items-center justify-between mb-2">
-                        <div class="flex items-center">
-                            <span class="text-2xl mr-2">${animal.icon}</span>
-                            <div>
-                                <div class="font-bold">${animal.name} ×${count}</div>
-                                <div class="text-sm text-gray-600">${count > 0 ? statusText : '暂无动物'}</div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col space-y-1">
-                            ${count > 0 ? `
-                                <button onclick="ranchModule.feedAnimalWithFeed('${animal.id}', 1)" 
-                                        class="px-2 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition-all duration-200 ${needsFeeding ? '' : 'opacity-50 cursor-not-allowed'}"
-                                        ${!needsFeeding ? 'disabled' : ''}
-                                        title="使用1包饲料，恢复20点健康值">
-                                    喂养
-                                </button>
-                                <button onclick="ranchModule.showAnimalItemMenu('${animal.id}')" 
-                                        class="px-2 py-1 bg-purple-500 text-white text-xs rounded hover:bg-purple-600 transition-all duration-200">
-                                    使用道具
-                                </button>
-                            ` : `
-                                <div class="px-2 py-1 text-xs text-gray-400">暂无动物</div>
-                            `}
-                        </div>
-                    </div>
-                    ${count > 0 ? `
-                        <div class="mt-2 p-2 bg-gray-50 rounded border">
-                            <div class="text-xs font-semibold text-gray-700 mb-1">动物状态</div>
-                            <div class="grid grid-cols-2 gap-2 text-xs">
-                                <div class="flex items-center gap-1">
-                                    <span class="text-gray-500">基础健康:</span>
-                                    <span class="font-semibold ${baseHealth > 50 ? 'text-green-600' : baseHealth > 20 ? 'text-yellow-600' : 'text-red-600'}">${baseHealth}%</span>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <span class="text-gray-500">压力:</span>
-                                    <span class="font-semibold ${stress > 70 ? 'text-red-600' : stress > 40 ? 'text-yellow-600' : 'text-green-600'}">${stress}%</span>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <span class="text-gray-500">水分:</span>
-                                    <span class="font-semibold ${water < 30 ? 'text-red-600' : water < 60 ? 'text-yellow-600' : 'text-green-600'}">${water}%</span>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <span class="text-gray-500">庇护:</span>
-                                    <span class="font-semibold">${shelter ? '✅' : '❌'}</span>
-                                </div>
-                            </div>
-                            ${injuries.length > 0 ? `
-                                <div class="mt-1 text-xs text-red-600">
-                                    伤病: ${injuries.length}个 - ${injuries.map(injury => 
-                                        `${injury.type}(${injury.severity}级)`
-                                    ).join(', ')}
-                                </div>
-                            ` : ''}
-                            ${weatherHealth !== 0 ? `
-                                <div class="mt-1 text-xs text-gray-500">
-                                    天气影响: ${weatherHealth > 0 ? '+' : ''}${weatherHealth}
-                                </div>
-                            ` : ''}
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-        }).join('');
-
-        // 绑定天气行动按钮
-        document.querySelectorAll('.weather-action-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const action = btn.getAttribute('data-action');
-                this.executeWeatherAction(action);
-            });
-        });
-    }
-
     // 购买动物
     buyAnimal(animalId, price) {
-        if (this.gameState && this.gameState.money < price) {
-            this.showNotification('金币不足！', 'error');
+        // 获取当前天气对动物价格的影响
+        const currentWeather = this.gameState ? this.ranchEnvironment.weatherEffects[this.gameState.weather] : null;
+        const priceMultiplier = currentWeather?.ranchEffects?.animalPriceMultiplier || 1.0;
+        const actualPrice = Math.round(price * priceMultiplier);
+        
+        if (this.gameState && this.gameState.money < actualPrice) {
+            this.showNotification(`金币不足！需要 ${actualPrice} 金币`, 'error');
             return;
         }
         
         if (this.gameState) {
-            this.gameState.money -= price;
+            this.gameState.money -= actualPrice;
         }
         this.animals[animalId] = (this.animals[animalId] || 0) + 1;
         if (this.gameState) {
             this.gameState.animals[animalId] = this.animals[animalId];
         }
         
-        this.showNotification(`购买${this.getAnimalName(animalId)}成功！`, 'success');
+        let message = `购买${this.getAnimalName(animalId)}成功！花费${actualPrice}金币`;
+        if (priceMultiplier !== 1.0) {
+            const change = priceMultiplier > 1 ? '上涨' : '下降';
+            const percent = Math.abs((priceMultiplier - 1) * 100);
+            message += ` (天气影响：价格${change}${percent.toFixed(0)}%)`;
+        }
+        
+        this.showNotification(message, 'success');
         this.updateDisplay();
         this.syncToGameState();
         if (typeof window.updateUI === 'function') {
             window.updateUI();
+        }
+        // 更新我的动物区域
+        if (typeof window.renderMyAnimals === 'function') {
+            window.renderMyAnimals();
         }
     }
 
@@ -672,11 +629,11 @@ class RanchModule {
         const weatherHealth = this.calculateWeatherAffectedHealth(animalId);
         const finalHealth = Math.max(0, Math.min(100, baseHealth + weatherHealth));
         
-        let healthChangeText = `基础健康度: ${oldHealth} → 100`;
+        let healthChangeText = `基础健康度: ${Number(oldHealth).toFixed(2)} → 100.00`;
         if (weatherHealth !== 0) {
-            healthChangeText += ` (天气影响: ${weatherHealth > 0 ? '+' : ''}${weatherHealth}, 综合: ${finalHealth})`;
+            healthChangeText += ` (天气影响: ${weatherHealth > 0 ? '+' : ''}${Number(weatherHealth).toFixed(2)}, 综合: ${Number(finalHealth).toFixed(2)})`;
         } else {
-            healthChangeText += ` (综合: ${finalHealth})`;
+            healthChangeText += ` (综合: ${Number(finalHealth).toFixed(2)})`;
         }
         
         this.showNotification(`喂食${this.getAnimalName(animalId)}成功！健康值恢复满值！${healthChangeText}`, 'success');
@@ -733,17 +690,17 @@ class RanchModule {
         
         // 生成通知消息
         let message = `使用 ${feedAmount} 包饲料喂养${this.getAnimalName(animalId)}！`;
-        message += `\n基础健康度: ${oldHealth} → ${baseHealth}`;
+        message += `\n基础健康度: ${Number(oldHealth).toFixed(2)} → ${Number(baseHealth).toFixed(2)}`;
         
         if (healthBonus > 0) {
-            message += ` (额外奖励: +${healthBonus})`;
+            message += ` (额外奖励: +${Number(healthBonus).toFixed(2)})`;
         }
         
         if (weatherHealth !== 0) {
-            message += `\n天气影响: ${weatherHealth > 0 ? '+' : ''}${weatherHealth}`;
+            message += `\n天气影响: ${weatherHealth > 0 ? '+' : ''}${Number(weatherHealth).toFixed(2)}`;
         }
         
-        message += `\n综合健康度: ${finalHealth}%`;
+        message += `\n综合健康度: ${Number(finalHealth).toFixed(2)}%`;
         message += `\n剩余饲料: ${oldFeed} → ${this.animalFeed}`;
         
         this.showNotification(message, 'success');
@@ -787,34 +744,11 @@ class RanchModule {
         this.feedAnimalWithFeed(animalId, feedAmount);
     }
 
-    // 显示动物道具菜单
-    showAnimalItemMenu(animalId) {
-        const animalName = this.getAnimalName(animalId);
-        const animalItems = [
-            { id: 'vitamin_pill', name: '维生素丸', icon: '💊', desc: '快速恢复健康', effect: 'health', value: 50 },
-            { id: 'stress_relief_pill', name: '安抚药丸', icon: '😌', desc: '降低压力值', effect: 'stress', value: -30 },
-            { id: 'water_supplement', name: '水分补充剂', icon: '💧', desc: '补充水分', effect: 'water', value: 50 },
-            { id: 'healing_ointment', name: '治疗药膏', icon: '🩹', desc: '治疗伤病', effect: 'healing', value: 30 }
-        ];
 
-        const content = `
-            <div class="grid grid-cols-2 gap-4">
-                ${animalItems.map(item => `
-                    <div class="p-4 border rounded-lg hover:bg-gray-50 cursor-pointer transition-all"
-                         onclick="ranchModule.useAnimalItem('${animalId}', '${item.id}', '${item.effect}', ${item.value})">
-                        <div class="text-3xl text-center mb-2">${item.icon}</div>
-                        <div class="font-bold text-center">${item.name}</div>
-                        <div class="text-sm text-gray-600 text-center">${item.desc}</div>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-
-        this.showModal(`${animalName}道具使用`, content);
-    }
 
     // 使用动物道具
     useAnimalItem(animalId, itemId, effect, value) {
+        console.log('useAnimalItem called', animalId, itemId, effect, value);
         const animalName = this.getAnimalName(animalId);
         
         if (!this.animals[animalId] || this.animals[animalId] <= 0) {
@@ -822,17 +756,98 @@ class RanchModule {
             return;
         }
         
-        if (effect === 'health') {
-            this.animalHealth[animalId] = Math.min(100, (this.animalHealth[animalId] || 100) + value);
+        // 检查道具库存
+        if (!this.gameState || !this.gameState.items || (this.gameState.items[itemId] || 0) <= 0) {
+            this.showNotification(`没有足够的${this.getItemName(itemId)}！`, 'error');
+            return;
+        }
+        
+        // 消耗道具
+        this.gameState.items[itemId]--;
+        
+        // 根据效果类型执行相应操作
+        let effectMessage = '';
+        
+        switch (effect) {
+            case 'health':
+                const oldHealth = this.animalHealth[animalId] || 100;
+                this.animalHealth[animalId] = Math.min(100, oldHealth + value);
+                effectMessage = `健康度: ${Number(oldHealth).toFixed(2)} → ${Number(this.animalHealth[animalId]).toFixed(2)}`;
+                break;
+                
+            case 'stress':
+                const oldStress = this.animalStress[animalId] || 0;
+                this.animalStress[animalId] = Math.max(0, oldStress + value);
+                effectMessage = `压力值: ${Number(oldStress).toFixed(2)} → ${Number(this.animalStress[animalId]).toFixed(2)}`;
+                break;
+                
+            case 'water':
+                const oldWater = this.animalWaterSupply[animalId] || 100;
+                this.animalWaterSupply[animalId] = Math.min(100, oldWater + value);
+                effectMessage = `水分: ${Number(oldWater).toFixed(2)} → ${Number(this.animalWaterSupply[animalId]).toFixed(2)}`;
+                break;
+                
+            case 'healing':
+                const oldHealth2 = this.animalHealth[animalId] || 100;
+                this.animalHealth[animalId] = Math.min(100, oldHealth2 + value);
+                // 治疗伤病
+                if (this.animalInjuries[animalId] && this.animalInjuries[animalId].length > 0) {
+                    this.animalInjuries[animalId] = [];
+                    effectMessage = `伤病痊愈！健康度: ${Number(oldHealth2).toFixed(2)} → ${Number(this.animalHealth[animalId]).toFixed(2)}`;
+                } else {
+                    effectMessage = `健康度: ${Number(oldHealth2).toFixed(2)} → ${Number(this.animalHealth[animalId]).toFixed(2)}`;
+                }
+                break;
+                
+            case 'happiness':
+                const oldStress2 = this.animalStress[animalId] || 0;
+                this.animalStress[animalId] = Math.max(0, oldStress2 - Math.abs(value));
+                effectMessage = `心情提升！压力值: ${Number(oldStress2).toFixed(2)} → ${Number(this.animalStress[animalId]).toFixed(2)}`;
+                break;
+                
+            case 'growth':
+                const oldHealth3 = this.animalHealth[animalId] || 100;
+                this.animalHealth[animalId] = Math.min(100, oldHealth3 + value);
+                const oldWater2 = this.animalWaterSupply[animalId] || 100;
+                this.animalWaterSupply[animalId] = Math.min(100, oldWater2 + value);
+                effectMessage = `生长加速！健康度+${value}, 水分+${value}`;
+                break;
+                
+            default:
+                effectMessage = '效果未知';
+        }
+        
+        // 同步到游戏状态
             if (this.gameState) {
                 this.gameState.animalHealth[animalId] = this.animalHealth[animalId];
-            }
-            this.showNotification(`${animalName}的健康度恢复了${value}点`, 'success');
+            this.gameState.animalStress[animalId] = this.animalStress[animalId];
+            this.gameState.animalWaterSupply[animalId] = this.animalWaterSupply[animalId];
+            this.gameState.animalInjuries[animalId] = this.animalInjuries[animalId];
         }
+        
+        this.showNotification(`${animalName}使用了${this.getItemName(itemId)}！${effectMessage}`, 'success');
         
         this.closeModal();
         this.updateDisplay();
         this.syncToGameState();
+        
+        // 更新UI
+        if (typeof window.updateUI === 'function') {
+            window.updateUI();
+        }
+    }
+    
+    // 获取道具名称
+    getItemName(itemId) {
+        const itemNames = {
+            'vitamin_pill': '维生素丸',
+            'stress_relief_pill': '安抚药丸',
+            'water_supplement': '水分补充剂',
+            'healing_ointment': '治疗药膏',
+            'happiness_treat': '快乐零食',
+            'growth_hormone': '生长激素'
+        };
+        return itemNames[itemId] || itemId;
     }
 
     // 切换区域
@@ -889,17 +904,45 @@ class RanchModule {
                             <div class="grid grid-cols-2 gap-4 text-sm">
                                 <div>
                                     <span class="text-gray-600">基础健康:</span>
-                                    <span class="font-semibold text-blue-600">${this.animalHealth[area] || 100}%</span>
+                                    <span class="font-semibold text-blue-600">${Number(this.animalHealth[area] || 100).toFixed(2)}%</span>
                                 </div>
                                 <div>
                                     <span class="text-gray-600">天气影响:</span>
-                                    <span class="font-semibold ${this.calculateWeatherAffectedHealth(area) > 0 ? 'text-green-600' : 'text-red-600'}">${this.calculateWeatherAffectedHealth(area) > 0 ? '+' : ''}${this.calculateWeatherAffectedHealth(area)}</span>
+                                    <span class="font-semibold ${this.calculateWeatherAffectedHealth(area) > 0 ? 'text-green-600' : 'text-red-600'}">${this.calculateWeatherAffectedHealth(area) > 0 ? '+' : ''}${Number(this.calculateWeatherAffectedHealth(area)).toFixed(2)}</span>
                                 </div>
                                 <div class="col-span-2">
                                     <span class="text-gray-600">综合健康:</span>
-                                    <span class="font-semibold ${Math.max(0, Math.min(100, (this.animalHealth[area] || 100) + this.calculateWeatherAffectedHealth(area))) > 50 ? 'text-green-600' : 'text-red-600'}">${Math.max(0, Math.min(100, (this.animalHealth[area] || 100) + this.calculateWeatherAffectedHealth(area)))}%</span>
+                                    <span class="font-semibold ${Math.max(0, Math.min(100, (this.animalHealth[area] || 100) + this.calculateWeatherAffectedHealth(area))) > 50 ? 'text-green-600' : 'text-red-600'}">${Number(Math.max(0, Math.min(100, (this.animalHealth[area] || 100) + this.calculateWeatherAffectedHealth(area)))).toFixed(2)}%</span>
                                 </div>
                             </div>
+                        </div>
+                        
+                        <!-- 详细状态显示 -->
+                        <div class="bg-white rounded-lg p-4 border-2 border-blue-200 mb-4">
+                            <div class="text-lg font-bold text-blue-600 mb-2">详细状态</div>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <span class="text-gray-600">压力值:</span>
+                                    <span class="font-semibold ${(this.animalStress[area] || 0) > 50 ? 'text-red-600' : (this.animalStress[area] || 0) > 20 ? 'text-yellow-600' : 'text-green-600'}">${Number(this.animalStress[area] || 0).toFixed(2)}</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-600">水分:</span>
+                                    <span class="font-semibold ${(this.animalWaterSupply[area] || 100) < 30 ? 'text-red-600' : (this.animalWaterSupply[area] || 100) < 60 ? 'text-yellow-600' : 'text-green-600'}">${Number(this.animalWaterSupply[area] || 100).toFixed(2)}%</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-600">庇护:</span>
+                                    <span class="font-semibold ${this.animalShelter[area] ? 'text-green-600' : 'text-red-600'}">${this.animalShelter[area] ? '✓ 有' : '✗ 无'}</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-600">伤病:</span>
+                                    <span class="font-semibold ${(this.animalInjuries[area] || []).length > 0 ? 'text-red-600' : 'text-green-600'}">${(this.animalInjuries[area] || []).length > 0 ? `${(this.animalInjuries[area] || []).length}个` : '无'}</span>
+                                </div>
+                            </div>
+                            ${(this.animalInjuries[area] || []).length > 0 ? `
+                                <div class="mt-2 p-2 bg-red-50 rounded text-xs text-red-700">
+                                    <strong>伤病详情:</strong> ${(this.animalInjuries[area] || []).join(', ')}
+                                </div>
+                            ` : ''}
                         </div>
                         
                         <!-- 副产品显示 -->
@@ -940,8 +983,14 @@ class RanchModule {
 
     // 更新所有显示
     updateDisplay() {
+        // 从游戏状态同步最新数据
+        if (this.gameState) {
+            this.animalHealth = this.gameState.animalHealth || this.animalHealth;
+            this.animals = this.gameState.animals || this.animals;
+            this.animalFeed = this.gameState.animalFeed || this.animalFeed;
+        }
+        
         this.updateRanchStats();
-        this.renderMyAnimals();
         this.renderAreaDetail(this.currentArea);
         this.updateRanchWeather(); // 更新天气显示
         this.renderFenceStatus(); // 更新栅栏状态
@@ -974,7 +1023,7 @@ class RanchModule {
         const happinessEl = document.getElementById('happiness-value');
         
         if (totalAnimalsEl) totalAnimalsEl.textContent = totalAnimals;
-        if (avgHealthEl) avgHealthEl.textContent = `${avgHealth}%`;
+        if (avgHealthEl) avgHealthEl.textContent = `${Number(avgHealth).toFixed(2)}%`;
         if (feedCountEl) {
             feedCountEl.textContent = this.animalFeed;
             console.log(`更新饲料显示: ${this.animalFeed}`);
@@ -1173,8 +1222,8 @@ class RanchModule {
                 break;
             case 'sunny':
                 // 晴天：有水分时健康+3，缺水时健康-5
-                const waterLevel = this.animalWaterSupply[animalId] || 100;
-                healthModifier = waterLevel > 50 ? 3 : -5;
+                const sunnyWaterLevel = this.animalWaterSupply[animalId] || 100;
+                healthModifier = sunnyWaterLevel > 50 ? 3 : -5;
                 break;
             case 'stormy':
                 // 暴风雨：有庇护时健康-5，无庇护时健康-20
@@ -1185,6 +1234,20 @@ class RanchModule {
                 // 雪天：有庇护时健康-3，无庇护时健康-15
                 const hasSnowShelter = this.animalShelter[animalId] || false;
                 healthModifier = hasSnowShelter ? -3 : -15;
+                break;
+            case 'drought':
+                // 干旱：水分充足时健康-5，缺水时健康-15
+                const droughtWaterLevel = this.animalWaterSupply[animalId] || 100;
+                healthModifier = droughtWaterLevel > 50 ? -5 : -15;
+                break;
+            case 'typhoon':
+                // 台风：有庇护时健康-10，无庇护时健康-25
+                const hasTyphoonShelter = this.animalShelter[animalId] || false;
+                healthModifier = hasTyphoonShelter ? -10 : -25;
+                break;
+            case 'rainbow':
+                // 彩虹天：健康+10
+                healthModifier = 10;
                 break;
             default:
                 healthModifier = 0;
@@ -1437,14 +1500,369 @@ class RanchModule {
 
     // 执行天气应对行动
     executeWeatherAction(action) {
-        this.showNotification(`执行行动: ${action}`, 'info');
-        // 这里可以根据具体行动执行相应的逻辑
+        if (!this.gameState) return;
+        
+        const currentWeather = this.ranchEnvironment.weatherEffects[this.gameState.weather];
+        if (!currentWeather) return;
+        
+        // 定义行动效果和成本
+        const actionEffects = {
+            '提供遮阳': {
+                cost: 10,
+                effect: () => {
+                    this.showNotification('为动物提供了遮阳设施，减少了中暑风险！', 'success');
+                    // 减少健康度下降
+                    Object.keys(this.animals).forEach(animalId => {
+                        if (this.animals[animalId] > 0) {
+                            this.animalHealth[animalId] = Math.min(100, this.animalHealth[animalId] + 5);
+                        }
+                    });
+                }
+            },
+            '增加饮水': {
+                cost: 15,
+                effect: () => {
+                    this.showNotification('为动物增加了饮水设施，缓解了缺水问题！', 'success');
+                    // 恢复水分供应
+                    Object.keys(this.animalWaterSupply).forEach(animalId => {
+                        this.animalWaterSupply[animalId] = Math.min(100, this.animalWaterSupply[animalId] + 30);
+                    });
+                }
+            },
+            '防暑降温': {
+                cost: 20,
+                effect: () => {
+                    this.showNotification('实施了防暑降温措施，动物们感觉舒适多了！', 'success');
+                    // 大幅恢复健康度
+                    Object.keys(this.animals).forEach(animalId => {
+                        if (this.animals[animalId] > 0) {
+                            this.animalHealth[animalId] = Math.min(100, this.animalHealth[animalId] + 15);
+                        }
+                    });
+                }
+            },
+            '搭建雨棚': {
+                cost: 25,
+                effect: () => {
+                    this.showNotification('搭建了雨棚，保护动物免受雨水侵袭！', 'success');
+                    // 为所有动物提供庇护
+                    Object.keys(this.animalShelter).forEach(animalId => {
+                        this.animalShelter[animalId] = true;
+                    });
+                }
+            },
+            '保持干燥': {
+                cost: 15,
+                effect: () => {
+                    this.showNotification('保持了动物居住环境的干燥！', 'success');
+                    // 减少疾病风险
+                    Object.keys(this.animals).forEach(animalId => {
+                        if (this.animals[animalId] > 0) {
+                            this.animalStress[animalId] = Math.max(0, this.animalStress[animalId] - 10);
+                        }
+                    });
+                }
+            },
+            '预防感冒': {
+                cost: 20,
+                effect: () => {
+                    this.showNotification('采取了预防感冒的措施，增强了动物抵抗力！', 'success');
+                    // 增强免疫力
+                    Object.keys(this.animals).forEach(animalId => {
+                        if (this.animals[animalId] > 0) {
+                            this.animalHealth[animalId] = Math.min(100, this.animalHealth[animalId] + 10);
+                        }
+                    });
+                }
+            },
+            '紧急避难': {
+                cost: 30,
+                effect: () => {
+                    this.showNotification('启动了紧急避难程序，所有动物都已安全！', 'success');
+                    // 保护所有动物
+                    Object.keys(this.animals).forEach(animalId => {
+                        if (this.animals[animalId] > 0) {
+                            this.animalShelter[animalId] = true;
+                            this.animalHealth[animalId] = Math.min(100, this.animalHealth[animalId] + 20);
+                        }
+                    });
+                }
+            },
+            '安抚动物': {
+                cost: 10,
+                effect: () => {
+                    this.showNotification('安抚了受惊的动物，它们逐渐平静下来！', 'success');
+                    // 减少压力
+                    Object.keys(this.animalStress).forEach(animalId => {
+                        this.animalStress[animalId] = Math.max(0, this.animalStress[animalId] - 20);
+                    });
+                }
+            },
+            '加固设施': {
+                cost: 35,
+                effect: () => {
+                    this.showNotification('加固了牧场设施，提高了防护能力！', 'success');
+                    // 增强庇护效果
+                    Object.keys(this.animalShelter).forEach(animalId => {
+                        this.animalShelter[animalId] = true;
+                    });
+                }
+            },
+            '紧急供水': {
+                cost: 25,
+                effect: () => {
+                    this.showNotification('启动了紧急供水系统，缓解了缺水危机！', 'success');
+                    // 大幅恢复水分
+                    Object.keys(this.animalWaterSupply).forEach(animalId => {
+                        this.animalWaterSupply[animalId] = Math.min(100, this.animalWaterSupply[animalId] + 50);
+                    });
+                }
+            },
+            '降温措施': {
+                cost: 20,
+                effect: () => {
+                    this.showNotification('实施了降温措施，动物们感觉凉爽多了！', 'success');
+                    // 恢复健康度
+                    Object.keys(this.animals).forEach(animalId => {
+                        if (this.animals[animalId] > 0) {
+                            this.animalHealth[animalId] = Math.min(100, this.animalHealth[animalId] + 12);
+                        }
+                    });
+                }
+            },
+            '减少活动': {
+                cost: 5,
+                effect: () => {
+                    this.showNotification('减少了动物活动，降低了消耗！', 'success');
+                    // 减少压力和水份消耗
+                    Object.keys(this.animalStress).forEach(animalId => {
+                        this.animalStress[animalId] = Math.max(0, this.animalStress[animalId] - 5);
+                    });
+                }
+            },
+            '加固围栏': {
+                cost: 30,
+                effect: () => {
+                    this.showNotification('加固了围栏，提高了防护能力！', 'success');
+                    // 增强庇护效果
+                    Object.keys(this.animalShelter).forEach(animalId => {
+                        this.animalShelter[animalId] = true;
+                    });
+                }
+            },
+            '医疗准备': {
+                cost: 40,
+                effect: () => {
+                    this.showNotification('准备了医疗设施，随时可以救治受伤动物！', 'success');
+                    // 治疗现有伤病
+                    Object.keys(this.animalInjuries).forEach(animalId => {
+                        if (this.animalInjuries[animalId].length > 0) {
+                            this.animalInjuries[animalId] = [];
+                            this.animalHealth[animalId] = Math.min(100, this.animalHealth[animalId] + 25);
+                        }
+                    });
+                }
+            },
+            '户外活动': {
+                cost: 5,
+                effect: () => {
+                    this.showNotification('让动物享受户外活动，心情变好了！', 'success');
+                    // 提升心情和健康
+                    Object.keys(this.animals).forEach(animalId => {
+                        if (this.animals[animalId] > 0) {
+                            this.animalStress[animalId] = Math.max(0, this.animalStress[animalId] - 15);
+                            this.animalHealth[animalId] = Math.min(100, this.animalHealth[animalId] + 8);
+                        }
+                    });
+                }
+            },
+            '增加互动': {
+                cost: 8,
+                effect: () => {
+                    this.showNotification('增加了与动物的互动，它们更加亲近了！', 'success');
+                    // 提升心情
+                    Object.keys(this.animalStress).forEach(animalId => {
+                        this.animalStress[animalId] = Math.max(0, this.animalStress[animalId] - 10);
+                    });
+                }
+            },
+            '享受时光': {
+                cost: 3,
+                effect: () => {
+                    this.showNotification('让动物们享受美好时光，整体状态提升！', 'success');
+                    // 全面提升状态
+                    Object.keys(this.animals).forEach(animalId => {
+                        if (this.animals[animalId] > 0) {
+                            this.animalHealth[animalId] = Math.min(100, this.animalHealth[animalId] + 10);
+                            this.animalStress[animalId] = Math.max(0, this.animalStress[animalId] - 15);
+                            this.animalWaterSupply[animalId] = Math.min(100, this.animalWaterSupply[animalId] + 20);
+                        }
+                    });
+                }
+            },
+            '防护措施': {
+                cost: 25,
+                effect: () => {
+                    this.showNotification('实施了防护措施，保护动物免受沙尘侵袭！', 'success');
+                    // 提供庇护和恢复
+                    Object.keys(this.animals).forEach(animalId => {
+                        if (this.animals[animalId] > 0) {
+                            this.animalShelter[animalId] = true;
+                            this.animalHealth[animalId] = Math.min(100, this.animalHealth[animalId] + 15);
+                        }
+                    });
+                }
+            },
+            '医疗护理': {
+                cost: 35,
+                effect: () => {
+                    this.showNotification('提供了医疗护理，治疗了呼吸问题！', 'success');
+                    // 治疗呼吸问题
+                    Object.keys(this.animals).forEach(animalId => {
+                        if (this.animals[animalId] > 0) {
+                            this.animalHealth[animalId] = Math.min(100, this.animalHealth[animalId] + 20);
+                            this.animalInjuries[animalId] = this.animalInjuries[animalId].filter(injury => injury !== 'respiratory');
+                        }
+                    });
+                }
+            }
+        };
+        
+        const actionData = actionEffects[action];
+        if (!actionData) {
+            this.showNotification(`未知行动: ${action}`, 'error');
+            return;
+        }
+        
+        // 检查金币是否足够
+        if (this.gameState.money < actionData.cost) {
+            this.showNotification(`金币不足！需要 ${actionData.cost} 金币`, 'error');
+            return;
+        }
+        
+        // 扣除金币并执行效果
+        this.gameState.money -= actionData.cost;
+        actionData.effect();
+        
+        // 更新显示
+        this.updateDisplay();
+        this.syncToGameState();
+        
+        // 更新UI
+        if (typeof window.updateUI === 'function') {
+            window.updateUI();
+        }
     }
 
     // 显示动物道具菜单
     showAnimalItemMenu(animalId) {
-        this.showNotification(`为${this.getAnimalName(animalId)}使用道具`, 'info');
-        // 这里可以显示道具使用界面
+        const animalName = this.getAnimalName(animalId);
+        const animalItems = [
+            { 
+                id: 'vitamin_pill', 
+                name: '维生素丸', 
+                icon: '💊', 
+                desc: '快速恢复健康', 
+                effect: 'health', 
+                value: 50,
+                cost: 30,
+                color: 'bg-green-100 border-green-300'
+            },
+            { 
+                id: 'stress_relief_pill', 
+                name: '安抚药丸', 
+                icon: '😌', 
+                desc: '降低压力值', 
+                effect: 'stress', 
+                value: -30,
+                cost: 25,
+                color: 'bg-blue-100 border-blue-300'
+            },
+            { 
+                id: 'water_supplement', 
+                name: '水分补充剂', 
+                icon: '💧', 
+                desc: '补充水分', 
+                effect: 'water', 
+                value: 50,
+                cost: 20,
+                color: 'bg-cyan-100 border-cyan-300'
+            },
+            { 
+                id: 'healing_ointment', 
+                name: '治疗药膏', 
+                icon: '🩹', 
+                desc: '治疗伤病', 
+                effect: 'healing', 
+                value: 30,
+                cost: 35,
+                color: 'bg-red-100 border-red-300'
+            },
+            { 
+                id: 'happiness_treat', 
+                name: '快乐零食', 
+                icon: '🍪', 
+                desc: '提升心情', 
+                effect: 'happiness', 
+                value: 40,
+                cost: 15,
+                color: 'bg-yellow-100 border-yellow-300'
+            },
+            { 
+                id: 'growth_hormone', 
+                name: '生长激素', 
+                icon: '📈', 
+                desc: '促进生长', 
+                effect: 'growth', 
+                value: 25,
+                cost: 45,
+                color: 'bg-purple-100 border-purple-300'
+            }
+        ];
+
+        // 检查道具库存
+        const availableItems = animalItems.filter(item => {
+            return this.gameState && this.gameState.items && (this.gameState.items[item.id] || 0) > 0;
+        });
+
+        if (availableItems.length === 0) {
+            this.showNotification('没有可用的动物道具！请先去商店购买。', 'warning');
+            return;
+        }
+
+        const content = `
+            <div class="p-4">
+                <div class="text-center mb-4">
+                    <div class="text-3xl mb-2">${this.getAnimalIcon(animalId)}</div>
+                    <h3 class="text-lg font-bold">为 ${animalName} 使用道具</h3>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    ${availableItems.map(item => {
+                        const itemCount = this.gameState.items[item.id] || 0;
+                        return `
+                            <div class="p-3 ${item.color} rounded-lg border-2 hover:shadow-lg cursor-pointer transition-all"
+                                 onclick="ranchModule.useAnimalItem('${animalId}', '${item.id}', '${item.effect}', ${item.value})">
+                                <div class="text-2xl text-center mb-2">${item.icon}</div>
+                                <div class="font-bold text-center text-sm mb-1">${item.name}</div>
+                                <div class="text-xs text-gray-600 text-center mb-2">${item.desc}</div>
+                                <div class="text-xs text-center">
+                                    <span class="text-green-600">库存: ${itemCount}</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                
+                <div class="mt-4 text-center">
+                    <button class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded" onclick="ranchModule.closeModal()">
+                        取消
+                    </button>
+                </div>
+            </div>
+        `;
+
+        this.showModal(`${animalName}道具使用`, content);
     }
 
     // 同步数据到游戏状态
@@ -1503,6 +1921,22 @@ class RanchModule {
         }
     }
 
+    // 显示模态框
+    showModal(title, content) {
+        if (typeof window.showModal === 'function') {
+            window.showModal(title, content);
+        } else {
+            console.log(`[MODAL] ${title}: ${content}`);
+        }
+    }
+
+    // 关闭模态框
+    closeModal() {
+        if (typeof window.closeModal === 'function') {
+            window.closeModal();
+        }
+    }
+
     // 渲染栅栏状态
     renderFenceStatus() {
         const container = document.getElementById('fence-status');
@@ -1551,6 +1985,8 @@ class RanchModule {
             `;
         }).join('');
     }
+
+
 }
 
 // 创建全局牧场模块实例
